@@ -1,0 +1,53 @@
+.loadingSpinnerWrapper {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	> div {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+}
+
+.badge {
+	display: flex;
+	flex-direction: row-reverse;
+	position: relative;
+	top: 10px;
+	left: 10px;
+	z-index: 1;
+	p {
+		margin-bottom: 0;
+		line-height: 20px;
+		letter-spacing: 1px;
+	}
+}
+
+.filterDropdown {
+	padding: 8px;
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+	position: relative;
+	top: -30px;
+	left: 20px;
+}
+
+.filterDropdown input {
+	width: 130px;
+	margin-right: 8px;
+}
+
+.highlight {
+	background: #FF9F1C;
+}
+
+.editDelete {
+	display: flex;
+	> button {
+		margin-right: 10px;
+	}
+}

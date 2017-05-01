@@ -1,0 +1,3 @@
+{
+  "extends": "@sep/eslint-config-sep/react"
+}

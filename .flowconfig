@@ -1,0 +1,18 @@
+[libs]
+./node_modules/fbjs/flow/lib
+./interfaces/*
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+
+module.name_mapper='.+\.s?css' -> 'CSSModule'
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+
+module.file_ext=.js
+module.file_ext=.json
+module.file_ext=.jsx
+module.file_ext=.css
+module.file_ext=.scss

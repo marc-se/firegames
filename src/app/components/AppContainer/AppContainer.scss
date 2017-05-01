@@ -1,0 +1,79 @@
+@import '../../assets/styles/variables.scss';
+
+.sidebarWrapper {
+	padding: 10px;
+}
+
+.layout {
+	min-height: 100vh;
+	background: $primary-color;
+	hr {
+		border-top: 1px solid $medium-contrast;
+		margin: 10px 1em;
+	}
+	.brand {
+		position: relative;
+		top: -14px;
+		left: 0;
+		svg {
+			width: 225px;
+		}
+	}
+}
+
+.header, .sider, .content {
+	background: $primary-color;
+}
+
+.header {
+	height: 70px;
+	.rightHeaderColumn {
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+	}
+}
+
+.sider {
+	hr {
+		border-top: 1px solid $medium-contrast;
+	}
+}
+
+.content {
+	padding: 30px;
+	position: relative;
+	border-left: 1px solid $medium-contrast;
+
+	.contentColSpacing {
+		padding-bottom: 15px;
+		display: flex;
+		align-items: center;
+
+		button {
+			margin-right: 10px;
+		}
+
+		.key {
+			margin-left: 10px;
+			color: #777;
+		}
+	}
+}
+
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: $z-index-1;
+	background: $light-contrast;
+	width: 100%;
+
+	.footerLeft {
+		text-align: left;
+	}
+	.footerRight {
+		text-align: right;
+	}
+}
