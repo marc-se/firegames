@@ -40,6 +40,6 @@ Example:
 ## You are almost there
 Hit `yarn run dev` for development and `yarn run build-app` for production
 
-![Select a Game](https://github.com/marc-se/firegames/tree/master/src/app/assets/select.gif "Select Game")
+![Select a Game](src/app/assets/select.gif "Select Game")
 
-![Filter Games](https://github.com/marc-se/firegames/tree/master/src/app/assets/filter.gif "Filter")
+![Filter Games](src/app/assets/filter.gif "Filter")
