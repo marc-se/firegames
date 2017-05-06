@@ -7,7 +7,9 @@ Here you go: https://firebase.google.com/
 
 ## Create your Firebase API Key
 
-Create a `config.js` file in `src/app/config/` with the following contents:
+Create a new directory, called `config` under `src/app/`.
+
+Then, create a `config.js` file in `src/app/config/` with the following contents:
 
 ```javascript
 const config = {
