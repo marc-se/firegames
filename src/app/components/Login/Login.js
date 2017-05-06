@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import { Icon, Input, Button, Card, message } from 'antd';
 import { Row, Col } from 'antd';
-import { loggedIn } from '../../../../reducers/actions.js';
+import { loggedIn, selectSystem } from '../../../../reducers/actions.js';
 
 import styles from './Login.scss';
 import * as firebase from 'firebase';
@@ -60,6 +60,7 @@ class Login extends React.Component {
 	handleLogout = () => {
 		firebase.auth().signOut().then(() => {
 			// TODO: keep session
+			this.props.dispatch(selectSystem('none'));
 			this.props.dispatch(loggedIn(false));
 		});
 	};
@@ -72,7 +73,8 @@ class Login extends React.Component {
 		const { renderLogout } = this.props;
 		return renderLogout
 			? <div className={styles.logout}>
-					Logout<Button shape="circle" icon="poweroff" type="dashed" onClick={this.handleLogout} />
+					Logout
+					<Button shape="circle" icon="poweroff" type="dashed" onClick={this.handleLogout} />
 				</div>
 			: <Layout>
 					<Content className={styles.loginOverlayWrapper}>

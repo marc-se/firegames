@@ -28,8 +28,12 @@ class AppContainer extends React.Component {
 			? <Layout className={styles.layout}>
 					<Header className={styles.header}>
 						<Row type="flex" justify="start">
-							<Col span="8"><div className={styles.brand}><SVGInline svg={logo} /></div></Col>
-							<Col span="16" className={styles.rightHeaderColumn}><Login renderLogout /></Col>
+							<Col span="8">
+								<div className={styles.brand}><SVGInline svg={logo} /></div>
+							</Col>
+							<Col span="16" className={styles.rightHeaderColumn}>
+								<Login renderLogout />
+							</Col>
 						</Row>
 					</Header>
 					<hr />

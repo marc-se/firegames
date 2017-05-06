@@ -30,10 +30,10 @@ Example:
 
 ```javascript
 {
-  "rules": {
-    ".read": true,
-    ".write": "auth != null && auth.uid == 'YOUR UID FROM YOUR LOGIN GOES HERE'"
-  }
+	"rules": {
+		".read": true,
+		".write": "auth != null && auth.uid == 'YOUR UID FROM YOUR LOGIN GOES HERE'"
+	}
 }
 ```
 
