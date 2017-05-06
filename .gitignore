@@ -49,3 +49,4 @@ build
 
 # MacOS
 .DS_Store
+/src/app/config/config.js
