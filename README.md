@@ -4,15 +4,24 @@ Before using your self hosted FireGames App, you have to do a approximately 10 m
 
 ## Create a Firebase account
 Here you go: https://firebase.google.com/
+
 ## Create your Firebase API Key
 
-Copy & paste it to`src/app/config/config.js`
+Create a `config.js` file in `src/app/config/` with the following contents:
 
 ```javascript
 const config = {
 	/* Initialize Firebase
 	 * PASTE YOUR FIREBASE API KEY HERE
 	*/
+
+	// example API Key
+	apiKey: 'CDe##################################',
+	authDomain: 'my-game-data.firebaseapp.com',
+	databaseURL: 'https://my-game-data.firebaseio.com',
+	projectId: 'my-game-data-c12345',
+	storageBucket: 'my-game-data-c12345.appspot.com',
+	messagingSenderId: '1##########2',
 };
 
 export default config;
@@ -40,6 +49,30 @@ Example:
 ## You are almost there
 Hit `yarn run dev` for development and `yarn run build-app` for production
 
+# FEATURES
+
+## Select a System
+
 ![Select a Game](src/app/assets/select.gif "Select Game")
 
+## Filtering
+
+There are 3 Filters available: `playing`, `finished` and `untouched`
+The states `playing` and `finished` are self explaining. If a game is `untouched`, you've never played it and never finished it as well (obviously 😃).
+
 ![Filter Games](src/app/assets/filter.gif "Filter")
+
+## Add a new Game
+> TODO
+
+## Add a new System
+> TODO
+
+## Statistics
+> TODO
+
+## Editing
+> TODO
+
+## Delete Game
+> TODO
