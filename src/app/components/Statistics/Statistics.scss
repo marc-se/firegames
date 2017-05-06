@@ -12,10 +12,19 @@
 .layout {
 	min-height: 100vh;
 	background: $primary-color;
+
+	.cardBox {
+		margin-bottom: 6 * $margin-base-vertical;
+	}
 }
 
 .head {
+	margin: (4 * $margin-base-vertical) 0;
 	text-align: center;
+	h1 {
+		font-size: $heading1;
+		letter-spacing: 3px;
+	}
 }
 
 .cardWrapper {
