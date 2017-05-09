@@ -53,7 +53,9 @@ Hit `yarn run dev` for development and `yarn run build-app` for production
 
 # FEATURES
 
-## Select a System
+[comment]: <> (used gif converter urlhttps://cloudconvert.com/mov-to-gif)
+
+## Select system & fetch data
 
 ![Select a Game](src/app/assets/select.gif "Select Game")
 
@@ -64,10 +66,10 @@ The states `playing` and `finished` are self explaining. If a game is `untouched
 
 ![Filter Games](src/app/assets/filter.gif "Filter")
 
-## Add a new Game
-> TODO
+## Add game
+![Add Game](src/app/assets/add-game.gif "Add Game")
 
-## Add a new System
+## Add system / console
 > TODO
 
 ## Statistics
@@ -76,5 +78,5 @@ The states `playing` and `finished` are self explaining. If a game is `untouched
 ## Editing
 > TODO
 
-## Delete Game
-> TODO
+## Delete game
+![Delete Game](src/app/assets/delete-game.gif "Delete Game")
