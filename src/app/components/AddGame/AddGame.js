@@ -194,6 +194,7 @@ class AddGame extends React.Component {
 			} else {
 				this.setState({
 					error: true,
+					loading: false,
 				});
 			}
 		} else {
@@ -226,6 +227,7 @@ class AddGame extends React.Component {
 
 	handleCancel = () => {
 		this.setState({
+			loading: false,
 			visible: false,
 		});
 	};
