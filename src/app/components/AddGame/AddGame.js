@@ -17,7 +17,6 @@ import styles from './AddGame.scss';
 
 const { CheckableTag } = Tag;
 
-// TODO: get genres from firebase -> add new genres object to firebase
 const genreTags = [
 	'Action',
 	'Adventure',
