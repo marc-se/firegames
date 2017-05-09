@@ -70,13 +70,13 @@ The states `playing` and `finished` are self explaining. If a game is `untouched
 ![Add Game](src/app/assets/add-game.gif "Add Game")
 
 ## Add system / console
-> TODO
+![Add System](src/app/assets/add-system.gif "Add System")
 
 ## Statistics
-> TODO
+![Statistics](src/app/assets/statistics.gif "Statistics")
 
 ## Editing
-> TODO
+![Editing](src/app/assets/add-game.gif "Editing")
 
 ## Delete game
 ![Delete Game](src/app/assets/delete-game.gif "Delete Game")
