@@ -1,13 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Button, Input, Tag, Checkbox, Select, Radio, Alert, message } from 'antd';
+import {
+	Modal,
+	Button,
+	Input,
+	Tag,
+	Checkbox,
+	Select,
+	Radio,
+	Alert,
+	message,
+} from 'antd';
 import * as firebase from 'firebase';
 
 import styles from './AddGame.scss';
 
 const { CheckableTag } = Tag;
 
-// TODO: get genres from firebase -> add new genres object to firebase
 const genreTags = [
 	'Action',
 	'Adventure',
@@ -84,7 +93,6 @@ class AddGame extends React.Component {
 	};
 
 	handleOk = () => {
-
 		this.setState({
 			loading: true,
 		});
@@ -95,7 +103,11 @@ class AddGame extends React.Component {
 		let genres = selectedGenres.join();
 
 		if (!editMode) {
-			if (selectedGenres.length > 0 && title.length > 0 && this.state.system !== 'null') {
+			if (
+				selectedGenres.length > 0 &&
+				title.length > 0 &&
+				this.state.system !== 'null'
+			) {
 				const addNodeAt = firebase.database().ref('games/' + this.state.system);
 
 				let duplicates = null;
@@ -110,7 +122,10 @@ class AddGame extends React.Component {
 						*/
 						for (let game in obj) {
 							const value = obj[game];
-							if (value.title === this.state.title && value.region === this.state.region) {
+							if (
+								value.title === this.state.title &&
+								value.region === this.state.region
+							) {
 								duplicates = true;
 								this.errorMessage('This Game is already in your collection 😧');
 							}
@@ -133,7 +148,9 @@ class AddGame extends React.Component {
 								})
 								.then(() => {
 									// find system node to update
-									let updateStatisticsForSystem = firebase.database().ref(`systems/${this.state.system}/`);
+									let updateStatisticsForSystem = firebase
+										.database()
+										.ref(`systems/${this.state.system}/`);
 
 									// get games count after adding a new game
 									addNodeAt.once('value', snap => {
@@ -151,17 +168,32 @@ class AddGame extends React.Component {
 										error: false,
 										loading: false,
 									});
+								})
+								.catch(() => {
+									this.errorMessage('Oooops, something went wrong... 😰');
+									this.setState({
+										loading: false,
+									});
 								});
 						}
 					})
 					.then(() => {
 						// display success message
-						this.successMessage('You successfully added a new Game to your collection! 🕹');
+						this.successMessage(
+							'You successfully added a new Game to your collection! 🕹'
+						);
 						return duplicates;
+					})
+					.catch(() => {
+						this.errorMessage('Oooops, something went wrong... 😰');
+						this.setState({
+							loading: false,
+						});
 					});
 			} else {
 				this.setState({
 					error: true,
+					loading: false,
 				});
 			}
 		} else {
@@ -182,19 +214,28 @@ class AddGame extends React.Component {
 						error: false,
 						loading: false,
 					});
+				})
+				.catch(() => {
+					this.errorMessage('Oooops, something went wrong... 😰');
+					this.setState({
+						loading: false,
+					});
 				});
 		}
 	};
 
 	handleCancel = () => {
 		this.setState({
+			loading: false,
 			visible: false,
 		});
 	};
 
 	handleChange(tag, checked) {
 		const { selectedGenres } = this.state;
-		const nextSelectedTags = checked ? [ ...selectedGenres, tag ] : selectedGenres.filter(t => t !== tag);
+		const nextSelectedTags = checked
+			? [...selectedGenres, tag]
+			: selectedGenres.filter(t => t !== tag);
 		this.setState({
 			selectedGenres: nextSelectedTags,
 		});
@@ -242,10 +283,27 @@ class AddGame extends React.Component {
 		return (
 			<div>
 				{editMode
-					? <Button type="dashed" shape="circle" icon="edit" onClick={this.showModal}>{this.props.buttonTitle}</Button>
-					: <Button type="primary" icon="plus-circle-o" onClick={this.showModal}>{this.props.buttonTitle}</Button>}
+					? <Button
+							type="dashed"
+							shape="circle"
+							icon="edit"
+							onClick={this.showModal}
+						>
+							{this.props.buttonTitle}
+						</Button>
+					: <Button
+							type="primary"
+							icon="plus-circle-o"
+							onClick={this.showModal}
+						>
+							{this.props.buttonTitle}
+						</Button>}
 				<Modal
-					title={editMode ? 'Edit your Game 📝' : 'Add something to your Collection 🕹'}
+					title={
+						editMode
+							? 'Edit your Game 📝'
+							: 'Add something to your Collection 🕹'
+					}
 					visible={this.state.visible}
 					onOk={this.handleOk}
 					onCancel={this.handleCancel}
@@ -266,11 +324,15 @@ class AddGame extends React.Component {
 						optionFilterProp="children"
 						defaultValue={editMode && this.props.system}
 						onChange={e => this.handleSystemSelect(e)}
-						filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+						filterOption={(input, option) =>
+							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >=
+							0}
 					>
 						{// create systems from firebase data
 						this.props.systems.map((system, index) => {
-							return <Option key={index} value={system.url}>{system.title}</Option>;
+							return (
+								<Option key={index} value={system.url}>{system.title}</Option>
+							);
 						})}
 					</Select>
 					<div className={styles.genreWrapper}>
@@ -285,14 +347,28 @@ class AddGame extends React.Component {
 							</CheckableTag>
 						))}
 					</div>
-					<RadioGroup onChange={this.handleRegionChange} defaultValue={this.state.region} className={styles.radioGroup}>
+					<RadioGroup
+						onChange={this.handleRegionChange}
+						defaultValue={this.state.region}
+						className={styles.radioGroup}
+					>
 						<RadioButton value="PAL">PAL</RadioButton>
 						<RadioButton value="JAP">JAP</RadioButton>
 						<RadioButton value="US">US</RadioButton>
 					</RadioGroup>
 					<div className={styles.checkboxGroup}>
-						<Checkbox onChange={e => this.handlePlaying(e)} defaultChecked={this.state.playing}>playing</Checkbox>
-						<Checkbox onChange={e => this.handleFinished(e)} defaultChecked={this.state.finished}>finished</Checkbox>
+						<Checkbox
+							onChange={e => this.handlePlaying(e)}
+							defaultChecked={this.state.playing}
+						>
+							playing
+						</Checkbox>
+						<Checkbox
+							onChange={e => this.handleFinished(e)}
+							defaultChecked={this.state.finished}
+						>
+							finished
+						</Checkbox>
 					</div>
 					{this.state.error &&
 						<Alert
