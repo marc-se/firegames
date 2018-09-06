@@ -57,26 +57,26 @@ Hit `yarn run dev` for development and `yarn run build-app` for production
 
 ## Select system & fetch data
 
-![Select a Game](src/app/assets/select.gif "Select Game")
+![Select a Game](src/assets/select.gif "Select Game")
 
 ## Filtering
 
 There are 3 Filters available: `playing`, `finished` and `untouched`
 The states `playing` and `finished` are self explaining. If a game is `untouched`, you've never played it and never finished it as well (obviously 😃).
 
-![Filter Games](src/app/assets/filter.gif "Filter")
+![Filter Games](src/assets/filter.gif "Filter")
 
 ## Add game
-![Add Game](src/app/assets/add-game.gif "Add Game")
+![Add Game](src/assets/add-game.gif "Add Game")
 
 ## Add system / console
-![Add System](src/app/assets/add-system.gif "Add System")
+![Add System](src/assets/add-system.gif "Add System")
 
 ## Statistics
-![Statistics](src/app/assets/statistics.gif "Statistics")
+![Statistics](src/assets/statistics.gif "Statistics")
 
 ## Editing
-![Editing](src/app/assets/add-game.gif "Editing")
+![Editing](src/assets/add-game.gif "Editing")
 
 ## Delete game
-![Delete Game](src/app/assets/delete-game.gif "Delete Game")
+![Delete Game](src/assets/delete-game.gif "Delete Game")
