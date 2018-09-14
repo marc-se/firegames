@@ -88,8 +88,7 @@ const RightAlignText = styled.span`
 
 class AppContainer extends React.Component {
 	render() {
-		// firebase.auth().currentUser
-		return true ? (
+		return firebase.auth().currentUser ? (
 			<FireGamesLayout>
 				<FireGamesHeader>
 					<Row type="flex" justify="start">
