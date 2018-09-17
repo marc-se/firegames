@@ -11,144 +11,139 @@ import * as firebase from "firebase";
 const { Content } = Layout;
 
 const LoginWrapper = styled.div`
-  height: 100vh;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  background: #2bc0e4;
-  padding-bottom: 12px;
-  background: linear-gradient(to right, #eaecc6, #2bc0e4);
+	height: 100vh;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	background: #2bc0e4;
+	padding-bottom: 12px;
+	background: linear-gradient(to right, #eaecc6, #2bc0e4);
 `;
 
 const LoginBox = styled.div`
-  width: 25vw;
-  margin: 0 auto;
+	width: 25vw;
+	margin: 0 auto;
 `;
 
 const LoginInput = styled(Input)`
-  margin: 0 0 12px 0 !important;
+	margin: 0 0 12px 0 !important;
 `;
 
 const LogoutBox = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  top: 10px;
-  button {
-    margin-left: 10px;
-  }
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	top: 10px;
+	button {
+		margin-left: 10px;
+	}
 `;
 
 class Login extends React.Component {
-  state = {
-    username: "",
-    password: ""
-  };
+	state = {
+		username: "",
+		password: ""
+	};
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(firebaseUser => {
-      if (firebaseUser) {
-        // TODO: fix
-        //this.successMessageSignin();
-      } else {
-        // not logged in
-      }
-    });
-  }
+	componentDidMount() {
+		firebase.auth().onAuthStateChanged(firebaseUser => {
+			if (firebaseUser) {
+				// TODO: fix
+				//this.successMessageSignin();
+			} else {
+				// not logged in
+			}
+		});
+	}
 
-  handleUserNameInput(e) {
-    this.setState({
-      username: e.target.value
-    });
-  }
+	handleUserNameInput(e) {
+		this.setState({
+			username: e.target.value
+		});
+	}
 
-  handlePasswordInput(e) {
-    this.setState({
-      password: e.target.value
-    });
-  }
+	handlePasswordInput(e) {
+		this.setState({
+			password: e.target.value
+		});
+	}
 
-  handleLogin() {
-    let email = this.state.username;
-    let pass = this.state.password;
-    const auth = firebase.auth();
-    auth.signInWithEmailAndPassword(email, pass).then(() => {
-      this.props.dispatch(loggedIn(true));
-    });
+	handleLogin() {
+		let email = this.state.username;
+		let pass = this.state.password;
+		const auth = firebase.auth();
+		auth.signInWithEmailAndPassword(email, pass).then(() => {
+			this.props.dispatch(loggedIn(true));
+		});
 
-    // TODO: handle wrong login credentials, maybe show message and shake login form
-    // const promise = auth.signInWithEmailAndPassword(email, pass);
-    // promise.catch( e => console.log(e.message));
-  }
+		// TODO: handle wrong login credentials, maybe show message and shake login form
+		// const promise = auth.signInWithEmailAndPassword(email, pass);
+		// promise.catch( e => console.log(e.message));
+	}
 
-  handleLogout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // TODO: keep session
-        this.props.dispatch(selectSystem("none"));
-        this.props.dispatch(loggedIn(false));
-      });
-  };
+	handleLogout = () => {
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				// TODO: keep session
+				this.props.dispatch(selectSystem("none"));
+				this.props.dispatch(loggedIn(false));
+			});
+	};
 
-  errorMessage = () => {
-    message.error("Something went wrong 😰", 3);
-  };
+	errorMessage = () => {
+		message.error("Something went wrong 😰", 3);
+	};
 
-  render() {
-    const { renderLogout } = this.props;
-    return renderLogout ? (
-      <LogoutBox>
-        Logout
-        <Button
-          shape="circle"
-          icon="poweroff"
-          type="dashed"
-          onClick={this.handleLogout}
-        />
-      </LogoutBox>
-    ) : (
-      <Layout>
-        <LoginWrapper>
-          <Content>
-            <LoginBox>
-              <Row type="flex" justify="center">
-                <Col span={24}>
-                  <LoginInput
-                    prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-                    placeholder="Username"
-                    onChange={e => this.handleUserNameInput(e)}
-                  />
-                </Col>
-                <Col span={24}>
-                  <LoginInput
-                    prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                    type="password"
-                    placeholder="Password"
-                    onChange={e => this.handlePasswordInput(e)}
-                  />
-                </Col>
-                <Col span={24}>
-                  <Button onClick={() => this.handleLogin()}>Login</Button>
-                </Col>
-              </Row>
-            </LoginBox>
-          </Content>
-        </LoginWrapper>
-      </Layout>
-    );
-  }
+	render() {
+		const { renderLogout } = this.props;
+		return renderLogout ? (
+			<LogoutBox>
+				Logout
+				<Button shape="circle" icon="poweroff" type="dashed" onClick={this.handleLogout} />
+			</LogoutBox>
+		) : (
+			<Layout>
+				<LoginWrapper>
+					<Content>
+						<LoginBox>
+							<Row type="flex" justify="center">
+								<Col span={24}>
+									<LoginInput
+										prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+										placeholder="Username"
+										onChange={e => this.handleUserNameInput(e)}
+									/>
+								</Col>
+								<Col span={24}>
+									<LoginInput
+										prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+										type="password"
+										placeholder="Password"
+										onChange={e => this.handlePasswordInput(e)}
+									/>
+								</Col>
+								<Col span={24}>
+									<Button onClick={() => this.handleLogin()}>Login</Button>
+								</Col>
+							</Row>
+						</LoginBox>
+					</Content>
+				</LoginWrapper>
+			</Layout>
+		);
+	}
 }
 
 let component = Login;
 
 const mapStateToProps = state => {
-  return {
-    ...state
-  };
+	return {
+		...state
+	};
 };
 
 component = connect(mapStateToProps)(component);
