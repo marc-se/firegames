@@ -14,17 +14,17 @@ import "./App.css";
 let store = createStore(reducer);
 
 export default class App extends Component {
-  render() {
-    return (
-      <LocaleProvider locale={enUS}>
-        <Provider store={store}>
-          <Router history={hashHistory}>
-            <Route path="/" component={AppContainer} />
-            <Route path="/statistics" component={Statistics} />
-            <Route path="*" component={NotFound} />
-          </Router>
-        </Provider>
-      </LocaleProvider>
-    );
-  }
+	render() {
+		return (
+			<LocaleProvider locale={enUS}>
+				<Provider store={store}>
+					<Router history={hashHistory}>
+						<Route path="/" component={AppContainer} />
+						<Route path="/statistics" component={Statistics} />
+						<Route path="*" component={NotFound} />
+					</Router>
+				</Provider>
+			</LocaleProvider>
+		);
+	}
 }

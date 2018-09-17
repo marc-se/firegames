@@ -14,17 +14,17 @@ Then, create a `config.js` file in `src/app/config/` with the following contents
 
 ```javascript
 const config = {
-  /* Initialize Firebase
+	/* Initialize Firebase
 	 * PASTE YOUR FIREBASE API KEY HERE
 	*/
 
-  // example API Key
-  apiKey: "CDe##################################",
-  authDomain: "my-game-data.firebaseapp.com",
-  databaseURL: "https://my-game-data.firebaseio.com",
-  projectId: "my-game-data-c12345",
-  storageBucket: "my-game-data-c12345.appspot.com",
-  messagingSenderId: "1##########2"
+	// example API Key
+	apiKey: "CDe##################################",
+	authDomain: "my-game-data.firebaseapp.com",
+	databaseURL: "https://my-game-data.firebaseio.com",
+	projectId: "my-game-data-c12345",
+	storageBucket: "my-game-data-c12345.appspot.com",
+	messagingSenderId: "1##########2"
 };
 
 export default config;

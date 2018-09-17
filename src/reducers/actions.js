@@ -14,25 +14,25 @@ export const UPDATE_SYSTEMS = "UPDATE_SYSTEMS";
  * action creators
  */
 export function selectSystem(system) {
-  return { type: SELECT_SYSTEM, system };
+	return { type: SELECT_SYSTEM, system };
 }
 
 export function loggedIn(isLoggedIn) {
-  return { type: LOGGED_IN, isLoggedIn };
+	return { type: LOGGED_IN, isLoggedIn };
 }
 
 export function setPlayingFilter(isSelected) {
-  return { type: PLAYING_FILTER, isSelected };
+	return { type: PLAYING_FILTER, isSelected };
 }
 
 export function setFinishedFilter(isSelected) {
-  return { type: FINISHED_FILTER, isSelected };
+	return { type: FINISHED_FILTER, isSelected };
 }
 
 export function setUntouchedFilter(isSelected) {
-  return { type: UNTOUCHED_FILTER, isSelected };
+	return { type: UNTOUCHED_FILTER, isSelected };
 }
 
 export function updateSystems(systems) {
-  return { type: UPDATE_SYSTEMS, systems };
+	return { type: UPDATE_SYSTEMS, systems };
 }
