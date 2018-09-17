@@ -3,6 +3,7 @@
 Before using your self hosted FireGames App, you have to do a approximately 10 min setup.
 
 ## Create a Firebase account
+
 Here you go: https://firebase.google.com/
 
 ## Create your Firebase API Key
@@ -13,17 +14,17 @@ Then, create a `config.js` file in `src/app/config/` with the following contents
 
 ```javascript
 const config = {
-	/* Initialize Firebase
+  /* Initialize Firebase
 	 * PASTE YOUR FIREBASE API KEY HERE
 	*/
 
-	// example API Key
-	apiKey: 'CDe##################################',
-	authDomain: 'my-game-data.firebaseapp.com',
-	databaseURL: 'https://my-game-data.firebaseio.com',
-	projectId: 'my-game-data-c12345',
-	storageBucket: 'my-game-data-c12345.appspot.com',
-	messagingSenderId: '1##########2',
+  // example API Key
+  apiKey: "CDe##################################",
+  authDomain: "my-game-data.firebaseapp.com",
+  databaseURL: "https://my-game-data.firebaseio.com",
+  projectId: "my-game-data-c12345",
+  storageBucket: "my-game-data-c12345.appspot.com",
+  messagingSenderId: "1##########2"
 };
 
 export default config;
@@ -49,6 +50,7 @@ Example:
 ```
 
 ## You are almost there
+
 Hit `yarn run dev` for development and `yarn run build-app` for production
 
 # FEATURES
@@ -65,16 +67,21 @@ The states `playing` and `finished` are self explaining. If a game is `untouched
 ![Filter Games](src/assets/filter.gif "Filter")
 
 ## Add game
+
 ![Add Game](src/assets/add-game.gif "Add Game")
 
 ## Add system / console
+
 ![Add System](src/assets/add-system.gif "Add System")
 
 ## Statistics
+
 ![Statistics](src/assets/statistics.gif "Statistics")
 
 ## Editing
+
 ![Editing](src/assets/add-game.gif "Editing")
 
 ## Delete game
+
 ![Delete Game](src/assets/delete-game.gif "Delete Game")

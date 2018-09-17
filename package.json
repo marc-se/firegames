@@ -1,25 +1,25 @@
 {
-	"name": "firegames",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"antd": "^3.6.2",
-		"classnames": "^2.2.6",
-		"firebase": "^5.0.4",
-		"react": "^16.4.1",
-		"react-countup": "^3.0.3",
-		"react-dom": "^16.4.1",
-		"react-redux": "^5.0.7",
-		"react-router": "^3.0.0",
-		"react-scripts": "1.1.4",
-		"react-svg-inline": "^2.1.1",
-		"redux": "^4.0.0",
-		"styled-components": "^3.3.2"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
-	}
+  "name": "firegames",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.6.2",
+    "classnames": "^2.2.6",
+    "firebase": "^5.0.4",
+    "react": "^16.4.1",
+    "react-countup": "^3.0.3",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^3.0.0",
+    "react-scripts": "1.1.4",
+    "react-svg-inline": "^2.1.1",
+    "redux": "^4.0.0",
+    "styled-components": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }
