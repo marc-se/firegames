@@ -53,8 +53,6 @@ Hit `yarn run dev` for development and `yarn run build-app` for production
 
 # FEATURES
 
-[comment]: <> (used gif converter urlhttps://cloudconvert.com/mov-to-gif)
-
 ## Select system & fetch data
 
 ![Select a Game](src/assets/select.gif "Select Game")
