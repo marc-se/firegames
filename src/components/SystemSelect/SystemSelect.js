@@ -10,71 +10,71 @@ const Option = Select.Option;
 let systems = [];
 
 const FireGamesSelect = styled(Select)`
-  width: 100%;
-  padding-bottom: 5px;
+	width: 100%;
+	padding-bottom: 5px;
 `;
 
 class SystemSelect extends Component {
-  componentWillMount() {
-    const systemsRef = firebase.database().ref("systems");
-    systemsRef.once("value").then(snap => {
-      snap.forEach(system => {
-        systems.push(system.val());
-      });
-      this.props.dispatch(updateSystems(systems));
-    });
-  }
+	componentWillMount() {
+		const systemsRef = firebase.database().ref("systems");
+		systemsRef.once("value").then(snap => {
+			snap.forEach(system => {
+				systems.push(system.val());
+			});
+			this.props.dispatch(updateSystems(systems));
+		});
+	}
 
-  componentDidMount() {
-    /*
+	componentDidMount() {
+		/*
 		* trigger message here and not in Login Component,
 		* cause SystemSelect only mounts once and only if you're logged in
 		*/
-    this.successMessageSignin();
-  }
+		this.successMessageSignin();
+	}
 
-  handleChange(value) {
-    // update redux store
-    this.props.dispatch(selectSystem(value));
-  }
+	handleChange(value) {
+		// update redux store
+		this.props.dispatch(selectSystem(value));
+	}
 
-  successMessageSignin = () => {
-    message.success("You successfully signed in! 🌈", 3);
-  };
+	successMessageSignin = () => {
+		message.success("You successfully signed in! 🌈", 3);
+	};
 
-  render() {
-    return (
-      <FireGamesSelect
-        showSearch
-        placeholder="Select a System"
-        optionFilterProp="children"
-        onChange={e => this.handleChange(e)}
-        filterOption={(input, option) =>
-          option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
-      >
-        <Option key="noneSelection" value="none">
-          Keine Auswahl
-        </Option>
-        {// create systems from firebase data
-        this.props.systems.map((system, index) => {
-          return (
-            <Option key={index} value={system.url}>
-              {system.title}
-            </Option>
-          );
-        })}
-      </FireGamesSelect>
-    );
-  }
+	render() {
+		return (
+			<FireGamesSelect
+				showSearch
+				placeholder="Select a System"
+				optionFilterProp="children"
+				onChange={e => this.handleChange(e)}
+				filterOption={(input, option) =>
+					option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+				}
+			>
+				<Option key="noneSelection" value="none">
+					Keine Auswahl
+				</Option>
+				{// create systems from firebase data
+				this.props.systems.map((system, index) => {
+					return (
+						<Option key={index} value={system.url}>
+							{system.title}
+						</Option>
+					);
+				})}
+			</FireGamesSelect>
+		);
+	}
 }
 
 let component = SystemSelect;
 
 const mapStateToProps = state => {
-  return {
-    ...state
-  };
+	return {
+		...state
+	};
 };
 
 component = connect(mapStateToProps)(component);
