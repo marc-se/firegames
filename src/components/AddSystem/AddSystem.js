@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
-import styled from "styled-components";
 import * as firebase from "firebase";
-
-const FireGamesWrapper = styled.div``;
 
 // TODO: update redux system index after adding new system to firebase
 

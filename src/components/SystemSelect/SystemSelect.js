@@ -7,8 +7,6 @@ import { selectSystem, updateSystems } from "../../reducers/actions.js";
 
 const Option = Select.Option;
 
-let systems = [];
-
 const FireGamesSelect = styled(Select)`
 	width: 100%;
 	padding-bottom: 5px;
@@ -16,13 +14,16 @@ const FireGamesSelect = styled(Select)`
 
 class SystemSelect extends Component {
 	componentWillMount() {
-		const systemsRef = firebase.database().ref("systems");
-		systemsRef.once("value").then(snap => {
-			snap.forEach(system => {
-				systems.push(system.val());
+		const { systems } = this.props;
+		if (systems.length < 1) {
+			const systemsRef = firebase.database().ref("systems");
+			systemsRef.once("value").then(snap => {
+				snap.forEach(system => {
+					systems.push(system.val());
+				});
+				this.props.dispatch(updateSystems(systems));
 			});
-			this.props.dispatch(updateSystems(systems));
-		});
+		}
 	}
 
 	componentDidMount() {
