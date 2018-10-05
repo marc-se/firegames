@@ -11,6 +11,7 @@ import SystemSelect from "../SystemSelect/SystemSelect.js";
 import GamesTable from "../GamesTable/GamesTable.js";
 import AddGame from "../AddGame/AddGame.js";
 import AddSystem from "../AddSystem/AddSystem.js";
+import AddGenre from "../AddGenre/AddGenre.js";
 import Login from "../Login/Login.js";
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -115,6 +116,7 @@ class AppContainer extends React.Component {
 								<FireGamesInsideCol>
 									<AddGame buttonTitle="Add Game" />
 									<AddSystem />
+									<AddGenre />
 									<Link to="statistics">
 										<Button type="primary" icon="bar-chart">
 											Statistics

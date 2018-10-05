@@ -2,15 +2,11 @@ import React, { Component } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
 import * as firebase from "firebase";
 
-// TODO: update redux system index after adding new system to firebase
-
-export default class AddSystem extends Component {
-	static propTypes = {};
-
+export default class AddGenre extends Component {
 	state = {
 		visible: false,
-		systemName: "",
 		error: false,
+		genre: "",
 		loading: false
 	};
 
@@ -21,31 +17,26 @@ export default class AddSystem extends Component {
 	};
 
 	handleOk = () => {
-		/**
-		 * ADD ENTRY FOR NEW SYSTEM
-		 */
-		// create custom key from user system title from UI
 		this.setState({
 			loading: true
 		});
 
-		const { systemName } = this.state;
+		const { genre } = this.state;
 
-		if (systemName !== "") {
-			let url = systemName
+		if (genre !== "") {
+			let url = genre
 				.toString()
 				.toLowerCase()
 				.replace(/ /g, "");
 
-			const addSystemAt = firebase
+			const addGenreAt = firebase
 				.database()
-				.ref("systems")
+				.ref("genres")
 				.child(url);
 
-			addSystemAt
+			addGenreAt
 				.set({
-					games: 0,
-					title: systemName,
+					title: genre,
 					url: url
 				})
 				.then(() => {
@@ -56,7 +47,7 @@ export default class AddSystem extends Component {
 						visible: false,
 						error: false,
 						loading: false,
-						systemName: ""
+						genre: ""
 					});
 				});
 		} else {
@@ -73,9 +64,9 @@ export default class AddSystem extends Component {
 		});
 	};
 
-	handleSystemNameInput(systemName) {
+	handleInput(genre) {
 		this.setState({
-			systemName
+			genre
 		});
 	}
 
@@ -87,17 +78,18 @@ export default class AddSystem extends Component {
 	}
 
 	successMessage = () => {
-		message.success("You successfully added a new System to your collection! 👾", 3);
+		message.success("You successfully added a new Genre!", 3);
 	};
 
 	render() {
+		const { genre } = this.state;
 		return (
 			<React.Fragment>
 				<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
-					Add System
+					Add Genre
 				</Button>
 				<Modal
-					title="Add a new System to your Collection 👾"
+					title="Add a new Genre"
 					visible={this.state.visible}
 					onOk={this.handleOk}
 					onCancel={this.handleCancel}
@@ -106,13 +98,14 @@ export default class AddSystem extends Component {
 					confirmLoading={this.state.loading}
 				>
 					<Input
-						onChange={e => this.handleSystemNameInput(e.target.value)}
-						placeholder="System Name"
+						onChange={e => this.handleInput(e.target.value)}
+						value={genre}
+						placeholder="Genre"
 					/>
 					{this.state.error && (
 						<Alert
 							message="Something is missing 🤔"
-							description="Please check your input. Do you added a System Name?"
+							description="Please check your input. Have you added a Genre name?"
 							type="error"
 							closable
 							onClose={() => this.handleCloseStatusMessage()}
