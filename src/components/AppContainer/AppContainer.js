@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router";
 import styled from "styled-components";
+import firebase from "firebase/app";
+import "firebase/auth";
 import logo from "../../assets/logo.svg";
 
 import Filter from "../Filter/Filter.js";
