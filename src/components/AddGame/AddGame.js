@@ -1,14 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Modal, Button, Input, Tag, Checkbox, Select, Radio, Alert, message } from "antd";
+import { Modal, Button, Input, Checkbox, Select, Radio, Alert, message } from "antd";
+import GenreTagList from "../GenreTagList/GenreTagList";
 import styled from "styled-components";
 import * as firebase from "firebase";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
-
-const { CheckableTag } = Tag;
 
 const FireGamesGenres = styled.div`
 	margin: 10px 0;
@@ -41,22 +40,6 @@ const FireGamesError = styled(Alert)`
 	margin-top: 20px !important;
 `;
 
-const genreTags = [
-	"Action",
-	"Adventure",
-	"Arcade",
-	"Fighting",
-	"Horror",
-	"Platformer",
-	"Puzzle",
-	"RPG",
-	"Racing",
-	"Shooter",
-	"Simulation",
-	"Sports",
-	"Strategy"
-];
-
 class AddGame extends React.Component {
 	state = {
 		visible: false,
@@ -79,7 +62,7 @@ class AddGame extends React.Component {
 				let game = snap.val();
 				let genres = game.genre.split(",");
 				this.setState({
-					selectedGenres: genres,
+					selectedGenres: [],
 					title: game.title,
 					system: game.system,
 					region: game.region,
@@ -102,6 +85,10 @@ class AddGame extends React.Component {
 
 	errorMessage = text => {
 		message.error(text, 3);
+	};
+
+	updateGenresList = genres => {
+		console.log("triggered", genres);
 	};
 
 	handleOk = () => {
@@ -234,16 +221,6 @@ class AddGame extends React.Component {
 		});
 	};
 
-	handleChange(tag, checked) {
-		const { selectedGenres } = this.state;
-		const nextSelectedTags = checked
-			? [...selectedGenres, tag]
-			: selectedGenres.filter(t => t !== tag);
-		this.setState({
-			selectedGenres: nextSelectedTags
-		});
-	}
-
 	handleRegionChange = e => {
 		this.setState({
 			region: e.target.value
@@ -328,16 +305,7 @@ class AddGame extends React.Component {
 						})}
 					</FireGamesDropdown>
 					<FireGamesGenres>
-						{genreTags.map(tag => (
-							<CheckableTag
-								key={tag}
-								type="dashed"
-								checked={selectedGenres.indexOf(tag) > -1}
-								onChange={checked => this.handleChange(tag, checked)}
-							>
-								{tag}
-							</CheckableTag>
-						))}
+						<GenreTagList onChange={this.updateGenresList} />
 					</FireGamesGenres>
 					<FireGamesRadioGroup onChange={this.handleRegionChange} defaultValue={this.state.region}>
 						<RadioButton value="PAL">PAL</RadioButton>

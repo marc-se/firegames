@@ -4,7 +4,6 @@ import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router";
 import styled from "styled-components";
 import logo from "../../assets/logo.svg";
-import * as firebase from "firebase";
 
 import Filter from "../Filter/Filter.js";
 import SystemSelect from "../SystemSelect/SystemSelect.js";
