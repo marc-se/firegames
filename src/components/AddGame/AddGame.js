@@ -60,7 +60,6 @@ class AddGame extends React.Component {
 			const gameRef = firebase.database().ref(`games/${system}/${gameID}`);
 			gameRef.once("value", snap => {
 				let game = snap.val();
-				let genres = game.genre.split(",");
 				this.setState({
 					selectedGenres: [],
 					title: game.title,
@@ -88,7 +87,7 @@ class AddGame extends React.Component {
 	};
 
 	updateGenresList = genres => {
-		console.log("triggered", genres);
+		// TODO: update state
 	};
 
 	handleOk = () => {

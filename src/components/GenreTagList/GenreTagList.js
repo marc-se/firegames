@@ -1,7 +1,7 @@
 import React from "react";
 import { Tag } from "antd";
-import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
 
 const { CheckableTag } = Tag;
 
@@ -36,7 +36,6 @@ export default class GenreTagList extends React.Component {
 		this.setState({
 			selectedTags: nextSelectedTags
 		});
-		console.log("change", this.props);
 		this.props.onChange(nextSelectedTags);
 	}
 
