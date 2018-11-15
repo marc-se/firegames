@@ -87,7 +87,9 @@ class AddGame extends React.Component {
 	};
 
 	updateGenresList = genres => {
-		// TODO: update state
+		this.setState({
+			selectedGenres: genres
+		});
 	};
 
 	handleOk = () => {
@@ -97,8 +99,7 @@ class AddGame extends React.Component {
 
 		const { selectedGenres, title, region, playing, finished } = this.state;
 		const { editMode, gameID, system } = this.props;
-
-		let genres = selectedGenres.join();
+		const genres = selectedGenres.join();
 
 		if (!editMode) {
 			if (selectedGenres.length > 0 && title.length > 0 && this.state.system !== "null") {
@@ -257,7 +258,6 @@ class AddGame extends React.Component {
 	}
 
 	render() {
-		const { selectedGenres } = this.state;
 		const { editMode } = this.props;
 		return (
 			<React.Fragment>

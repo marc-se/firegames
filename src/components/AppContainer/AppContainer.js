@@ -135,7 +135,7 @@ class AppContainer extends React.Component {
 						<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
 						<Col span={12} />
 						<Col span={6}>
-							<RightAlignText>v1.1</RightAlignText>
+							<RightAlignText>v1.2</RightAlignText>
 						</Col>
 					</Row>
 				</FireGamesFooter>
