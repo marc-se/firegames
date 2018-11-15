@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router";
 import styled from "styled-components";
+import firebase from "firebase/app";
+import "firebase/auth";
 import logo from "../../assets/logo.svg";
-import * as firebase from "firebase";
 
 import Filter from "../Filter/Filter.js";
 import SystemSelect from "../SystemSelect/SystemSelect.js";
 import GamesTable from "../GamesTable/GamesTable.js";
 import AddGame from "../AddGame/AddGame.js";
 import AddSystem from "../AddSystem/AddSystem.js";
+import AddGenre from "../AddGenre/AddGenre.js";
 import Login from "../Login/Login.js";
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -115,6 +117,7 @@ class AppContainer extends React.Component {
 								<FireGamesInsideCol>
 									<AddGame buttonTitle="Add Game" />
 									<AddSystem />
+									<AddGenre />
 									<Link to="statistics">
 										<Button type="primary" icon="bar-chart">
 											Statistics
@@ -132,7 +135,7 @@ class AppContainer extends React.Component {
 						<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
 						<Col span={12} />
 						<Col span={6}>
-							<RightAlignText>v1.1</RightAlignText>
+							<RightAlignText>v1.2</RightAlignText>
 						</Col>
 					</Row>
 				</FireGamesFooter>

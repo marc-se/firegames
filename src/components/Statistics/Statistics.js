@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import styled, { injectGlobal } from "styled-components";
 
 import CountUp from "react-countup";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
 import { Layout, Row, Col, Card, Button } from "antd";
 
 injectGlobal`

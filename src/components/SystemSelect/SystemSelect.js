@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Select, message } from "antd";
 import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
 import { selectSystem, updateSystems } from "../../reducers/actions.js";
 
 const Option = Select.Option;

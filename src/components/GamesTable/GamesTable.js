@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Input, Button, Tag, Checkbox, Spin, Badge } from "antd";
 import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
 
 import DeleteDialog from "./DeleteDialog.js";
 import EditGame from "../AddGame/AddGame.js";
@@ -236,7 +237,13 @@ class GamesTable extends Component {
 				width: "25%",
 				render: e => {
 					let tags = e.split(",");
-					return <div>{tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>;
+					return (
+						<div>
+							{tags.map((tag, i) => (
+								<Tag key={i}>{tag}</Tag>
+							))}
+						</div>
+					);
 				}
 			},
 			{

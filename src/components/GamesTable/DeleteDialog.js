@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Popover, message } from "antd";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
+
 import DeleteOptions from "./DeleteOptions.js";
 
 export default class DeleteDialog extends Component {
