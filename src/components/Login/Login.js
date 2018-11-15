@@ -6,7 +6,8 @@ import { Row, Col } from "antd";
 import { loggedIn, selectSystem } from "../../reducers/actions.js";
 
 import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const { Content } = Layout;
 

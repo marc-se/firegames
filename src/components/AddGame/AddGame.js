@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { Modal, Button, Input, Checkbox, Select, Radio, Alert, message } from "antd";
 import GenreTagList from "../GenreTagList/GenreTagList";
 import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/database";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;

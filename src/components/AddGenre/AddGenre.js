@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
-import * as firebase from "firebase";
+import firebase from "firebase";
+import "firebase/database";
 
 export default class AddGenre extends Component {
 	state = {
