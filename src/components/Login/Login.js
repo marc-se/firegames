@@ -59,6 +59,12 @@ class Login extends React.Component {
 		});
 	}
 
+	handlePressEnter = e => {
+		if (e.key === "Enter") {
+			this.handleLogin();
+		}
+	};
+
 	handleUserNameInput(e) {
 		this.setState({
 			username: e.target.value
@@ -72,13 +78,14 @@ class Login extends React.Component {
 	}
 
 	handleLogin() {
-		let email = this.state.username;
-		let pass = this.state.password;
-		const auth = firebase.auth();
-		auth.signInWithEmailAndPassword(email, pass).then(() => {
-			this.props.dispatch(loggedIn(true));
-		});
-
+		const email = this.state.username;
+		const pass = this.state.password;
+		if (email !== "" && pass !== "") {
+			const auth = firebase.auth();
+			auth.signInWithEmailAndPassword(email, pass).then(() => {
+				this.props.dispatch(loggedIn(true));
+			});
+		}
 		// TODO: handle wrong login credentials, maybe show message and shake login form
 		// const promise = auth.signInWithEmailAndPassword(email, pass);
 		// promise.catch( e => console.log(e.message));
@@ -117,6 +124,7 @@ class Login extends React.Component {
 										prefix={<Icon type="user" style={{ fontSize: 13 }} />}
 										placeholder="Username"
 										onChange={e => this.handleUserNameInput(e)}
+										onKeyPress={this.handlePressEnter}
 									/>
 								</Col>
 								<Col span={24}>
@@ -125,6 +133,7 @@ class Login extends React.Component {
 										type="password"
 										placeholder="Password"
 										onChange={e => this.handlePasswordInput(e)}
+										onKeyPress={this.handlePressEnter}
 									/>
 								</Col>
 								<Col span={24}>
