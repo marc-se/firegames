@@ -13,7 +13,7 @@ export default class GenreTagList extends React.Component {
 
 	componentDidMount() {
 		const genreRef = firebase.database().ref(`genres`);
-		genreRef.once("value", snap => {
+		genreRef.on("value", snap => {
 			let data = snap.val();
 			let genreTags = [];
 
