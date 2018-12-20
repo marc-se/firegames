@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch, Icon, Row, Col } from "antd";
 import styled from "styled-components";
+import firebase from "firebase/app";
+import "firebase/database";
 import { setPlayingFilter, setFinishedFilter, setUntouchedFilter } from "../../reducers/actions.js";
+import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const FireGamesFilterWrapper = styled(Col)`
 	padding: 5px 0;
@@ -13,6 +16,29 @@ const FireGamesFilterWrapper = styled(Col)`
 `;
 
 class Filter extends React.Component {
+	static getDerivedStateFromProps(props, state) {
+		const { selectedSystem } = props;
+		let statisticsAvailable = false;
+
+		if (selectedSystem !== "none") {
+			const systemRef = firebase.database().ref(`systems/${selectedSystem}`);
+
+			systemRef
+				.once("value", snap => {
+					let data = snap.val();
+
+					statisticsAvailable = data.finished || data.untouched || data.playing ? true : false;
+				})
+				.then(res => {
+					console.log(res);
+					console.log("statistics available 🤔", statisticsAvailable);
+					if (!statisticsAvailable) {
+						updateGlobalGamesStatusForSystems(selectedSystem);
+					}
+				});
+		}
+	}
+
 	handlePlayingFilter(value) {
 		this.props.dispatch(setPlayingFilter(value));
 	}

@@ -7,6 +7,7 @@ import "firebase/database";
 
 import DeleteDialog from "./DeleteDialog.js";
 import EditGame from "../AddGame/AddGame.js";
+import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const FireGamesTable = styled(Table)`
 	th {
@@ -145,23 +146,64 @@ class GamesTable extends Component {
 		}
 	}
 
+	// updateGlobalGamesStatus = () => {
+	// 	// TODO: update, how many games (in total) are in playing / finished / untouched state for each system
+	// 	console.log("triggered");
+	// 	const updateFile = firebase.database().ref(`systems/${this.props.selectedSystem}`);
+	// 	const { games } = this.state;
+
+	// 	const playingCount = games.filter(game => game.playing === true).length;
+	// 	const finishedCount = games.filter(game => game.finished === true).length;
+	// 	const untouchedCount = games.filter(game => !game.playing && !game.finished).length;
+
+	// 	console.log("playingCount", playingCount);
+	// 	console.log("finishedCount", finishedCount);
+	// 	console.log("untouchedCount", untouchedCount);
+
+	// 	// updateFile.update({
+	// 	// 	playing: playingCount,
+	// 	// 	finished: finishedCount,
+	// 	// 	untouched: untouchedCount
+	// 	// });
+	// };
+
 	onInputChange = e => {
 		this.setState({ searchText: e.target.value });
 		this.onSearch();
 	};
 
 	playingStateChange = (e, key) => {
-		let updateFile = firebase.database().ref(`games/${this.props.selectedSystem}/${key}`);
-		updateFile.update({
-			playing: e.target.checked
-		});
+		const { selectedSystem } = this.props;
+		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		updateFile.update(
+			{
+				playing: e.target.checked
+			},
+			e => {
+				if (e) {
+					console.log("update failed", e);
+				} else {
+					updateGlobalGamesStatusForSystems(selectedSystem);
+				}
+			}
+		);
 	};
 
 	finishedStateChange = (e, key) => {
-		let updateFile = firebase.database().ref(`games/${this.props.selectedSystem}/${key}`);
-		updateFile.update({
-			finished: e.target.checked
-		});
+		const { selectedSystem } = this.props;
+		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		updateFile.update(
+			{
+				finished: e.target.checked
+			},
+			e => {
+				if (e) {
+					console.log("update failed", e);
+				} else {
+					updateGlobalGamesStatusForSystems(selectedSystem);
+				}
+			}
+		);
 	};
 
 	onSearch = () => {
