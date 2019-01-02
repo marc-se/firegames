@@ -68,6 +68,9 @@ const FireGamesDeleteEdit = styled.div`
 	}
 `;
 
+const PLAYING = "playing";
+const FINISHED = "finished";
+
 class GamesTable extends Component {
 	state = {
 		filterDropdownVisible: false,
@@ -183,7 +186,7 @@ class GamesTable extends Component {
 				if (e) {
 					console.log("update failed", e);
 				} else {
-					updateGlobalGamesStatusForSystems(selectedSystem);
+					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, e.target.checked);
 				}
 			}
 		);
@@ -200,7 +203,7 @@ class GamesTable extends Component {
 				if (e) {
 					console.log("update failed", e);
 				} else {
-					updateGlobalGamesStatusForSystems(selectedSystem);
+					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, e.target.checked);
 				}
 			}
 		);
