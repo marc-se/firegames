@@ -1,14 +1,12 @@
 import firebase from "firebase/app";
 import "firebase/database";
 
-export function updateGlobalGamesStatusForSystems(system, type, checked) {
-	// TODO: update, how many games (in total) are in playing / finished / untouched state for each system
-
+export function updateGlobalGamesStatusForSystems(system, type, gameObj) {
 	const gamesRef = firebase.database().ref(`games/${system}`);
-	const updateFile = firebase.database().ref(`systems/${system}`);
+	const systemRef = firebase.database().ref(`systems/${system}`);
 
 	// check whether it's necessary to fetch games
-	if (type !== null && checked !== null) {
+	if (type && gameObj) {
 		let playingCount = 0;
 		let finishedCount = 0;
 		let untouchedCount = 0;
@@ -17,47 +15,48 @@ export function updateGlobalGamesStatusForSystems(system, type, checked) {
 				const data = snap.val();
 				switch (type) {
 					case "playing":
-						if (checked) {
-							playingCount = data.playing + 1;
-						}
+						finishedCount = data.finished;
+						playingCount = gameObj.playing ? data.playing - 1 : data.playing + 1;
+						untouchedCount =
+							gameObj.playing && !gameObj.finished ? data.untouched + 1 : data.untouched - 1;
 						break;
 					case "finished":
+						finishedCount = gameObj.finished ? data.finished - 1 : data.finished + 1;
+						playingCount = data.playing;
+						untouchedCount =
+							!gameObj.playing && gameObj.finished ? data.untouched + 1 : data.untouched - 1;
 						break;
 					default:
 				}
 			})
 			.then(res => {
-				updateFile.update({
+				systemRef.update({
 					playing: playingCount,
 					finished: finishedCount,
 					untouched: untouchedCount
 				});
 			});
+	} else {
+		gamesRef.on("value", snap => {
+			let data = snap.val();
+			let games = [];
+
+			Object.keys(data).forEach(game => {
+				// add key to object
+				data[game].key = game;
+				// push object to games list
+				games.push(data[game]);
+			});
+
+			const playingCount = games.filter(game => game.playing === true).length;
+			const finishedCount = games.filter(game => game.finished === true).length;
+			const untouchedCount = games.filter(game => !game.playing && !game.finished).length;
+
+			systemRef.update({
+				playing: playingCount,
+				finished: finishedCount,
+				untouched: untouchedCount
+			});
+		});
 	}
-
-	gamesRef.on("value", snap => {
-		let data = snap.val();
-		let games = [];
-
-		Object.keys(data).forEach(game => {
-			// add key to object
-			data[game].key = game;
-			// push object to games list
-			games.push(data[game]);
-		});
-
-		const playingCount = games.filter(game => game.playing === true).length;
-		const finishedCount = games.filter(game => game.finished === true).length;
-		const untouchedCount = games.filter(game => !game.playing && !game.finished).length;
-
-		console.log("playingCount", playingCount);
-		console.log("finishedCount", finishedCount);
-		console.log("untouchedCount", untouchedCount);
-
-		updateFile.update({
-			playing: playingCount,
-			finished: finishedCount,
-			untouched: untouchedCount
-		});
-	});
 }

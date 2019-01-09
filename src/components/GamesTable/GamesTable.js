@@ -149,27 +149,6 @@ class GamesTable extends Component {
 		}
 	}
 
-	// updateGlobalGamesStatus = () => {
-	// 	// TODO: update, how many games (in total) are in playing / finished / untouched state for each system
-	// 	console.log("triggered");
-	// 	const updateFile = firebase.database().ref(`systems/${this.props.selectedSystem}`);
-	// 	const { games } = this.state;
-
-	// 	const playingCount = games.filter(game => game.playing === true).length;
-	// 	const finishedCount = games.filter(game => game.finished === true).length;
-	// 	const untouchedCount = games.filter(game => !game.playing && !game.finished).length;
-
-	// 	console.log("playingCount", playingCount);
-	// 	console.log("finishedCount", finishedCount);
-	// 	console.log("untouchedCount", untouchedCount);
-
-	// 	// updateFile.update({
-	// 	// 	playing: playingCount,
-	// 	// 	finished: finishedCount,
-	// 	// 	untouched: untouchedCount
-	// 	// });
-	// };
-
 	onInputChange = e => {
 		this.setState({ searchText: e.target.value });
 		this.onSearch();
@@ -178,6 +157,10 @@ class GamesTable extends Component {
 	playingStateChange = (e, key) => {
 		const { selectedSystem } = this.props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		let game = {};
+
+		updateFile.once("value", snap => (game = snap.val()));
+
 		updateFile.update(
 			{
 				playing: e.target.checked
@@ -186,7 +169,7 @@ class GamesTable extends Component {
 				if (e) {
 					console.log("update failed", e);
 				} else {
-					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, e.target.checked);
+					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, game);
 				}
 			}
 		);
@@ -195,6 +178,10 @@ class GamesTable extends Component {
 	finishedStateChange = (e, key) => {
 		const { selectedSystem } = this.props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		let game = {};
+
+		updateFile.once("value", snap => (game = snap.val()));
+
 		updateFile.update(
 			{
 				finished: e.target.checked
@@ -203,7 +190,7 @@ class GamesTable extends Component {
 				if (e) {
 					console.log("update failed", e);
 				} else {
-					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, e.target.checked);
+					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, game);
 				}
 			}
 		);

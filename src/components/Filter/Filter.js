@@ -30,8 +30,6 @@ class Filter extends React.Component {
 					statisticsAvailable = data.finished || data.untouched || data.playing ? true : false;
 				})
 				.then(res => {
-					console.log(res);
-					console.log("statistics available 🤔", statisticsAvailable);
 					if (!statisticsAvailable) {
 						updateGlobalGamesStatusForSystems(selectedSystem);
 					}
