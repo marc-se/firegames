@@ -10,6 +10,7 @@ export function updateGlobalGamesStatusForSystems(system, type, gameObj) {
 		let playingCount = 0;
 		let finishedCount = 0;
 		let untouchedCount = 0;
+
 		systemRef
 			.once("value", snap => {
 				const data = snap.val();

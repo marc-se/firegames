@@ -16,23 +16,43 @@ const FireGamesFilterWrapper = styled(Col)`
 `;
 
 class Filter extends React.Component {
-	static getDerivedStateFromProps(props, state) {
-		const { selectedSystem } = props;
-		let statisticsAvailable = false;
+	state = {
+		playing: 0,
+		finished: 0,
+		untouched: 0
+	};
 
-		if (selectedSystem !== "none") {
+	componentDidUpdate(prevProps) {
+		const { selectedSystem } = this.props;
+		if (selectedSystem !== prevProps.selectedSystem && selectedSystem !== "none") {
+			let statisticsAvailable = false;
+			let playingCount = 0;
+			let finishedCount = 0;
+			let untouchedCount = 0;
+
 			const systemRef = firebase.database().ref(`systems/${selectedSystem}`);
 
 			systemRef
 				.once("value", snap => {
 					let data = snap.val();
 
-					statisticsAvailable = data.finished || data.untouched || data.playing ? true : false;
+					if (data.finished || data.untouched || data.playing) {
+						statisticsAvailable = true;
+						playingCount = data.playing;
+						finishedCount = data.finished;
+						untouchedCount = data.untouched;
+					}
 				})
 				.then(res => {
 					if (!statisticsAvailable) {
 						updateGlobalGamesStatusForSystems(selectedSystem);
 					}
+
+					this.setState({
+						playing: playingCount,
+						finished: finishedCount,
+						untouched: untouchedCount
+					});
 				});
 		}
 	}
@@ -50,33 +70,40 @@ class Filter extends React.Component {
 	}
 
 	render() {
+		const { playing, finished, untouched } = this.state;
+		const { selectedSystem, showFinished, showPlaying, showUntouched } = this.props;
+		const showStatistics = selectedSystem !== "none";
+
 		return (
 			<Row type="flex">
 				<FireGamesFilterWrapper span={24}>
-					Playing
+					Playing {showStatistics && `(${playing})`}
 					<Switch
-						checked={this.props.showPlaying}
+						checked={showPlaying}
 						checkedChildren={<Icon type="check" />}
 						unCheckedChildren={<Icon type="cross" />}
 						onChange={value => this.handlePlayingFilter(value)}
+						disabled={!showStatistics}
 					/>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
-					Finished
+					Finished {showStatistics && `(${finished})`}
 					<Switch
-						checked={this.props.showFinished}
+						checked={showFinished}
 						checkedChildren={<Icon type="check" />}
 						unCheckedChildren={<Icon type="cross" />}
 						onChange={value => this.handleFinishedFilter(value)}
+						disabled={!showStatistics}
 					/>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
-					Untouched
+					Untouched {showStatistics && `(${untouched})`}
 					<Switch
-						checked={this.props.showUntouched}
+						checked={showUntouched}
 						checkedChildren={<Icon type="check" />}
 						unCheckedChildren={<Icon type="cross" />}
 						onChange={value => this.handleNeverPlayedFilter(value)}
+						disabled={!showStatistics}
 					/>
 				</FireGamesFilterWrapper>
 			</Row>
