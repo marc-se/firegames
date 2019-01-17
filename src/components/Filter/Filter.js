@@ -15,6 +15,12 @@ const FireGamesFilterWrapper = styled(Col)`
 	justify-content: space-between;
 `;
 
+const FireGamesItemGroup = styled.div`
+	> span {
+		margin-right: 10px;
+	}
+`;
+
 class Filter extends React.Component {
 	state = {
 		playing: 0,
@@ -40,6 +46,12 @@ class Filter extends React.Component {
 					updateGlobalGamesStatusForSystems(selectedSystem);
 				}
 			});
+		} else if (selectedSystem !== prevProps.selectedSystem && selectedSystem === "none") {
+			this.setState({
+				playing: 0,
+				finished: 0,
+				untouched: 0
+			});
 		}
 	}
 
@@ -64,48 +76,66 @@ class Filter extends React.Component {
 			<Row type="flex">
 				<FireGamesFilterWrapper span={24}>
 					Playing
-					<Badge
-						showZero={showStatistics ? true : false}
-						count={playing}
-						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
-					/>
-					<Switch
-						checked={showPlaying}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="cross" />}
-						onChange={value => this.handlePlayingFilter(value)}
-						disabled={!showStatistics}
-					/>
+					<FireGamesItemGroup>
+						<Badge
+							showZero={showStatistics ? true : false}
+							count={playing}
+							style={{
+								backgroundColor: "#fff",
+								color: "#999",
+								boxShadow: "0 0 0 1px #d9d9d9 inset"
+							}}
+						/>
+						<Switch
+							checked={showPlaying}
+							checkedChildren={<Icon type="check" />}
+							unCheckedChildren={<Icon type="cross" />}
+							onChange={value => this.handlePlayingFilter(value)}
+							disabled={!showStatistics}
+						/>
+					</FireGamesItemGroup>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
 					Finished
-					<Badge
-						showZero={showStatistics ? true : false}
-						count={finished}
-						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
-					/>
-					<Switch
-						checked={showFinished}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="cross" />}
-						onChange={value => this.handleFinishedFilter(value)}
-						disabled={!showStatistics}
-					/>
+					<FireGamesItemGroup>
+						<Badge
+							showZero={showStatistics ? true : false}
+							count={finished}
+							style={{
+								backgroundColor: "#fff",
+								color: "#999",
+								boxShadow: "0 0 0 1px #d9d9d9 inset"
+							}}
+						/>
+						<Switch
+							checked={showFinished}
+							checkedChildren={<Icon type="check" />}
+							unCheckedChildren={<Icon type="cross" />}
+							onChange={value => this.handleFinishedFilter(value)}
+							disabled={!showStatistics}
+						/>
+					</FireGamesItemGroup>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
 					Untouched
-					<Badge
-						showZero={showStatistics ? true : false}
-						count={untouched}
-						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
-					/>
-					<Switch
-						checked={showUntouched}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="cross" />}
-						onChange={value => this.handleNeverPlayedFilter(value)}
-						disabled={!showStatistics}
-					/>
+					<FireGamesItemGroup>
+						<Badge
+							showZero={showStatistics ? true : false}
+							count={untouched}
+							style={{
+								backgroundColor: "#fff",
+								color: "#999",
+								boxShadow: "0 0 0 1px #d9d9d9 inset"
+							}}
+						/>
+						<Switch
+							checked={showUntouched}
+							checkedChildren={<Icon type="check" />}
+							unCheckedChildren={<Icon type="cross" />}
+							onChange={value => this.handleNeverPlayedFilter(value)}
+							disabled={!showStatistics}
+						/>
+					</FireGamesItemGroup>
 				</FireGamesFilterWrapper>
 			</Row>
 		);
