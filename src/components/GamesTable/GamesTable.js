@@ -7,6 +7,7 @@ import "firebase/database";
 
 import DeleteDialog from "./DeleteDialog.js";
 import EditGame from "../AddGame/AddGame.js";
+import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const FireGamesTable = styled(Table)`
 	th {
@@ -66,6 +67,9 @@ const FireGamesDeleteEdit = styled.div`
 		margin-right: 10px;
 	}
 `;
+
+const PLAYING = "playing";
+const FINISHED = "finished";
 
 class GamesTable extends Component {
 	state = {
@@ -151,17 +155,45 @@ class GamesTable extends Component {
 	};
 
 	playingStateChange = (e, key) => {
-		let updateFile = firebase.database().ref(`games/${this.props.selectedSystem}/${key}`);
-		updateFile.update({
-			playing: e.target.checked
-		});
+		const { selectedSystem } = this.props;
+		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		let game = {};
+
+		updateFile.once("value", snap => (game = snap.val()));
+
+		updateFile.update(
+			{
+				playing: e.target.checked
+			},
+			e => {
+				if (e) {
+					console.log("update failed", e);
+				} else {
+					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, game);
+				}
+			}
+		);
 	};
 
 	finishedStateChange = (e, key) => {
-		let updateFile = firebase.database().ref(`games/${this.props.selectedSystem}/${key}`);
-		updateFile.update({
-			finished: e.target.checked
-		});
+		const { selectedSystem } = this.props;
+		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
+		let game = {};
+
+		updateFile.once("value", snap => (game = snap.val()));
+
+		updateFile.update(
+			{
+				finished: e.target.checked
+			},
+			e => {
+				if (e) {
+					console.log("update failed", e);
+				} else {
+					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, game);
+				}
+			}
+		);
 	};
 
 	onSearch = () => {
