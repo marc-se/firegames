@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Switch, Icon, Row, Col } from "antd";
+import { Badge, Switch, Icon, Row, Col } from "antd";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -25,35 +25,21 @@ class Filter extends React.Component {
 	componentDidUpdate(prevProps) {
 		const { selectedSystem } = this.props;
 		if (selectedSystem !== prevProps.selectedSystem && selectedSystem !== "none") {
-			let statisticsAvailable = false;
-			let playingCount = 0;
-			let finishedCount = 0;
-			let untouchedCount = 0;
-
 			const systemRef = firebase.database().ref(`systems/${selectedSystem}`);
 
-			systemRef
-				.once("value", snap => {
-					let data = snap.val();
+			systemRef.on("value", snap => {
+				let data = snap.val();
 
-					if (data.finished || data.untouched || data.playing) {
-						statisticsAvailable = true;
-						playingCount = data.playing;
-						finishedCount = data.finished;
-						untouchedCount = data.untouched;
-					}
-				})
-				.then(res => {
-					if (!statisticsAvailable) {
-						updateGlobalGamesStatusForSystems(selectedSystem);
-					}
-
+				if (data.finished || data.untouched || data.playing) {
 					this.setState({
-						playing: playingCount,
-						finished: finishedCount,
-						untouched: untouchedCount
+						playing: data.playing,
+						finished: data.finished,
+						untouched: data.untouched
 					});
-				});
+				} else {
+					updateGlobalGamesStatusForSystems(selectedSystem);
+				}
+			});
 		}
 	}
 
@@ -77,7 +63,12 @@ class Filter extends React.Component {
 		return (
 			<Row type="flex">
 				<FireGamesFilterWrapper span={24}>
-					Playing {showStatistics && `(${playing})`}
+					Playing
+					<Badge
+						showZero={showStatistics ? true : false}
+						count={playing}
+						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
+					/>
 					<Switch
 						checked={showPlaying}
 						checkedChildren={<Icon type="check" />}
@@ -87,7 +78,12 @@ class Filter extends React.Component {
 					/>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
-					Finished {showStatistics && `(${finished})`}
+					Finished
+					<Badge
+						showZero={showStatistics ? true : false}
+						count={finished}
+						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
+					/>
 					<Switch
 						checked={showFinished}
 						checkedChildren={<Icon type="check" />}
@@ -97,7 +93,12 @@ class Filter extends React.Component {
 					/>
 				</FireGamesFilterWrapper>
 				<FireGamesFilterWrapper span={24}>
-					Untouched {showStatistics && `(${untouched})`}
+					Untouched
+					<Badge
+						showZero={showStatistics ? true : false}
+						count={untouched}
+						style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 0 0 1px #d9d9d9 inset" }}
+					/>
 					<Switch
 						checked={showUntouched}
 						checkedChildren={<Icon type="check" />}
