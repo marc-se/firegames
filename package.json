@@ -1,10 +1,9 @@
 {
 	"name": "firegames",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"private": true,
 	"dependencies": {
 		"antd": "^3.14.1",
-		"classnames": "^2.2.6",
 		"firebase": "^5.0.4",
 		"react": "^16.4.1",
 		"react-countup": "^3.0.3",
