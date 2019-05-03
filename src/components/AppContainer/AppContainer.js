@@ -9,6 +9,7 @@ import logo from "../../assets/logo.svg";
 
 import Filter from "../Filter/Filter.js";
 import SystemSelect from "../SystemSelect/SystemSelect.js";
+import SyncFilterStats from "../SyncFilterStats/SyncFilterStats.js";
 import GamesTable from "../GamesTable/GamesTable.js";
 import AddGame from "../AddGame/AddGame.js";
 import AddSystem from "../AddSystem/AddSystem.js";
@@ -90,6 +91,7 @@ const RightAlignText = styled.span`
 
 class AppContainer extends React.Component {
 	render() {
+		const { selectedSystem } = this.props;
 		return firebase.auth().currentUser ? (
 			<FireGamesLayout>
 				<FireGamesHeader>
@@ -109,6 +111,12 @@ class AppContainer extends React.Component {
 							<SystemSelect />
 							<Separator />
 							<Filter />
+							{selectedSystem !== "none" && (
+								<React.Fragment>
+									<Separator />
+									<SyncFilterStats />
+								</React.Fragment>
+							)}
 						</SidebarWrapper>
 					</FireGamesSidebar>
 					<FireGamesContent>
@@ -144,7 +152,7 @@ class AppContainer extends React.Component {
 						<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
 						<Col span={12} />
 						<Col span={6}>
-							<RightAlignText>v1.2.1</RightAlignText>
+							<RightAlignText>v1.2.2</RightAlignText>
 						</Col>
 					</Row>
 				</FireGamesFooter>
