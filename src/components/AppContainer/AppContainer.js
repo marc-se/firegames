@@ -9,6 +9,7 @@ import logo from "../../assets/logo.svg";
 
 import Filter from "../Filter/Filter.js";
 import SystemSelect from "../SystemSelect/SystemSelect.js";
+import SyncFilterStats from "../SyncFilterStats/SyncFilterStats.js";
 import GamesTable from "../GamesTable/GamesTable.js";
 import AddGame from "../AddGame/AddGame.js";
 import AddSystem from "../AddSystem/AddSystem.js";
@@ -109,6 +110,8 @@ class AppContainer extends React.Component {
 							<SystemSelect />
 							<Separator />
 							<Filter />
+							<Separator />
+							<SyncFilterStats />
 						</SidebarWrapper>
 					</FireGamesSidebar>
 					<FireGamesContent>

@@ -10,7 +10,7 @@ import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGames
 const FireGamesFilterWrapper = styled(Col)`
 	padding: 5px 0;
 	color: #292c33;
-	font-weight: 300;
+	align-items: center;
 	display: flex !important;
 	justify-content: space-between;
 `;
