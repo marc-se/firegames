@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Table, Input, Button, Tag, Checkbox, Spin, Badge } from "antd";
+import { Table, Input, Button, Tag, Checkbox, Spin, Badge, Tooltip } from "antd";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -279,7 +279,7 @@ class GamesTable extends Component {
 				}
 			},
 			{
-				title: "🕹",
+				title: <Tooltip title="playing">🕹</Tooltip>,
 				dataIndex: "playing",
 				key: "playing",
 				width: "5%",
@@ -288,7 +288,7 @@ class GamesTable extends Component {
 				)
 			},
 			{
-				title: "✅",
+				title: <Tooltip title="finished">✅</Tooltip>,
 				dataIndex: "finished",
 				key: "finished",
 				width: "5%",
