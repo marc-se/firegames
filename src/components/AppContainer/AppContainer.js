@@ -123,7 +123,16 @@ class AppContainer extends React.Component {
 											Statistics
 										</Button>
 									</Link>
-									<FireGamesSymbols>🕹 = playing | ✅ = finished</FireGamesSymbols>
+									<FireGamesSymbols>
+										<span role="img" aria-label="Games with state: playing">
+											🕹
+										</span>
+										= playing |{" "}
+										<span role="img" aria-label="Games with state: finished">
+											✅
+										</span>
+										= finished
+									</FireGamesSymbols>
 								</FireGamesInsideCol>
 							</Col>
 						</Row>

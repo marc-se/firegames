@@ -1,16 +1,22 @@
 import React, { Component } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
+import { connect } from "react-redux";
+import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
+import { updateSystems } from "../../reducers/actions.js";
 
-// TODO: update redux system index after adding new system to firebase
+const FireGamesInput = styled(Input)`
+	margin-bottom: 10px !important;
+`;
 
-export default class AddSystem extends Component {
+class AddSystem extends Component {
 	static propTypes = {};
 
 	state = {
 		visible: false,
 		systemName: "",
+		systemShortName: "",
 		error: false,
 		loading: false
 	};
@@ -30,9 +36,9 @@ export default class AddSystem extends Component {
 			loading: true
 		});
 
-		const { systemName } = this.state;
+		const { systemName, systemShortName } = this.state;
 
-		if (systemName !== "") {
+		if (systemName !== "" && systemShortName !== "") {
 			let url = systemName
 				.toString()
 				.toLowerCase()
@@ -47,17 +53,28 @@ export default class AddSystem extends Component {
 				.set({
 					games: 0,
 					title: systemName,
-					url: url
+					url: url,
+					alias: systemShortName
 				})
 				.then(() => {
 					// display success message
 					this.successMessage();
 
-					this.setState({
-						visible: false,
-						error: false,
-						loading: false,
-						systemName: ""
+					// update redux system index and update state
+					let systems = [];
+					const systemsRef = firebase.database().ref("systems");
+					systemsRef.once("value").then(snap => {
+						snap.forEach(system => {
+							systems.push(system.val());
+						});
+						this.props.dispatch(updateSystems(systems));
+						this.setState({
+							visible: false,
+							error: false,
+							loading: false,
+							systemName: "",
+							systemShortName: ""
+						});
 					});
 				});
 		} else {
@@ -77,6 +94,12 @@ export default class AddSystem extends Component {
 	handleSystemNameInput(systemName) {
 		this.setState({
 			systemName
+		});
+	}
+
+	handleSystemShortNameInput(systemShortName) {
+		this.setState({
+			systemShortName
 		});
 	}
 
@@ -106,9 +129,13 @@ export default class AddSystem extends Component {
 					cancelText="CANCEL"
 					confirmLoading={this.state.loading}
 				>
-					<Input
+					<FireGamesInput
 						onChange={e => this.handleSystemNameInput(e.target.value)}
 						placeholder="System Name"
+					/>
+					<Input
+						onChange={e => this.handleSystemShortNameInput(e.target.value)}
+						placeholder="System ShortName, like SNES/N64/PS4"
 					/>
 					{this.state.error && (
 						<Alert
@@ -125,3 +152,15 @@ export default class AddSystem extends Component {
 		);
 	}
 }
+
+let component = AddSystem;
+
+const mapStateToProps = state => {
+	return {
+		...state
+	};
+};
+
+component = connect(mapStateToProps)(component);
+
+export default component;
