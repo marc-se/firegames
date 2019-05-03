@@ -2,8 +2,6 @@ import React from "react";
 import { Button, Row, Col } from "antd";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import firebase from "firebase/app";
-import "firebase/database";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const Container = styled(Col)`
