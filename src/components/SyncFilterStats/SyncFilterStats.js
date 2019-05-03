@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Row, Col } from "antd";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -13,18 +14,17 @@ const Container = styled(Col)`
 	justify-content: space-between;
 `;
 
-export default class SyncFilterStats extends React.Component {
+class SyncFilterStats extends React.Component {
 	state = {
-		loading: false,
-		iconLoading: false
+		loading: false
 	};
 
-	enterLoading = () => {
-		this.setState({ loading: true });
-	};
-
-	enterIconLoading = () => {
-		this.setState({ iconLoading: true });
+	handleSync = () => {
+		const { selectedSystem } = this.props;
+		this.setState({ loading: true }, () => {
+			setTimeout(() => this.setState({ loading: false }), 1000);
+			updateGlobalGamesStatusForSystems(selectedSystem);
+		});
 	};
 
 	render() {
@@ -32,12 +32,7 @@ export default class SyncFilterStats extends React.Component {
 			<Row type="flex">
 				<Container span={24}>
 					Sync Filter Stats
-					<Button
-						icon="sync"
-						size="small"
-						loading={this.state.iconLoading}
-						onClick={this.enterIconLoading}
-					>
+					<Button icon="sync" size="small" loading={this.state.loading} onClick={this.handleSync}>
 						Sync
 					</Button>
 				</Container>
@@ -45,3 +40,15 @@ export default class SyncFilterStats extends React.Component {
 		);
 	}
 }
+
+let component = SyncFilterStats;
+
+const mapStateToProps = state => {
+	return {
+		...state
+	};
+};
+
+component = connect(mapStateToProps)(component);
+
+export default component;
