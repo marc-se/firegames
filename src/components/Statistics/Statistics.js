@@ -21,10 +21,6 @@ const FireGamesWrapper = styled(Layout)`
 	background: #fcfcfc;
 `;
 
-const FireGamesCardBox = styled(Row)`
-	margin-bottom: 60px;
-`;
-
 const FireGamesHead = styled(Row)`
 	margin: 40px 0;
 	text-align: center;
@@ -36,12 +32,15 @@ const FireGamesLargeHeading = styled.h1`
 	text-transform: uppercase;
 `;
 
+const CardContainer = styled.div`
+	padding-bottom: 60px;
+`;
+
 const FireGamesCardWrapper = styled(Col)`
 	padding: 15px;
 	text-align: center;
-	display: flex;
+	display: flex !important;
 	justify-content: center;
-	align-items: center;
 
 	h3 {
 		margin: 0;
@@ -109,7 +108,7 @@ export default class Statistics extends React.Component {
 						<FireGamesLargeHeading>STATISTICS</FireGamesLargeHeading>
 					</Col>
 				</FireGamesHead>
-				<FireGamesCardBox type="flex" justify="start">
+				<CardContainer>
 					{sortedData.map((node, i) => {
 						return (
 							<FireGamesCardWrapper span="6" key={i}>
@@ -119,7 +118,7 @@ export default class Statistics extends React.Component {
 							</FireGamesCardWrapper>
 						);
 					})}
-				</FireGamesCardBox>
+				</CardContainer>
 				<FireGamesBar>
 					<Row type="flex" justify="start">
 						<Col span="2" />
