@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Table, Input, Button, Tag, Checkbox, Spin, Badge, Tooltip } from "antd";
+import { Table, Input, Button, Tag, Checkbox, Spin, Badge, Tooltip, Icon } from "antd";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
+import Highlighter from "react-highlight-words";
 
 import DeleteDialog from "./DeleteDialog.js";
 import EditGame from "../AddGame/AddGame.js";
@@ -42,25 +43,6 @@ const FireGamesBadge = styled(Badge)`
 	}
 `;
 
-const FireGamesFilterDropdown = styled.div`
-	padding: 8px;
-	border-radius: 6px;
-	background: #fff;
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-	position: relative;
-	top: -30px;
-	left: 20px;
-
-	input {
-		width: 130px;
-		margin-right: 8px;
-	}
-`;
-
-const FireGamesHighlighting = styled.span`
-	background: #ff9f1c;
-`;
-
 const FireGamesDeleteEdit = styled.div`
 	display: flex;
 	button {
@@ -73,7 +55,6 @@ const FINISHED = "finished";
 
 class GamesTable extends Component {
 	state = {
-		filterDropdownVisible: false,
 		games: [],
 		filterData: [],
 		searchText: "",
@@ -196,37 +177,64 @@ class GamesTable extends Component {
 		);
 	};
 
-	onSearch = () => {
-		const { searchText } = this.state;
-		const reg = new RegExp(searchText, "gi");
+	getColumnSearchProps = dataIndex => ({
+		filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+			<div style={{ padding: 8 }}>
+				<Input
+					ref={node => {
+						this.searchInput = node;
+					}}
+					placeholder={`Search ${dataIndex}`}
+					value={selectedKeys[0]}
+					onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+					onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+					style={{ width: 188, marginBottom: 8, display: "block" }}
+				/>
+				<Button
+					type="primary"
+					onClick={() => this.handleSearch(selectedKeys, confirm)}
+					icon="search"
+					size="small"
+					style={{ width: 90, marginRight: 8 }}
+				>
+					Search
+				</Button>
+				<Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+					Reset
+				</Button>
+			</div>
+		),
+		filterIcon: filtered => (
+			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+		),
+		onFilter: (value, record) =>
+			record[dataIndex]
+				.toString()
+				.toLowerCase()
+				.includes(value.toLowerCase()),
+		onFilterDropdownVisibleChange: visible => {
+			if (visible) {
+				setTimeout(() => this.searchInput.select());
+			}
+		},
+		render: text => (
+			<Highlighter
+				highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+				searchWords={[this.state.searchText]}
+				autoEscape
+				textToHighlight={text.toString()}
+			/>
+		)
+	});
 
-		// TODO: put filter in redux store and update props.games after filtering
-		this.setState({
-			filterDropdownVisible: true,
-			games: this.state.filterData
-				.map(record => {
-					const match = record.title.match(reg);
-					if (!match) {
-						return null;
-					}
-					return {
-						...record,
-						title: (
-							<span>
-								{record.title
-									.split(reg)
-									.map(
-										(text, i) =>
-											i > 0
-												? [<FireGamesHighlighting>{match[0]}</FireGamesHighlighting>, text]
-												: text
-									)}
-							</span>
-						)
-					};
-				})
-				.filter(record => !!record)
-		});
+	handleSearch = (selectedKeys, confirm) => {
+		confirm();
+		this.setState({ searchText: selectedKeys[0] });
+	};
+
+	handleReset = clearFilters => {
+		clearFilters();
+		this.setState({ searchText: "" });
 	};
 
 	render() {
@@ -236,21 +244,7 @@ class GamesTable extends Component {
 				dataIndex: "title",
 				key: "title",
 				width: "35%",
-				filterDropdown: (
-					<FireGamesFilterDropdown>
-						<Input
-							placeholder="Search title"
-							value={this.state.searchText}
-							onChange={this.onInputChange}
-							onPressEnter={this.onSearch}
-						/>
-						<Button type="primary" onClick={this.onSearch}>
-							Search
-						</Button>
-					</FireGamesFilterDropdown>
-				),
-				filterDropdownVisible: this.state.filterDropdownVisible,
-				onFilterDropdownVisibleChange: visible => this.setState({ filterDropdownVisible: visible })
+				...this.getColumnSearchProps("title")
 			},
 			{
 				title: "Region",
@@ -279,7 +273,13 @@ class GamesTable extends Component {
 				}
 			},
 			{
-				title: <Tooltip title="playing">🕹</Tooltip>,
+				title: (
+					<Tooltip title="playing">
+						<span role="img" aria-label="status: playing">
+							🕹
+						</span>
+					</Tooltip>
+				),
 				dataIndex: "playing",
 				key: "playing",
 				width: "5%",
@@ -288,7 +288,13 @@ class GamesTable extends Component {
 				)
 			},
 			{
-				title: <Tooltip title="finished">✅</Tooltip>,
+				title: (
+					<Tooltip title="finished">
+						<span role="img" aria-label="status: finished">
+							✅
+						</span>
+					</Tooltip>
+				),
 				dataIndex: "finished",
 				key: "finished",
 				width: "5%",
