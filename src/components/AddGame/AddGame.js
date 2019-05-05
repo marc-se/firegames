@@ -1,10 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Modal, Button, Input, Checkbox, Select, Radio, Alert, message } from "antd";
-import GenreTagList from "../GenreTagList/GenreTagList";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
+
+import GenreTagList from "../GenreTagList/GenreTagList";
+
+import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -15,7 +18,6 @@ const FireGamesGenres = styled.div`
 	background: #ececec;
 	padding: 10px;
 	line-height: 30px;
-
 	div {
 		border: 1px dashed #c4c4c4;
 	}
@@ -140,10 +142,13 @@ class AddGame extends React.Component {
 									region: region
 								})
 								.then(() => {
+									const { system } = this.state;
+
 									// find system node to update
-									let updateStatisticsForSystem = firebase
-										.database()
-										.ref(`systems/${this.state.system}/`);
+									let updateStatisticsForSystem = firebase.database().ref(`systems/${system}/`);
+
+									// update filter statistics
+									updateGlobalGamesStatusForSystems(system);
 
 									// get games count after adding a new game
 									addNodeAt.once("value", snap => {

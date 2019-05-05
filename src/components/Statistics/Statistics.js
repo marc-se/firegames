@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
 import styled, { injectGlobal } from "styled-components";
-
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -104,14 +103,14 @@ export default class Statistics extends React.Component {
 		return (
 			<FireGamesWrapper>
 				<FireGamesHead>
-					<Col span="24">
+					<Col span={24}>
 						<FireGamesLargeHeading>STATISTICS</FireGamesLargeHeading>
 					</Col>
 				</FireGamesHead>
 				<CardContainer>
 					{sortedData.map((node, i) => {
 						return (
-							<FireGamesCardWrapper span="6" key={i}>
+							<FireGamesCardWrapper span={6} key={i}>
 								<Card title={node.value.title} style={{ width: "80%" }}>
 									<CountUp start={0} end={node.value.games} duration={3.0} />
 								</Card>
@@ -121,13 +120,13 @@ export default class Statistics extends React.Component {
 				</CardContainer>
 				<FireGamesBar>
 					<Row type="flex" justify="start">
-						<Col span="2" />
-						<Col span="20">
+						<Col span={2} />
+						<Col span={20}>
 							<Link to="/">
 								<Button type="primary">Back</Button>
 							</Link>
 						</Col>
-						<Col span="2" />
+						<Col span={2} />
 					</Row>
 				</FireGamesBar>
 			</FireGamesWrapper>
