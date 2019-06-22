@@ -1,16 +1,9 @@
 import React from "react";
-import { Button, Row, Col } from "antd";
+import { Button, Row } from "antd";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
-const Container = styled(Col)`
-	padding: 5px 0;
-	color: #292c33;
-	display: flex !important;
-	align-items: center;
-	justify-content: space-between;
-`;
+import * as SC from "./StyledComponents";
 
 class SyncFilterStats extends React.Component {
 	state = {
@@ -28,12 +21,12 @@ class SyncFilterStats extends React.Component {
 	render() {
 		return (
 			<Row type="flex">
-				<Container span={24}>
+				<SC.Container span={24}>
 					Sync Filter Stats
 					<Button icon="sync" size="small" loading={this.state.loading} onClick={this.handleSync}>
 						Sync
 					</Button>
-				</Container>
+				</SC.Container>
 			</Row>
 		);
 	}
