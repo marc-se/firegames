@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router";
-import styled, { injectGlobal } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";
 import { Layout, Row, Col, Card, Button } from "antd";
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
 	.ant-card-body {
 		display: flex;
 		align-items: center;
@@ -102,6 +102,7 @@ export default class Statistics extends React.Component {
 
 		return (
 			<FireGamesWrapper>
+				<GlobalStyle />
 				<FireGamesHead>
 					<Col span={24}>
 						<FireGamesLargeHeading>STATISTICS</FireGamesLargeHeading>
