@@ -1,26 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Badge, Switch, Icon, Row, Col } from "antd";
+import { Badge, Switch, Icon, Row } from "antd";
 import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
 
+import * as SC from "./StyledComponents";
+
 import { setPlayingFilter, setFinishedFilter, setUntouchedFilter } from "../../reducers/actions.js";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
-
-const FireGamesFilterWrapper = styled(Col)`
-	padding: 5px 0;
-	color: #292c33;
-	align-items: center;
-	display: flex !important;
-	justify-content: space-between;
-`;
-
-const FireGamesItemGroup = styled.div`
-	> span {
-		margin-right: 10px;
-	}
-`;
 
 class Filter extends React.Component {
 	state = {
@@ -75,9 +63,9 @@ class Filter extends React.Component {
 
 		return (
 			<Row type="flex">
-				<FireGamesFilterWrapper span={24}>
+				<SC.Container span={24}>
 					Playing
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={playing}
@@ -94,11 +82,11 @@ class Filter extends React.Component {
 							onChange={value => this.handlePlayingFilter(value)}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
-				<FireGamesFilterWrapper span={24}>
+					</SC.ItemGroup>
+				</SC.Container>
+				<SC.Container span={24}>
 					Finished
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={finished}
@@ -115,11 +103,11 @@ class Filter extends React.Component {
 							onChange={value => this.handleFinishedFilter(value)}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
-				<FireGamesFilterWrapper span={24}>
+					</SC.ItemGroup>
+				</SC.Container>
+				<SC.Container span={24}>
 					Untouched
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={untouched}
@@ -136,8 +124,8 @@ class Filter extends React.Component {
 							onChange={value => this.handleNeverPlayedFilter(value)}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
+					</SC.ItemGroup>
+				</SC.Container>
 			</Row>
 		);
 	}

@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Select, message } from "antd";
-import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
 import { selectSystem, updateSystems } from "../../reducers/actions.js";
 
-const Option = Select.Option;
+import * as SC from "./StyledComponents";
 
-const FireGamesSelect = styled(Select)`
-	width: 100%;
-	padding-bottom: 5px;
-`;
+const Option = Select.Option;
 
 class SystemSelect extends Component {
 	componentWillMount() {
@@ -46,7 +42,7 @@ class SystemSelect extends Component {
 
 	render() {
 		return (
-			<FireGamesSelect
+			<SC.Container
 				showSearch
 				placeholder="Select a System"
 				optionFilterProp="children"
@@ -66,7 +62,7 @@ class SystemSelect extends Component {
 						</Option>
 					);
 				})}
-			</FireGamesSelect>
+			</SC.Container>
 		);
 	}
 }
