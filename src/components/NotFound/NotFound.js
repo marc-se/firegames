@@ -1,7 +1,11 @@
 import React from "react";
 
-export default class NotFound extends React.Component {
-	render() {
-		return <div>404 not found</div>;
-	}
-}
+import * as SC from "./StyledComponents";
+
+const NotFound = () => (
+	<SC.Container>
+		<SC.Message>oops, 404</SC.Message>
+	</SC.Container>
+);
+
+export default NotFound;

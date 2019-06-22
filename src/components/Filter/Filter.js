@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Badge, Switch, Icon, Row } from "antd";
-import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
 
