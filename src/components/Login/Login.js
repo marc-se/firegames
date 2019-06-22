@@ -13,10 +13,8 @@ const { Content } = Layout;
 
 const LoginWrapper = styled.div`
 	height: 100vh;
-	background: #fff;
 	display: flex;
 	align-items: center;
-	background: #2bc0e4;
 	padding-bottom: 12px;
 	background: linear-gradient(to right, #eaecc6, #2bc0e4);
 `;
