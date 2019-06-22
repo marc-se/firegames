@@ -24,18 +24,6 @@ class GamesTable extends Component {
 	};
 
 	componentWillReceiveProps(nextProps) {
-		// TODO: dynamically append system-url to gamesRef: e.g. games/gameboy
-		/** Data looks like this
-		 * const data = [{
-		 * 	key: '-KUm_Sal-H7c8ngbUJgK',
-		 * 	title: 'Final Fantasy XV',
-		 * 	region: 'PAL',
-		 * 	genre: 'RPG',
-		 * 	playing: true,
-		 * 	finished: false,
-		 * }...]
-		 **/
-
 		if (nextProps.selectedSystem === "none") {
 			this.setState({
 				games: [],

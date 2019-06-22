@@ -1,44 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Icon, Input, Button, message } from "antd";
+import { Icon, Button, message } from "antd";
 import { Row, Col } from "antd";
 import { loggedIn, selectSystem } from "../../reducers/actions.js";
 
-import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/auth";
 
+import * as SC from "./StyledComponents";
+
 const { Content } = Layout;
-
-const LoginWrapper = styled.div`
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	padding-bottom: 12px;
-	background: linear-gradient(to right, #eaecc6, #2bc0e4);
-`;
-
-const LoginBox = styled.div`
-	width: 25vw;
-	margin: 0 auto;
-`;
-
-const LoginInput = styled(Input)`
-	margin: 0 0 12px 0 !important;
-`;
-
-const LogoutBox = styled.div`
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	top: 10px;
-	button {
-		margin-left: 10px;
-	}
-`;
 
 class Login extends React.Component {
 	state = {
@@ -107,18 +79,18 @@ class Login extends React.Component {
 	render() {
 		const { renderLogout } = this.props;
 		return renderLogout ? (
-			<LogoutBox>
+			<SC.LogoutBox>
 				Logout
 				<Button shape="circle" icon="poweroff" type="dashed" onClick={this.handleLogout} />
-			</LogoutBox>
+			</SC.LogoutBox>
 		) : (
 			<Layout>
-				<LoginWrapper>
+				<SC.Container>
 					<Content>
-						<LoginBox>
+						<SC.LoginBox>
 							<Row type="flex" justify="center">
 								<Col span={24}>
-									<LoginInput
+									<SC.InputField
 										prefix={<Icon type="user" style={{ fontSize: 13 }} />}
 										placeholder="Username"
 										onChange={e => this.handleUserNameInput(e)}
@@ -126,7 +98,7 @@ class Login extends React.Component {
 									/>
 								</Col>
 								<Col span={24}>
-									<LoginInput
+									<SC.InputField
 										prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
 										type="password"
 										placeholder="Password"
@@ -138,9 +110,9 @@ class Login extends React.Component {
 									<Button onClick={() => this.handleLogin()}>Login</Button>
 								</Col>
 							</Row>
-						</LoginBox>
+						</SC.LoginBox>
 					</Content>
-				</LoginWrapper>
+				</SC.Container>
 			</Layout>
 		);
 	}
