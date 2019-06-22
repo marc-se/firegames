@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Table, Input, Button, Tag, Checkbox, Spin, Badge, Tooltip, Icon } from "antd";
-import styled from "styled-components";
+import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
@@ -10,45 +9,7 @@ import DeleteDialog from "./DeleteDialog.js";
 import EditGame from "../AddGame/AddGame.js";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
-const FireGamesTable = styled(Table)`
-	th {
-		font-size: 12px !important;
-	}
-`;
-
-const FireGamesLoadingSpinner = styled.div`
-	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	> div {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-	}
-`;
-
-const FireGamesBadge = styled(Badge)`
-	display: flex !important;
-	flex-direction: row-reverse !important;
-	top: 10px;
-	left: 10px;
-	z-index: 1;
-	p {
-		margin-bottom: 0;
-		line-height: 20px;
-		letter-spacing: 1px;
-	}
-`;
-
-const FireGamesDeleteEdit = styled.div`
-	display: flex;
-	button {
-		margin-right: 10px;
-	}
-`;
+import * as SC from "./StyledComponents";
 
 const PLAYING = "playing";
 const FINISHED = "finished";
@@ -309,10 +270,10 @@ class GamesTable extends Component {
 				width: "20%",
 				render: (e, row) => {
 					return (
-						<FireGamesDeleteEdit>
+						<SC.DeleteEdit>
 							<EditGame system={this.props.selectedSystem} editMode gameID={row.key} />
 							<DeleteDialog system={this.props.selectedSystem} gameID={row.key} />
-						</FireGamesDeleteEdit>
+						</SC.DeleteEdit>
 					);
 				}
 			}
@@ -320,13 +281,13 @@ class GamesTable extends Component {
 
 		return (
 			<React.Fragment>
-				<FireGamesBadge count={this.state.count} />
+				<SC.SimpleBadge count={this.state.count} />
 				{this.state.loading ? (
-					<FireGamesLoadingSpinner>
+					<SC.LoadingSpinner>
 						<Spin tip="Collecting Games..." />
-					</FireGamesLoadingSpinner>
+					</SC.LoadingSpinner>
 				) : (
-					<FireGamesTable
+					<SC.TableContainer
 						columns={columns}
 						dataSource={this.state.games}
 						pagination={false}
