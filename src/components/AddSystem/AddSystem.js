@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
 import { updateSystems } from "../../reducers/actions.js";
 
-const FireGamesInput = styled(Input)`
-	margin-bottom: 10px !important;
-`;
+import * as SC from "./StyledComponents";
 
 class AddSystem extends Component {
 	static propTypes = {};
@@ -129,7 +126,7 @@ class AddSystem extends Component {
 					cancelText="CANCEL"
 					confirmLoading={this.state.loading}
 				>
-					<FireGamesInput
+					<SC.InputField
 						onChange={e => this.handleSystemNameInput(e.target.value)}
 						placeholder="System Name"
 					/>
