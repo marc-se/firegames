@@ -1,47 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Modal, Button, Input, Checkbox, Select, Radio, Alert, message } from "antd";
-import styled from "styled-components";
+import { Modal, Button, Checkbox, Select, Radio, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
+import * as SC from "./StyledComponents";
 
 import GenreTagList from "../GenreTagList/GenreTagList";
 
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 const Option = Select.Option;
-
-const FireGamesGenres = styled.div`
-	margin: 10px 0;
-	background: #ececec;
-	padding: 10px;
-	line-height: 30px;
-	div {
-		border: 1px dashed #c4c4c4;
-	}
-`;
-
-const FireGamesInput = styled(Input)`
-	margin-bottom: 10px !important;
-`;
-
-const FireGamesRadioGroup = styled(RadioGroup)`
-	margin-bottom: 10px !important;
-`;
-
-const FireGamesDropdown = styled(Select)`
-	width: 100%;
-`;
-
-const FireGamesCheckboxGroup = styled.div`
-	display: flex;
-`;
-
-const FireGamesError = styled(Alert)`
-	margin-top: 20px !important;
-`;
 
 class AddGame extends React.Component {
 	state = {
@@ -285,12 +254,12 @@ class AddGame extends React.Component {
 					cancelText="CANCEL"
 					confirmLoading={this.state.loading}
 				>
-					<FireGamesInput
+					<SC.InputField
 						onChange={e => this.handleTitleInput(e.target.value)}
 						placeholder="Game Title"
 						defaultValue={this.state.title !== "" ? this.state.title : null}
 					/>
-					<FireGamesDropdown
+					<SC.Dropdown
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
@@ -308,25 +277,25 @@ class AddGame extends React.Component {
 								</Option>
 							);
 						})}
-					</FireGamesDropdown>
-					<FireGamesGenres>
+					</SC.Dropdown>
+					<SC.Genres>
 						<GenreTagList onChange={this.updateGenresList} />
-					</FireGamesGenres>
-					<FireGamesRadioGroup onChange={this.handleRegionChange} defaultValue={this.state.region}>
+					</SC.Genres>
+					<SC.RadioItemGroup onChange={this.handleRegionChange} defaultValue={this.state.region}>
 						<RadioButton value="PAL">PAL</RadioButton>
 						<RadioButton value="JAP">JAP</RadioButton>
 						<RadioButton value="US">US</RadioButton>
-					</FireGamesRadioGroup>
-					<FireGamesCheckboxGroup>
+					</SC.RadioItemGroup>
+					<SC.CheckboxGroup>
 						<Checkbox onChange={e => this.handlePlaying(e)} defaultChecked={this.state.playing}>
 							playing
 						</Checkbox>
 						<Checkbox onChange={e => this.handleFinished(e)} defaultChecked={this.state.finished}>
 							finished
 						</Checkbox>
-					</FireGamesCheckboxGroup>
+					</SC.CheckboxGroup>
 					{this.state.error && (
-						<FireGamesError
+						<SC.Error
 							message="Something is missing 🤔"
 							description="Please check your input to add a new Game to your shiny collection.
 							Does your Game have a Title, at least one Genre and a System selected?"

@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "antd";
-import styled from "styled-components";
 
-const FireGamesWrapper = styled.div`
-	> button {
-		margin-right: 10px;
-	}
-`;
+import * as SC from "./StyledComponents";
 
 export default class DeleteOptions extends Component {
 	onCancel = () => {
@@ -19,14 +14,14 @@ export default class DeleteOptions extends Component {
 
 	render() {
 		return (
-			<FireGamesWrapper>
+			<SC.DeleteOptionsContainer>
 				<Button size="small" onClick={this.onCancel}>
 					CANCEL
 				</Button>
 				<Button size="small" type="danger" onClick={this.onOk}>
 					DELETE
 				</Button>
-			</FireGamesWrapper>
+			</SC.DeleteOptionsContainer>
 		);
 	}
 }

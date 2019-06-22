@@ -14,16 +14,21 @@
 		"react-scripts": "^2.1.8",
 		"react-svg-inline": "^2.1.1",
 		"redux": "^4.0.1",
-		"styled-components": "^3.3.2"
+		"styled-components": "^4.3.2"
 	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"lint-sc": "stylelint './src/**/*.js'"
 	},
 	"devDependencies": {
-		"prettier": "1.14.2"
+		"prettier": "1.14.2",
+		"stylelint": "^10.1.0",
+		"stylelint-config-recommended": "^2.2.0",
+		"stylelint-config-styled-components": "^0.1.1",
+		"stylelint-processor-styled-components": "^1.8.0"
 	},
 	"browserslist": [
 		">0.2%",

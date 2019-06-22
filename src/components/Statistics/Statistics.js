@@ -1,67 +1,11 @@
 import React from "react";
 import { Link } from "react-router";
-import styled, { injectGlobal } from "styled-components";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";
-import { Layout, Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button } from "antd";
 
-injectGlobal`
-	.ant-card-body {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 200px;
-	}
-`;
-
-const FireGamesWrapper = styled(Layout)`
-	min-height: 100vh;
-	background: #fcfcfc;
-`;
-
-const FireGamesHead = styled(Row)`
-	margin: 40px 0;
-	text-align: center;
-`;
-
-const FireGamesLargeHeading = styled.h1`
-	font-size: 32px;
-	letter-spacing: 3px;
-	text-transform: uppercase;
-`;
-
-const CardContainer = styled.div`
-	padding-bottom: 60px;
-`;
-
-const FireGamesCardWrapper = styled(Col)`
-	padding: 15px;
-	text-align: center;
-	display: flex !important;
-	justify-content: center;
-
-	h3 {
-		margin: 0;
-		padding: 0;
-		line-height: 18px;
-		font-size: 18px;
-	}
-
-	span {
-		font-size: 45px;
-	}
-`;
-
-const FireGamesBar = styled.div`
-	position: fixed;
-	bottom: -5px;
-	left: 0;
-	background: #fff;
-	padding: 10px 0 15px 0;
-	width: 100vw;
-	box-shadow: 0px -9px 14px -10px rgba(204, 204, 204, 0.31);
-`;
+import * as SC from "./StyledComponents";
 
 export default class Statistics extends React.Component {
 	constructor() {
@@ -101,24 +45,25 @@ export default class Statistics extends React.Component {
 		}
 
 		return (
-			<FireGamesWrapper>
-				<FireGamesHead>
+			<SC.Container>
+				<SC.GlobalStyle />
+				<SC.Head>
 					<Col span={24}>
-						<FireGamesLargeHeading>STATISTICS</FireGamesLargeHeading>
+						<SC.LargeHeading>STATISTICS</SC.LargeHeading>
 					</Col>
-				</FireGamesHead>
-				<CardContainer>
+				</SC.Head>
+				<SC.CardContainer>
 					{sortedData.map((node, i) => {
 						return (
-							<FireGamesCardWrapper span={6} key={i}>
+							<SC.CardHolder span={6} key={i}>
 								<Card title={node.value.title} style={{ width: "80%" }}>
 									<CountUp start={0} end={node.value.games} duration={3.0} />
 								</Card>
-							</FireGamesCardWrapper>
+							</SC.CardHolder>
 						);
 					})}
-				</CardContainer>
-				<FireGamesBar>
+				</SC.CardContainer>
+				<SC.Bar>
 					<Row type="flex" justify="start">
 						<Col span={2} />
 						<Col span={20}>
@@ -128,8 +73,8 @@ export default class Statistics extends React.Component {
 						</Col>
 						<Col span={2} />
 					</Row>
-				</FireGamesBar>
-			</FireGamesWrapper>
+				</SC.Bar>
+			</SC.Container>
 		);
 	}
 }
