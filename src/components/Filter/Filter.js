@@ -77,7 +77,7 @@ class Filter extends React.Component {
 						<Switch
 							checked={showPlaying}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
+							unCheckedChildren={<Icon type="close" />}
 							onChange={value => this.handlePlayingFilter(value)}
 							disabled={!showStatistics}
 						/>
@@ -98,7 +98,7 @@ class Filter extends React.Component {
 						<Switch
 							checked={showFinished}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
+							unCheckedChildren={<Icon type="close" />}
 							onChange={value => this.handleFinishedFilter(value)}
 							disabled={!showStatistics}
 						/>
@@ -119,7 +119,7 @@ class Filter extends React.Component {
 						<Switch
 							checked={showUntouched}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
+							unCheckedChildren={<Icon type="close" />}
 							onChange={value => this.handleNeverPlayedFilter(value)}
 							disabled={!showStatistics}
 						/>

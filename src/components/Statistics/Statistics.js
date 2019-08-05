@@ -8,39 +8,32 @@ import { Row, Col, Card, Button } from "antd";
 import * as SC from "./StyledComponents";
 
 export default class Statistics extends React.Component {
-	constructor() {
-		super();
-
-		this.state = {
-			data: null
-		};
-	}
+	state = {
+		data: []
+	};
 
 	componentDidMount() {
-		let systemsRef = firebase.database().ref("systems");
-
-		let systems = [];
-
-		systemsRef
-			.once("value", snap => {
-				let obj = snap.val();
-
-				for (let system in obj) {
-					const value = obj[system];
-					systems.push({ system, value });
-				}
-			})
-			.then(() => {
-				this.setState({
-					data: systems
-				});
-			});
+		this.getSystems();
 	}
 
+	getSystems = async () => {
+		let systems = [];
+		const systemsRef = firebase.database().ref("systems");
+		const snapshot = await systemsRef.once("value");
+		const obj = snapshot.val();
+		for (let system in obj) {
+			const value = obj[system];
+			systems.push({ system, value });
+		}
+		this.setState({
+			data: systems
+		});
+	};
+
 	render() {
-		let data = this.state.data;
+		const { data } = this.state;
 		let sortedData = [];
-		if (data !== null) {
+		if (data.length > 0) {
 			sortedData = data.sort((x, y) => y.value.games - x.value.games);
 		}
 
