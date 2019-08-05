@@ -1,6 +1,6 @@
 /* @flow */
 import { Router, Route, hashHistory } from "react-router";
-import React, { Component } from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { ConfigProvider } from "antd";
@@ -13,18 +13,16 @@ import "./App.css";
 
 let store = createStore(reducer);
 
-export default class App extends Component {
-	render() {
-		return (
-			<ConfigProvider locale={enUS}>
-				<Provider store={store}>
-					<Router history={hashHistory}>
-						<Route path="/" component={AppContainer} />
-						<Route path="/statistics" component={Statistics} />
-						<Route path="*" component={NotFound} />
-					</Router>
-				</Provider>
-			</ConfigProvider>
-		);
-	}
-}
+const App = () => (
+	<ConfigProvider locale={enUS}>
+		<Provider store={store}>
+			<Router history={hashHistory}>
+				<Route path="/" component={AppContainer} />
+				<Route path="/statistics" component={Statistics} />
+				<Route path="*" component={NotFound} />
+			</Router>
+		</Provider>
+	</ConfigProvider>
+);
+
+export default App;
