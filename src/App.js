@@ -3,7 +3,7 @@ import { Router, Route, hashHistory } from "react-router";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
 import Statistics from "./components/Statistics/Statistics.js";
 import NotFound from "./components/NotFound/NotFound.js";
@@ -16,7 +16,7 @@ let store = createStore(reducer);
 export default class App extends Component {
 	render() {
 		return (
-			<LocaleProvider locale={enUS}>
+			<ConfigProvider locale={enUS}>
 				<Provider store={store}>
 					<Router history={hashHistory}>
 						<Route path="/" component={AppContainer} />
@@ -24,7 +24,7 @@ export default class App extends Component {
 						<Route path="*" component={NotFound} />
 					</Router>
 				</Provider>
-			</LocaleProvider>
+			</ConfigProvider>
 		);
 	}
 }
