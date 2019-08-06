@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";

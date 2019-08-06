@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
 import logo from "../../assets/logo.svg";
