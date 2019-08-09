@@ -1,14 +1,13 @@
-/* @flow */
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { ConfigProvider } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
-import Statistics from "./components/Statistics/Statistics.js";
-import NotFound from "./components/NotFound/NotFound.js";
+import Statistics from "./components/Statistics/Statistics";
+import NotFound from "./components/NotFound/NotFound";
 import reducer from "./reducers/reducers.js";
-import AppContainer from "./components/AppContainer/AppContainer.js";
+import AppContainer from "./components/AppContainer/AppContainer";
 import "./App.css";
 
 let store = createStore(reducer);

@@ -3,7 +3,7 @@ import { Button, Popover, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
-import DeleteOptions from "./DeleteOptions.js";
+import DeleteOptions from "./DeleteOptions";
 
 export default class DeleteDialog extends Component {
 	state = {

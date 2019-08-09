@@ -1,4 +1,5 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
+// @ts-ignore
 import { connect } from "react-redux";
 import { Modal, Button, Checkbox, Select, Radio, message } from "antd";
 import firebase from "firebase/app";
@@ -12,7 +13,37 @@ import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGames
 const RadioButton = Radio.Button;
 const Option = Select.Option;
 
-class AddGame extends React.Component {
+interface System {
+	alias: string;
+	finished: number;
+	games: number;
+	playing: number;
+	title: string;
+	untouched: number;
+	url: string;
+}
+
+export interface Props {
+	editMode: boolean;
+	gameID: string;
+	system: string;
+	buttonTitle: string;
+	systems: Array<System>;
+}
+
+interface State {
+	visible: boolean;
+	selectedGenres: Array<string>;
+	title: string;
+	system: string;
+	region: string;
+	playing: boolean;
+	finished: boolean;
+	error: boolean;
+	loading: boolean;
+}
+
+class AddGame extends React.Component<Props, State> {
 	state = {
 		visible: false,
 		selectedGenres: [],
@@ -50,15 +81,15 @@ class AddGame extends React.Component {
 		});
 	};
 
-	successMessage = text => {
+	successMessage = (text: string) => {
 		message.success(text, 3);
 	};
 
-	errorMessage = text => {
+	errorMessage = (text: string) => {
 		message.error(text, 3);
 	};
 
-	updateGenresList = genres => {
+	updateGenresList = (genres: Array<string>) => {
 		this.setState({
 			selectedGenres: genres
 		});
@@ -77,7 +108,7 @@ class AddGame extends React.Component {
 			if (selectedGenres.length > 0 && title.length > 0 && this.state.system !== "null") {
 				const addNodeAt = firebase.database().ref("games/" + this.state.system);
 
-				let duplicates = null;
+				let duplicates: boolean = false;
 
 				// get snapshot of system node, where you´re trying to add a new node
 				return addNodeAt
@@ -85,11 +116,11 @@ class AddGame extends React.Component {
 						let obj = snap.val();
 
 						/* check if existing game title & region matches your input title & region
-						* YES? -> add item to duplicates array
-						*/
+						 * YES? -> add item to duplicates array
+						 */
 						for (let game in obj) {
 							const value = obj[game];
-							if (value.title === this.state.title && value.region === this.state.region) {
+							if (value.title === title && value.region === region) {
 								duplicates = true;
 								this.errorMessage("This Game is already in your collection 😧");
 							}
@@ -196,35 +227,35 @@ class AddGame extends React.Component {
 		});
 	};
 
-	handleRegionChange = e => {
+	handleRegionChange = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			region: e.target.value
 		});
 	};
 
-	handlePlaying(e) {
+	handlePlaying = (e: any) => {
 		this.setState({
 			playing: e.target.checked
 		});
-	}
+	};
 
-	handleFinished(e) {
+	handleFinished = (e: any) => {
 		this.setState({
 			finished: e.target.checked
 		});
-	}
+	};
 
-	handleSystemSelect(system) {
+	handleSystemSelect = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			system
+			system: e.target.value
 		});
-	}
+	};
 
-	handleTitleInput(title) {
+	handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			title
+			title: e.target.value
 		});
-	}
+	};
 
 	handleCloseStatusMessage() {
 		this.setState({
@@ -233,44 +264,45 @@ class AddGame extends React.Component {
 	}
 
 	render() {
-		const { editMode } = this.props;
+		const { editMode, buttonTitle, systems } = this.props;
+		const { loading, title, playing, finished, visible, region, error } = this.state;
 		return (
 			<React.Fragment>
 				{editMode ? (
 					<Button type="dashed" shape="circle" icon="edit" onClick={this.showModal}>
-						{this.props.buttonTitle}
+						{buttonTitle}
 					</Button>
 				) : (
 					<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
-						{this.props.buttonTitle}
+						{buttonTitle}
 					</Button>
 				)}
 				<Modal
 					title={editMode ? "Edit your Game 📝" : "Add something to your Collection 🕹"}
-					visible={this.state.visible}
+					visible={visible}
 					onOk={this.handleOk}
 					onCancel={this.handleCancel}
 					okText={editMode ? "SAVE" : "ADD"}
 					cancelText="CANCEL"
-					confirmLoading={this.state.loading}
+					confirmLoading={loading}
 				>
 					<SC.InputField
-						onChange={e => this.handleTitleInput(e.target.value)}
+						onChange={this.handleTitleInput}
 						placeholder="Game Title"
-						defaultValue={this.state.title !== "" ? this.state.title : null}
+						defaultValue={title !== "" ? title : null}
 					/>
 					<SC.Dropdown
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
 						defaultValue={editMode && this.props.system}
-						onChange={e => this.handleSystemSelect(e)}
-						filterOption={(input, option) =>
+						onChange={this.handleSystemSelect}
+						filterOption={(input: string, option: any) =>
 							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
 						}
 					>
 						{// create systems from firebase data
-						this.props.systems.map((system, index) => {
+						systems.map((system: System, index: number) => {
 							return (
 								<Option key={index} value={system.url}>
 									{system.title}
@@ -281,20 +313,20 @@ class AddGame extends React.Component {
 					<SC.Genres>
 						<GenreTagList onChange={this.updateGenresList} />
 					</SC.Genres>
-					<SC.RadioItemGroup onChange={this.handleRegionChange} defaultValue={this.state.region}>
+					<SC.RadioItemGroup onChange={this.handleRegionChange} defaultValue={region}>
 						<RadioButton value="PAL">PAL</RadioButton>
 						<RadioButton value="JAP">JAP</RadioButton>
 						<RadioButton value="US">US</RadioButton>
 					</SC.RadioItemGroup>
 					<SC.CheckboxGroup>
-						<Checkbox onChange={e => this.handlePlaying(e)} defaultChecked={this.state.playing}>
+						<Checkbox onChange={this.handlePlaying} defaultChecked={playing}>
 							playing
 						</Checkbox>
-						<Checkbox onChange={e => this.handleFinished(e)} defaultChecked={this.state.finished}>
+						<Checkbox onChange={this.handleFinished} defaultChecked={finished}>
 							finished
 						</Checkbox>
 					</SC.CheckboxGroup>
-					{this.state.error && (
+					{error && (
 						<SC.Error
 							message="Something is missing 🤔"
 							description="Please check your input to add a new Game to your shiny collection.
@@ -313,7 +345,7 @@ class AddGame extends React.Component {
 
 let component = AddGame;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};

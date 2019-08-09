@@ -5,8 +5,8 @@ import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
 
-import DeleteDialog from "./DeleteDialog.js";
-import EditGame from "../AddGame/AddGame.js";
+import DeleteDialog from "./DeleteDialog";
+import EditGame from "../AddGame/AddGame";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 import * as SC from "./StyledComponents";

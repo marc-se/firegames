@@ -6,14 +6,14 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import logo from "../../assets/logo.svg";
 
-import Filter from "../Filter/Filter.js";
-import SystemSelect from "../SystemSelect/SystemSelect.js";
-import SyncFilterStats from "../SyncFilterStats/SyncFilterStats.js";
-import GamesTable from "../GamesTable/GamesTable.js";
-import AddGame from "../AddGame/AddGame.js";
-import AddSystem from "../AddSystem/AddSystem.js";
-import AddGenre from "../AddGenre/AddGenre.js";
-import Login from "../Login/Login.js";
+import Filter from "../Filter/Filter";
+import SystemSelect from "../SystemSelect/SystemSelect";
+import SyncFilterStats from "../SyncFilterStats/SyncFilterStats";
+import GamesTable from "../GamesTable/GamesTable";
+import AddGame from "../AddGame/AddGame";
+import AddSystem from "../AddSystem/AddSystem";
+import AddGenre from "../AddGenre/AddGenre";
+import Login from "../Login/Login";
 
 import * as SC from "./StyledComponents";
 
