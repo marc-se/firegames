@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { Component, ChangeEvent } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Modal, Button, Checkbox, Select, Radio, message } from "antd";
@@ -9,21 +9,12 @@ import * as SC from "./StyledComponents";
 import GenreTagList from "../GenreTagList/GenreTagList";
 
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
+import { System } from "../../types/firebase";
 
 const RadioButton = Radio.Button;
 const Option = Select.Option;
 
-interface System {
-	alias: string;
-	finished: number;
-	games: number;
-	playing: number;
-	title: string;
-	untouched: number;
-	url: string;
-}
-
-export interface Props {
+interface Props {
 	editMode: boolean;
 	gameID: string;
 	system: string;
@@ -43,7 +34,7 @@ interface State {
 	loading: boolean;
 }
 
-class AddGame extends React.Component<Props, State> {
+class AddGame extends Component<Props, State> {
 	state = {
 		visible: false,
 		selectedGenres: [],
