@@ -7,3 +7,8 @@ export interface System {
 	untouched: number;
 	url: string;
 }
+
+export interface Genre {
+	title: string;
+	url: string;
+}

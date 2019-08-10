@@ -1,11 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import { Tag } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
+import { Genre } from "../../types/firebase";
+
 const { CheckableTag } = Tag;
 
-export default class GenreTagList extends React.Component {
+interface State {
+	genreTags: Array<string>;
+	selectedTags: Array<string>;
+}
+
+interface Props {
+	onChange: (genres: Array<string>) => void;
+}
+
+export default class GenreTagList extends Component<Props, State> {
 	state = {
 		genreTags: [],
 		selectedTags: []
@@ -15,7 +26,7 @@ export default class GenreTagList extends React.Component {
 		const genreRef = firebase.database().ref(`genres`);
 		genreRef.on("value", snap => {
 			let data = snap.val();
-			let genreTags = [];
+			let genreTags: Array<string> = [];
 
 			Object.keys(data).forEach(genre => {
 				// add key to object
@@ -30,29 +41,33 @@ export default class GenreTagList extends React.Component {
 		});
 	}
 
-	handleChange(tag, checked) {
+	handleChange(tag: string, checked: boolean) {
 		const { selectedTags } = this.state;
+		const { onChange } = this.props;
 		const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
 		this.setState({
 			selectedTags: nextSelectedTags
 		});
-		this.props.onChange(nextSelectedTags);
+		onChange(nextSelectedTags);
 	}
 
 	render() {
 		const { genreTags, selectedTags } = this.state;
 		return (
 			<React.Fragment>
-				{genreTags.map(tag => (
-					<CheckableTag
-						key={tag.url}
-						type="dashed"
-						checked={selectedTags.indexOf(tag.title) > -1}
-						onChange={checked => this.handleChange(tag.title, checked)}
-					>
-						{tag.title}
-					</CheckableTag>
-				))}
+				{genreTags.map((tag: Genre) => {
+					const tagName: string = tag.title;
+					// @ts-ignore
+					const isSelected = selectedTags.indexOf(tagName) > -1;
+					return (
+						<CheckableTag
+							checked={isSelected}
+							onChange={checked => this.handleChange(tagName, checked)}
+						>
+							{tagName}
+						</CheckableTag>
+					);
+				})}
 			</React.Fragment>
 		);
 	}
