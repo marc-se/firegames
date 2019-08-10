@@ -3,6 +3,8 @@ import { Modal, Button, Alert, Input, message } from "antd";
 import firebase from "firebase";
 import "firebase/database";
 
+interface Props {}
+
 interface State {
 	visible: boolean;
 	error: boolean;
@@ -11,7 +13,7 @@ interface State {
 	loading: boolean;
 }
 
-export default class AddGenre extends Component<void, State> {
+export default class AddGenre extends Component<Props, State> {
 	state = {
 		visible: false,
 		error: false,

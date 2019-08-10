@@ -15,8 +15,8 @@ const { Content } = Layout;
 const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 interface Props {
-	dispatch: any;
-	renderLogout: boolean;
+	dispatch?: any;
+	renderLogout?: boolean;
 }
 
 interface State {

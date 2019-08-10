@@ -11,7 +11,7 @@ import { System } from "../../types/firebase";
 import * as SC from "./StyledComponents";
 
 interface Props {
-	dispatch: any;
+	dispatch?: any;
 }
 
 interface State {

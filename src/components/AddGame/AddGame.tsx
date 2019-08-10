@@ -15,11 +15,11 @@ const RadioButton = Radio.Button;
 const Option = Select.Option;
 
 interface Props {
-	editMode: boolean;
-	gameID: string;
-	system: string;
+	editMode?: boolean;
+	gameID?: string;
+	system?: string;
 	buttonTitle: string;
-	systems: Array<System>;
+	systems?: Array<System>;
 }
 
 interface State {
@@ -293,13 +293,14 @@ class AddGame extends Component<Props, State> {
 						}
 					>
 						{// create systems from firebase data
-						systems.map((system: System, index: number) => {
-							return (
-								<Option key={index} value={system.url}>
-									{system.title}
-								</Option>
-							);
-						})}
+						systems &&
+							systems.map((system: System, index: number) => {
+								return (
+									<Option key={index} value={system.url}>
+										{system.title}
+									</Option>
+								);
+							})}
 					</SC.Dropdown>
 					<SC.Genres>
 						<GenreTagList onChange={this.updateGenresList} />
