@@ -10,7 +10,8 @@ export const Container = styled.div`
 `;
 
 export const LoginBox = styled.div`
-	width: 25vw;
+	width: auto;
+	max-width: 450px;
 	margin: 0 auto;
 `;
 
@@ -28,4 +29,13 @@ export const LogoutBox = styled.div`
 	button {
 		margin-left: 10px;
 	}
+`;
+
+export const Loading = styled.div`
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	top: calc(50% - 120px);
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
