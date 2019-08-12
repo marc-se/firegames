@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// @ts-ignore
 import { connect } from "react-redux";
 import { Badge, Switch, Icon, Row } from "antd";
 import firebase from "firebase/app";
@@ -9,14 +10,28 @@ import * as SC from "./StyledComponents";
 import { setPlayingFilter, setFinishedFilter, setUntouchedFilter } from "../../reducers/actions.js";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
-class Filter extends Component {
+interface Props {
+	selectedSystem?: string;
+	dispatch?: any;
+	showFinished?: boolean;
+	showPlaying?: boolean;
+	showUntouched?: boolean;
+}
+
+interface State {
+	playing: number;
+	finished: number;
+	untouched: number;
+}
+
+class Filter extends Component<Props, State> {
 	state = {
 		playing: 0,
 		finished: 0,
 		untouched: 0
 	};
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Props) {
 		const { selectedSystem } = this.props;
 		if (selectedSystem !== prevProps.selectedSystem && selectedSystem !== "none") {
 			const systemRef = firebase.database().ref(`systems/${selectedSystem}`);
@@ -43,17 +58,17 @@ class Filter extends Component {
 		}
 	}
 
-	handlePlayingFilter(value) {
-		this.props.dispatch(setPlayingFilter(value));
-	}
+	handlePlayingFilter = (e: boolean) => {
+		this.props.dispatch(setPlayingFilter(e));
+	};
 
-	handleFinishedFilter(value) {
-		this.props.dispatch(setFinishedFilter(value));
-	}
+	handleFinishedFilter = (e: boolean) => {
+		this.props.dispatch(setFinishedFilter(e));
+	};
 
-	handleNeverPlayedFilter(value) {
-		this.props.dispatch(setUntouchedFilter(value));
-	}
+	handleNeverPlayedFilter = (e: boolean) => {
+		this.props.dispatch(setUntouchedFilter(e));
+	};
 
 	render() {
 		const { playing, finished, untouched } = this.state;
@@ -78,7 +93,7 @@ class Filter extends Component {
 							checked={showPlaying}
 							checkedChildren={<Icon type="check" />}
 							unCheckedChildren={<Icon type="close" />}
-							onChange={value => this.handlePlayingFilter(value)}
+							onChange={this.handlePlayingFilter}
 							disabled={!showStatistics}
 						/>
 					</SC.ItemGroup>
@@ -99,7 +114,7 @@ class Filter extends Component {
 							checked={showFinished}
 							checkedChildren={<Icon type="check" />}
 							unCheckedChildren={<Icon type="close" />}
-							onChange={value => this.handleFinishedFilter(value)}
+							onChange={this.handleFinishedFilter}
 							disabled={!showStatistics}
 						/>
 					</SC.ItemGroup>
@@ -120,7 +135,7 @@ class Filter extends Component {
 							checked={showUntouched}
 							checkedChildren={<Icon type="check" />}
 							unCheckedChildren={<Icon type="close" />}
-							onChange={value => this.handleNeverPlayedFilter(value)}
+							onChange={this.handleNeverPlayedFilter}
 							disabled={!showStatistics}
 						/>
 					</SC.ItemGroup>
@@ -132,7 +147,7 @@ class Filter extends Component {
 
 let component = Filter;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};
