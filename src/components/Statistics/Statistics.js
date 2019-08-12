@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
@@ -7,7 +7,7 @@ import { Row, Col, Card, Button } from "antd";
 
 import * as SC from "./StyledComponents";
 
-export default class Statistics extends React.Component {
+export default class Statistics extends Component {
 	state = {
 		data: []
 	};

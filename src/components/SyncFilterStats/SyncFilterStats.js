@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button, Row } from "antd";
 import { connect } from "react-redux";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 import * as SC from "./StyledComponents";
 
-class SyncFilterStats extends React.Component {
+class SyncFilterStats extends Component {
 	state = {
 		loading: false
 	};

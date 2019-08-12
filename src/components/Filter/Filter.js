@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Badge, Switch, Icon, Row } from "antd";
 import firebase from "firebase/app";
@@ -9,7 +9,7 @@ import * as SC from "./StyledComponents";
 import { setPlayingFilter, setFinishedFilter, setUntouchedFilter } from "../../reducers/actions.js";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
-class Filter extends React.Component {
+class Filter extends Component {
 	state = {
 		playing: 0,
 		finished: 0,
