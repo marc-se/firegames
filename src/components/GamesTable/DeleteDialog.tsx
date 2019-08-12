@@ -5,7 +5,16 @@ import "firebase/database";
 
 import DeleteOptions from "./DeleteOptions";
 
-export default class DeleteDialog extends Component {
+interface Props {
+	system: string;
+	gameID: string;
+}
+
+interface State {
+	isPopoverVisible: boolean;
+}
+
+export default class DeleteDialog extends Component<Props, State> {
 	state = {
 		isPopoverVisible: false
 	};
@@ -21,11 +30,12 @@ export default class DeleteDialog extends Component {
 	};
 
 	handlePopoverState() {
-		this.setState({ isPopoverVisible: !this.state.isPopoverVisible });
+		const { isPopoverVisible } = this.state;
+		this.setState({ isPopoverVisible: !isPopoverVisible });
 	}
 
 	handleDelete = () => {
-		let deleteNodeAt = firebase.database().ref(`games/${this.props.system}/${this.props.gameID}`);
+		const deleteNodeAt = firebase.database().ref(`games/${this.props.system}/${this.props.gameID}`);
 		deleteNodeAt.set(null).then(() => {
 			this.successMessage();
 		});
@@ -42,7 +52,7 @@ export default class DeleteDialog extends Component {
 				title="Really delete this Game?"
 				trigger="click"
 				visible={this.state.isPopoverVisible}
-				onVisibleChange={() => this.onSelectChange()}
+				onVisibleChange={this.onSelectChange}
 			>
 				<Button type="danger" shape="circle" icon="delete" />
 			</Popover>
