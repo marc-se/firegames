@@ -1407,6 +1407,12 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
 
+"@types/react-countup@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-countup/-/react-countup-4.0.1.tgz#db718f8a72184684034cbbc4d4f8a98b863d4d66"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^16.8.5":
   version "16.8.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.5.tgz#3e3f4d99199391a7fb40aa3a155c8dd99b899cbd"
