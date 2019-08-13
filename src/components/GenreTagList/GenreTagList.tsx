@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Tag } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
 import { Genre } from "../../types/firebase";
 
-const { CheckableTag } = Tag;
+import * as SC from "./StyledComponents";
 
 interface State {
 	genreTags: Array<string>;
@@ -60,12 +59,12 @@ export default class GenreTagList extends Component<Props, State> {
 					// @ts-ignore
 					const isSelected = selectedTags.indexOf(tagName) > -1;
 					return (
-						<CheckableTag
+						<SC.GenreTag
 							checked={isSelected}
-							onChange={checked => this.handleChange(tagName, checked)}
+							onChange={(checked: boolean) => this.handleChange(tagName, checked)}
 						>
 							{tagName}
-						</CheckableTag>
+						</SC.GenreTag>
 					);
 				})}
 			</React.Fragment>
