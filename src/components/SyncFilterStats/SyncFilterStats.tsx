@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import { Button, Row } from "antd";
+// @ts-ignore
 import { connect } from "react-redux";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
 import * as SC from "./StyledComponents";
 
-class SyncFilterStats extends Component {
+interface Props {
+	selectedSystem?: string;
+}
+
+interface State {
+	loading: boolean;
+}
+
+class SyncFilterStats extends Component<Props, State> {
 	state = {
 		loading: false
 	};
@@ -19,11 +28,12 @@ class SyncFilterStats extends Component {
 	};
 
 	render() {
+		const { loading } = this.state;
 		return (
 			<Row type="flex">
 				<SC.Container span={24}>
 					Sync Filter Stats
-					<Button icon="sync" size="small" loading={this.state.loading} onClick={this.handleSync}>
+					<Button icon="sync" size="small" loading={loading} onClick={this.handleSync}>
 						Sync
 					</Button>
 				</SC.Container>
@@ -34,7 +44,7 @@ class SyncFilterStats extends Component {
 
 let component = SyncFilterStats;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};
