@@ -12,7 +12,6 @@ import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGames
 import { Game } from "../../types/firebase";
 
 import * as SC from "./StyledComponents";
-import { any } from "prop-types";
 
 const PLAYING = "playing";
 const FINISHED = "finished";
