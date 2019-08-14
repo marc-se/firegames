@@ -8,6 +8,14 @@ export interface System {
 	url: string;
 }
 
+export interface Game {
+	finished: boolean;
+	genre: string;
+	playing: boolean;
+	region: string;
+	title: string;
+}
+
 export interface Genre {
 	title: string;
 	url: string;

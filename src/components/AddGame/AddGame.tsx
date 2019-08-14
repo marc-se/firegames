@@ -18,7 +18,7 @@ interface Props {
 	editMode?: boolean;
 	gameID?: string;
 	system?: string;
-	buttonTitle: string;
+	buttonTitle?: string;
 	systems?: Array<System>;
 }
 

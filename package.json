@@ -8,6 +8,7 @@
 		"@types/react": "^16.8.24",
 		"@types/react-countup": "^4.0.1",
 		"@types/react-dom": "^16.8.5",
+		"@types/react-highlight-words": "^0.16.0",
 		"@types/react-router-dom": "^4.3.4",
 		"antd": "^3.21.2",
 		"firebase": "^6.3.4",
