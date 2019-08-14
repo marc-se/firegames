@@ -1,20 +1,35 @@
 import React, { Component } from "react";
+// @ts-ignore
 import { connect } from "react-redux";
 import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
 
-import DeleteDialog from "./DeleteDialog.js";
-import EditGame from "../AddGame/AddGame.js";
+import DeleteDialog from "./DeleteDialog";
+import AddGame from "../AddGame/AddGame";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
+import { Game } from "../../types/firebase";
 
 import * as SC from "./StyledComponents";
 
 const PLAYING = "playing";
 const FINISHED = "finished";
 
-class GamesTable extends Component {
+interface Props {
+	selectedSystem?: string;
+	filterType?: string;
+}
+
+interface State {
+	games: Array<Game>;
+	filterData: Array<Game>;
+	searchText: string;
+	loading: boolean;
+	count: number;
+}
+
+class GamesTable extends Component<Props, State> {
 	state = {
 		games: [],
 		filterData: [],
@@ -23,7 +38,7 @@ class GamesTable extends Component {
 		count: 0
 	};
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps: Props) {
 		if (nextProps.selectedSystem === "none") {
 			this.setState({
 				games: [],
@@ -39,7 +54,7 @@ class GamesTable extends Component {
 			const gamesRef = firebase.database().ref(`games/${nextProps.selectedSystem}`);
 			gamesRef.on("value", snap => {
 				let data = snap.val();
-				let games = [];
+				let games: Array<Game> = [];
 
 				Object.keys(data).forEach(game => {
 					// add key to object
@@ -79,12 +94,7 @@ class GamesTable extends Component {
 		}
 	}
 
-	onInputChange = e => {
-		this.setState({ searchText: e.target.value });
-		this.onSearch();
-	};
-
-	playingStateChange = (e, key) => {
+	playingStateChange = (e: any, key: string) => {
 		const { selectedSystem } = this.props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
 		let game = {};
@@ -105,7 +115,7 @@ class GamesTable extends Component {
 		);
 	};
 
-	finishedStateChange = (e, key) => {
+	finishedStateChange = (e: any, key: string) => {
 		const { selectedSystem } = this.props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
 		let game = {};
@@ -126,13 +136,20 @@ class GamesTable extends Component {
 		);
 	};
 
-	getColumnSearchProps = dataIndex => ({
-		filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+	getColumnSearchProps = (dataIndex: string) => ({
+		filterDropdown: ({
+			setSelectedKeys,
+			selectedKeys,
+			confirm,
+			clearFilters
+		}: {
+			setSelectedKeys: any;
+			selectedKeys: any;
+			confirm: any;
+			clearFilters: any;
+		}) => (
 			<div style={{ padding: 8 }}>
 				<Input
-					ref={node => {
-						this.searchInput = node;
-					}}
 					placeholder={`Search ${dataIndex}`}
 					value={selectedKeys[0]}
 					onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -153,20 +170,16 @@ class GamesTable extends Component {
 				</Button>
 			</div>
 		),
-		filterIcon: filtered => (
+		filterIcon: (filtered: boolean) => (
 			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
 		),
-		onFilter: (value, record) =>
+		onFilter: (value: string, record: Array<string>) =>
+			// @ts-ignore
 			record[dataIndex]
 				.toString()
 				.toLowerCase()
 				.includes(value.toLowerCase()),
-		onFilterDropdownVisibleChange: visible => {
-			if (visible) {
-				setTimeout(() => this.searchInput.select());
-			}
-		},
-		render: text => (
+		render: (text: string) => (
 			<Highlighter
 				highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
 				searchWords={[this.state.searchText]}
@@ -176,12 +189,12 @@ class GamesTable extends Component {
 		)
 	});
 
-	handleSearch = (selectedKeys, confirm) => {
+	handleSearch = (selectedKeys: any, confirm: () => void) => {
 		confirm();
 		this.setState({ searchText: selectedKeys[0] });
 	};
 
-	handleReset = clearFilters => {
+	handleReset = (clearFilters: any) => {
 		clearFilters();
 		this.setState({ searchText: "" });
 	};
@@ -201,8 +214,10 @@ class GamesTable extends Component {
 				key: "region",
 				width: "10%",
 				// colors -> https://coolors.co/011627-fdfffc-2ec4b6-e71d36-ff9f1c
-				render: e => (
-					<Tag color={e === "PAL" ? "#FF9F1C" : e === "JAP" ? "#2EC4B6" : "#E71D36"}>{e}</Tag>
+				render: (region: string) => (
+					<Tag color={region === "PAL" ? "#FF9F1C" : region === "JAP" ? "#2EC4B6" : "#E71D36"}>
+						{region}
+					</Tag>
 				)
 			},
 			{
@@ -210,11 +225,11 @@ class GamesTable extends Component {
 				dataIndex: "genre",
 				key: "genre",
 				width: "25%",
-				render: e => {
-					let tags = e.split(",");
+				render: (genres: string) => {
+					const tags = genres.split(",");
 					return (
 						<div>
-							{tags.map((tag, i) => (
+							{tags.map((tag: string, i) => (
 								<Tag key={i}>{tag}</Tag>
 							))}
 						</div>
@@ -232,8 +247,8 @@ class GamesTable extends Component {
 				dataIndex: "playing",
 				key: "playing",
 				width: "5%",
-				render: (e, row) => (
-					<Checkbox checked={e} onChange={e => this.playingStateChange(e, row.key)} />
+				render: (checked: boolean, row: any) => (
+					<Checkbox checked={checked} onChange={e => this.playingStateChange(e, row.key)} />
 				)
 			},
 			{
@@ -247,8 +262,8 @@ class GamesTable extends Component {
 				dataIndex: "finished",
 				key: "finished",
 				width: "5%",
-				render: (e, row) => (
-					<Checkbox checked={e} onChange={e => this.finishedStateChange(e, row.key)} />
+				render: (checked: boolean, row: any) => (
+					<Checkbox checked={checked} onChange={e => this.finishedStateChange(e, row.key)} />
 				)
 			},
 			{
@@ -256,11 +271,12 @@ class GamesTable extends Component {
 				dataIndex: "edit",
 				key: "edit",
 				width: "20%",
-				render: (e, row) => {
+				render: (e: any, row: any) => {
+					const { selectedSystem } = this.props;
 					return (
 						<SC.DeleteEdit>
-							<EditGame system={this.props.selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog system={this.props.selectedSystem} gameID={row.key} />
+							<AddGame system={selectedSystem} editMode gameID={row.key} />
+							<DeleteDialog system={selectedSystem || ""} gameID={row.key} />
 						</SC.DeleteEdit>
 					);
 				}
@@ -289,7 +305,7 @@ class GamesTable extends Component {
 
 let component = GamesTable;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};

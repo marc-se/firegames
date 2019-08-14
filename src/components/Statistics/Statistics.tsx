@@ -1,15 +1,28 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";
 import { Row, Col, Card, Button } from "antd";
 
+import { System } from "../../types/firebase";
+
 import * as SC from "./StyledComponents";
 
-export default class Statistics extends React.Component {
+interface StatObj {
+	system: string;
+	value: System;
+}
+
+interface Props {}
+
+interface State {
+	systems: Array<StatObj>;
+}
+
+export default class Statistics extends Component<Props, State> {
 	state = {
-		data: []
+		systems: []
 	};
 
 	componentDidMount() {
@@ -17,7 +30,7 @@ export default class Statistics extends React.Component {
 	}
 
 	getSystems = async () => {
-		let systems = [];
+		let systems: Array<StatObj> = [];
 		const systemsRef = firebase.database().ref("systems");
 		const snapshot = await systemsRef.once("value");
 		const obj = snapshot.val();
@@ -26,15 +39,16 @@ export default class Statistics extends React.Component {
 			systems.push({ system, value });
 		}
 		this.setState({
-			data: systems
+			systems
 		});
 	};
 
 	render() {
-		const { data } = this.state;
-		let sortedData = [];
-		if (data.length > 0) {
-			sortedData = data.sort((x, y) => y.value.games - x.value.games);
+		const { systems } = this.state;
+		let sortedData: Array<StatObj> = [];
+		if (systems.length > 0) {
+			// @ts-ignore
+			sortedData = systems.sort((x, y) => y.value.games - x.value.games);
 		}
 
 		return (

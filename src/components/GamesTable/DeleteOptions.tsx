@@ -3,13 +3,20 @@ import { Button } from "antd";
 
 import * as SC from "./StyledComponents";
 
-export default class DeleteOptions extends Component {
+interface Props {
+	onCancel: () => void;
+	onOk: () => void;
+}
+
+export default class DeleteOptions extends Component<Props> {
 	onCancel = () => {
-		this.props.onCancel();
+		const { onCancel } = this.props;
+		onCancel();
 	};
 
 	onOk = () => {
-		this.props.onOk();
+		const { onOk } = this.props;
+		onOk();
 	};
 
 	render() {

@@ -3,6 +3,13 @@
 	"version": "0.1.2",
 	"private": true,
 	"dependencies": {
+		"@types/jest": "^24.0.17",
+		"@types/node": "^12.7.0",
+		"@types/react": "^16.8.24",
+		"@types/react-countup": "^4.0.1",
+		"@types/react-dom": "^16.8.5",
+		"@types/react-highlight-words": "^0.16.0",
+		"@types/react-router-dom": "^4.3.4",
 		"antd": "^3.21.2",
 		"firebase": "^6.3.4",
 		"react": "^16.8.6",
@@ -14,10 +21,11 @@
 		"react-scripts": "^3.0.1",
 		"react-svg-inline": "^2.1.1",
 		"redux": "^4.0.4",
-		"styled-components": "^4.3.2"
+		"styled-components": "^4.3.2",
+		"typescript": "^3.5.3"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "HTTPS=true react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
