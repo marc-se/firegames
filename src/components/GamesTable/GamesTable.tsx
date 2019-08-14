@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { Component } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
