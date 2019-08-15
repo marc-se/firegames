@@ -109,5 +109,3 @@ const mapStateToProps = (state: State) => {
 component = connect(mapStateToProps)(component);
 
 export default component;
-
-//export default AppContainer;
