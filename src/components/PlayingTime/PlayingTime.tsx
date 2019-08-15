@@ -6,57 +6,33 @@ import { HowLongToBeatService } from "howlongtobeat";
 interface State {
 	hover: boolean;
 	loading: boolean;
+	playtime: string;
 }
 
 interface Props {
 	title: string;
 }
 
-// async function getPlaytime(term: string) {
-// 	console.log("search term:", term);
-// 	let hltbService = new HowLongToBeatService();
-// 	try {
-// 		const result = await hltbService.search(term);
-// 		if (result && result[0] && result[0].gameplayMain) {
-// 			console.log(term, result[0].gameplayMain);
-// 			return result[0].gameplayMain;
-// 		}
-// 		return "no time found";
-// 	} catch (err) {
-// 		console.log("fetch failed", err);
-// 	}
-// }
-
-// const PlayingTime = (props: Props) => {
-// 	return (
-// 		<Tooltip placement="topLeft" title={`${getPlaytime(props.title)}`}>
-// 			{props.title}
-// 		</Tooltip>
-// 	);
-// };
-
-// export default PlayingTime;
-
 const Load = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 export default class PlayingTime extends Component<Props, State> {
 	state = {
 		hover: false,
-		loading: true
+		loading: true,
+		playtime: ""
 	};
 
 	async getPlaytime(term: string) {
-		console.log("search term:", term);
 		let hltbService = new HowLongToBeatService();
 		try {
 			const result = await hltbService.search(term);
 			if (result && result[0] && result[0].gameplayMain) {
-				console.log(term, result[0].gameplayMain);
-				this.setState({ loading: false });
-				return result[0].gameplayMain;
+				this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
+			} else {
+				this.setState({ loading: false, playtime: "no data found" });
 			}
-			return "no time found";
 		} catch (err) {
+			this.setState({ loading: false, playtime: "playtime fetch failed" });
 			console.log("fetch failed", err);
 		}
 	}
@@ -67,19 +43,19 @@ export default class PlayingTime extends Component<Props, State> {
 	};
 
 	render() {
-		const { hover, loading } = this.state;
+		const { hover, loading, playtime } = this.state;
 		const { title } = this.props;
 
-		if (hover) {
-			return (
-				<Tooltip
-					placement="topLeft"
-					title={loading ? <Spin indicator={Load} /> : `${this.getPlaytime(title)}`}
-				>
+		if (hover && playtime === "") {
+			this.getPlaytime(title);
+		}
+
+		return (
+			<div onMouseEnter={this.changeHover}>
+				<Tooltip placement="topLeft" title={loading ? <Spin indicator={Load} /> : `${playtime}`}>
 					{title}
 				</Tooltip>
-			);
-		}
-		return <div onMouseEnter={this.changeHover}>{title}</div>;
+			</div>
+		);
 	}
 }
