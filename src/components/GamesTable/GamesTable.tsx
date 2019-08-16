@@ -6,11 +6,12 @@ import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
 
-import DeleteDialog from "./DeleteDialog";
 import AddGame from "../AddGame/AddGame";
+import PlayingTime from "../PlayingTime/PlayingTime";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 import { Game } from "../../types/firebase";
 
+import DeleteDialog from "./DeleteDialog";
 import * as SC from "./StyledComponents";
 
 const PLAYING = "playing";
@@ -206,7 +207,8 @@ class GamesTable extends Component<Props, State> {
 				dataIndex: "title",
 				key: "title",
 				width: "35%",
-				...this.getColumnSearchProps("title")
+				...this.getColumnSearchProps("title"),
+				render: (title: string) => <PlayingTime title={title} />
 			},
 			{
 				title: "Region",
@@ -283,17 +285,19 @@ class GamesTable extends Component<Props, State> {
 			}
 		];
 
+		const { games, count, loading } = this.state;
+
 		return (
 			<React.Fragment>
-				<SC.SimpleBadge count={this.state.count} />
-				{this.state.loading ? (
+				<SC.SimpleBadge count={count} />
+				{loading ? (
 					<SC.LoadingSpinner>
 						<Spin tip="Collecting Games..." />
 					</SC.LoadingSpinner>
 				) : (
 					<SC.TableContainer
 						columns={columns}
-						dataSource={this.state.games}
+						dataSource={games}
 						pagination={false}
 						scroll={{ y: "65vh" }}
 					/>
