@@ -1,30 +1,29 @@
-/* @flow */
-import { Router, Route, hashHistory } from "react-router";
-import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
-import Statistics from "./components/Statistics/Statistics.js";
-import NotFound from "./components/NotFound/NotFound.js";
+import Statistics from "./components/Statistics/Statistics";
+import NotFound from "./components/NotFound/NotFound";
 import reducer from "./reducers/reducers.js";
-import AppContainer from "./components/AppContainer/AppContainer.js";
+import AppContainer from "./components/AppContainer/AppContainer";
 import "./App.css";
 
 let store = createStore(reducer);
 
-export default class App extends Component {
-	render() {
-		return (
-			<LocaleProvider locale={enUS}>
-				<Provider store={store}>
-					<Router history={hashHistory}>
-						<Route path="/" component={AppContainer} />
-						<Route path="/statistics" component={Statistics} />
-						<Route path="*" component={NotFound} />
-					</Router>
-				</Provider>
-			</LocaleProvider>
-		);
-	}
-}
+const App = () => (
+	<ConfigProvider locale={enUS}>
+		<Provider store={store}>
+			<Router>
+				<Switch>
+					<Route exact={true} path="/" component={AppContainer} />
+					<Route exact={true} path="/statistics" component={Statistics} />
+					<Route path="*" component={NotFound} />
+				</Switch>
+			</Router>
+		</Provider>
+	</ConfigProvider>
+);
+
+export default App;

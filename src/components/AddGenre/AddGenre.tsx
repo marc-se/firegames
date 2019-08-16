@@ -1,12 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, ChangeEvent } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
 import firebase from "firebase";
 import "firebase/database";
 
-export default class AddGenre extends Component {
+interface Props {}
+
+interface State {
+	visible: boolean;
+	error: boolean;
+	success: boolean;
+	genre: string;
+	loading: boolean;
+}
+
+export default class AddGenre extends Component<Props, State> {
 	state = {
 		visible: false,
 		error: false,
+		success: false,
 		genre: "",
 		loading: false
 	};
@@ -65,11 +76,11 @@ export default class AddGenre extends Component {
 		});
 	};
 
-	handleInput(genre) {
+	handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			genre
+			genre: e.target.value
 		});
-	}
+	};
 
 	handleCloseStatusMessage() {
 		this.setState({
@@ -83,7 +94,7 @@ export default class AddGenre extends Component {
 	};
 
 	render() {
-		const { genre } = this.state;
+		const { genre, error } = this.state;
 		return (
 			<React.Fragment>
 				<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
@@ -98,12 +109,8 @@ export default class AddGenre extends Component {
 					cancelText="CANCEL"
 					confirmLoading={this.state.loading}
 				>
-					<Input
-						onChange={e => this.handleInput(e.target.value)}
-						value={genre}
-						placeholder="Genre"
-					/>
-					{this.state.error && (
+					<Input onChange={this.handleInput} value={genre} placeholder="Genre" />
+					{error && (
 						<Alert
 							message="Something is missing 🤔"
 							description="Please check your input. Have you added a Genre name?"

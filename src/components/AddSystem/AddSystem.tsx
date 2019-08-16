@@ -1,23 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, ChangeEvent } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
+// @ts-ignore
 import { connect } from "react-redux";
-import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/database";
+
 import { updateSystems } from "../../reducers/actions.js";
+import { System } from "../../types/firebase";
 
-const FireGamesInput = styled(Input)`
-	margin-bottom: 10px !important;
-`;
+import * as SC from "./StyledComponents";
 
-class AddSystem extends Component {
-	static propTypes = {};
+interface Props {
+	dispatch?: any;
+}
 
+interface State {
+	visible: boolean;
+	systemName: string;
+	systemShortName: string;
+	error: boolean;
+	loading: boolean;
+	success: boolean;
+}
+
+class AddSystem extends Component<Props, State> {
 	state = {
 		visible: false,
 		systemName: "",
 		systemShortName: "",
 		error: false,
+		success: false,
 		loading: false
 	};
 
@@ -39,7 +51,7 @@ class AddSystem extends Component {
 		const { systemName, systemShortName } = this.state;
 
 		if (systemName !== "" && systemShortName !== "") {
-			let url = systemName
+			let url: string = systemName
 				.toString()
 				.toLowerCase()
 				.replace(/ /g, "");
@@ -61,7 +73,7 @@ class AddSystem extends Component {
 					this.successMessage();
 
 					// update redux system index and update state
-					let systems = [];
+					let systems: Array<System> = [];
 					const systemsRef = firebase.database().ref("systems");
 					systemsRef.once("value").then(snap => {
 						snap.forEach(system => {
@@ -91,17 +103,17 @@ class AddSystem extends Component {
 		});
 	};
 
-	handleSystemNameInput(systemName) {
+	handleSystemNameInput = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			systemName
+			systemName: e.target.value
 		});
-	}
+	};
 
-	handleSystemShortNameInput(systemShortName) {
+	handleSystemShortNameInput = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
-			systemShortName
+			systemShortName: e.target.value
 		});
-	}
+	};
 
 	handleCloseStatusMessage() {
 		this.setState({
@@ -129,12 +141,9 @@ class AddSystem extends Component {
 					cancelText="CANCEL"
 					confirmLoading={this.state.loading}
 				>
-					<FireGamesInput
-						onChange={e => this.handleSystemNameInput(e.target.value)}
-						placeholder="System Name"
-					/>
+					<SC.InputField onChange={this.handleSystemNameInput} placeholder="System Name" />
 					<Input
-						onChange={e => this.handleSystemShortNameInput(e.target.value)}
+						onChange={this.handleSystemShortNameInput}
 						placeholder="System ShortName, like SNES/N64/PS4"
 					/>
 					{this.state.error && (
@@ -155,7 +164,7 @@ class AddSystem extends Component {
 
 let component = AddSystem;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};

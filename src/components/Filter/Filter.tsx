@@ -1,34 +1,37 @@
-import React from "react";
+import React, { Component } from "react";
+// @ts-ignore
 import { connect } from "react-redux";
-import { Badge, Switch, Icon, Row, Col } from "antd";
-import styled from "styled-components";
+import { Badge, Switch, Icon, Row } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
+
+import * as SC from "./StyledComponents";
+
 import { setPlayingFilter, setFinishedFilter, setUntouchedFilter } from "../../reducers/actions.js";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 
-const FireGamesFilterWrapper = styled(Col)`
-	padding: 5px 0;
-	color: #292c33;
-	font-weight: 300;
-	display: flex !important;
-	justify-content: space-between;
-`;
+interface Props {
+	selectedSystem?: string;
+	dispatch?: any;
+	showFinished?: boolean;
+	showPlaying?: boolean;
+	showUntouched?: boolean;
+}
 
-const FireGamesItemGroup = styled.div`
-	> span {
-		margin-right: 10px;
-	}
-`;
+interface State {
+	playing: number;
+	finished: number;
+	untouched: number;
+}
 
-class Filter extends React.Component {
+class Filter extends Component<Props, State> {
 	state = {
 		playing: 0,
 		finished: 0,
 		untouched: 0
 	};
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Props) {
 		const { selectedSystem } = this.props;
 		if (selectedSystem !== prevProps.selectedSystem && selectedSystem !== "none") {
 			const systemRef = firebase.database().ref(`systems/${selectedSystem}`);
@@ -55,17 +58,17 @@ class Filter extends React.Component {
 		}
 	}
 
-	handlePlayingFilter(value) {
-		this.props.dispatch(setPlayingFilter(value));
-	}
+	handlePlayingFilter = (e: boolean) => {
+		this.props.dispatch(setPlayingFilter(e));
+	};
 
-	handleFinishedFilter(value) {
-		this.props.dispatch(setFinishedFilter(value));
-	}
+	handleFinishedFilter = (e: boolean) => {
+		this.props.dispatch(setFinishedFilter(e));
+	};
 
-	handleNeverPlayedFilter(value) {
-		this.props.dispatch(setUntouchedFilter(value));
-	}
+	handleNeverPlayedFilter = (e: boolean) => {
+		this.props.dispatch(setUntouchedFilter(e));
+	};
 
 	render() {
 		const { playing, finished, untouched } = this.state;
@@ -74,9 +77,9 @@ class Filter extends React.Component {
 
 		return (
 			<Row type="flex">
-				<FireGamesFilterWrapper span={24}>
+				<SC.Container span={24}>
 					Playing
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={playing}
@@ -89,15 +92,15 @@ class Filter extends React.Component {
 						<Switch
 							checked={showPlaying}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
-							onChange={value => this.handlePlayingFilter(value)}
+							unCheckedChildren={<Icon type="close" />}
+							onChange={this.handlePlayingFilter}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
-				<FireGamesFilterWrapper span={24}>
+					</SC.ItemGroup>
+				</SC.Container>
+				<SC.Container span={24}>
 					Finished
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={finished}
@@ -110,15 +113,15 @@ class Filter extends React.Component {
 						<Switch
 							checked={showFinished}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
-							onChange={value => this.handleFinishedFilter(value)}
+							unCheckedChildren={<Icon type="close" />}
+							onChange={this.handleFinishedFilter}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
-				<FireGamesFilterWrapper span={24}>
+					</SC.ItemGroup>
+				</SC.Container>
+				<SC.Container span={24}>
 					Untouched
-					<FireGamesItemGroup>
+					<SC.ItemGroup>
 						<Badge
 							showZero={showStatistics ? true : false}
 							count={untouched}
@@ -131,12 +134,12 @@ class Filter extends React.Component {
 						<Switch
 							checked={showUntouched}
 							checkedChildren={<Icon type="check" />}
-							unCheckedChildren={<Icon type="cross" />}
-							onChange={value => this.handleNeverPlayedFilter(value)}
+							unCheckedChildren={<Icon type="close" />}
+							onChange={this.handleNeverPlayedFilter}
 							disabled={!showStatistics}
 						/>
-					</FireGamesItemGroup>
-				</FireGamesFilterWrapper>
+					</SC.ItemGroup>
+				</SC.Container>
 			</Row>
 		);
 	}
@@ -144,7 +147,7 @@ class Filter extends React.Component {
 
 let component = Filter;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
 	return {
 		...state
 	};
