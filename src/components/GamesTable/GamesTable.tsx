@@ -208,7 +208,7 @@ class GamesTable extends Component<Props, State> {
 				key: "title",
 				width: "35%",
 				...this.getColumnSearchProps("title"),
-				render: (title: string) => <PlayingTime title={title} />
+				render: (title: string, row: any) => <PlayingTime gameId={row.key} title={title} />
 			},
 			{
 				title: "Region",

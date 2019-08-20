@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Tooltip, Spin, Icon } from "antd";
 // @ts-ignore
+import { connect } from "react-redux";
+// @ts-ignore
 import { HowLongToBeatService } from "howlongtobeat";
+import firebase from "firebase/app";
+import "firebase/database";
 
 interface State {
 	hover: boolean;
@@ -11,11 +15,13 @@ interface State {
 
 interface Props {
 	title: string;
+	gameId: string;
+	selectedSystem?: string;
 }
 
 const Load = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-export default class PlayingTime extends Component<Props, State> {
+class PlayingTime extends Component<Props, State> {
 	state = {
 		hover: false,
 		loading: true,
@@ -24,16 +30,35 @@ export default class PlayingTime extends Component<Props, State> {
 
 	async getPlaytime(term: string) {
 		let hltbService = new HowLongToBeatService();
-		try {
-			const result = await hltbService.search(term);
-			if (result && result[0] && result[0].gameplayMain) {
-				this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
-			} else {
-				this.setState({ loading: false, playtime: "no data found" });
+		let apiCallNeeded = true;
+		const { selectedSystem, gameId } = this.props;
+		const gameRef = firebase.database().ref(`games/${selectedSystem}/${gameId}`);
+		gameRef.once("value", snap => {
+			const game = snap.val();
+			if (game.playtime) {
+				apiCallNeeded = false;
+				this.setState({ loading: false, playtime: `playtime: ~${game.playtime} h` });
 			}
-		} catch (err) {
-			this.setState({ loading: false, playtime: "playtime fetch failed" });
-			console.log("fetch failed", err);
+		});
+
+		if (apiCallNeeded) {
+			try {
+				const result = await hltbService.search(term);
+				if (result && result[0] && result[0].gameplayMain) {
+					const playtime = result[0].gameplayMain;
+
+					gameRef.update({
+						playtime: playtime
+					});
+
+					this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
+				} else {
+					this.setState({ loading: false, playtime: "no data found" });
+				}
+			} catch (err) {
+				this.setState({ loading: false, playtime: "playtime fetch failed" });
+				console.log("fetch failed", err);
+			}
 		}
 	}
 
@@ -59,3 +84,15 @@ export default class PlayingTime extends Component<Props, State> {
 		);
 	}
 }
+
+let component = PlayingTime;
+
+const mapStateToProps = (state: State) => {
+	return {
+		...state
+	};
+};
+
+component = connect(mapStateToProps)(component);
+
+export default component;

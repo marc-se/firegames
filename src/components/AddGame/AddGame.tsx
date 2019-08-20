@@ -53,7 +53,7 @@ class AddGame extends Component<Props, State> {
 		if (editMode) {
 			const gameRef = firebase.database().ref(`games/${system}/${gameID}`);
 			gameRef.once("value", snap => {
-				let game = snap.val();
+				const game = snap.val();
 				this.setState({
 					selectedGenres: [],
 					title: game.title,
