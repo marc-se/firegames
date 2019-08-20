@@ -87,7 +87,7 @@ const AppContainer = (props: Props) => {
 					<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
 					<Col span={12} />
 					<Col span={6}>
-						<SC.RightAlignText>v1.3.0</SC.RightAlignText>
+						<SC.RightAlignText>v1.3.1</SC.RightAlignText>
 					</Col>
 				</Row>
 			</SC.FooterContainer>
