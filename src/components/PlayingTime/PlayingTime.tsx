@@ -30,23 +30,35 @@ class PlayingTime extends Component<Props, State> {
 
 	async getPlaytime(term: string) {
 		let hltbService = new HowLongToBeatService();
+		let apiCallNeeded = true;
 		const { selectedSystem, gameId } = this.props;
-		try {
-			const result = await hltbService.search(term);
-			if (result && result[0] && result[0].gameplayMain) {
-				const playtime = result[0].gameplayMain;
-				const gameRef = firebase.database().ref(`games/${selectedSystem}/${gameId}`);
-				gameRef.update({
-					playtime: playtime
-				});
-
-				this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
-			} else {
-				this.setState({ loading: false, playtime: "no data found" });
+		const gameRef = firebase.database().ref(`games/${selectedSystem}/${gameId}`);
+		gameRef.once("value", snap => {
+			const game = snap.val();
+			if (game.playtime) {
+				apiCallNeeded = false;
+				this.setState({ loading: false, playtime: `playtime: ~${game.playtime} h` });
 			}
-		} catch (err) {
-			this.setState({ loading: false, playtime: "playtime fetch failed" });
-			console.log("fetch failed", err);
+		});
+
+		if (apiCallNeeded) {
+			try {
+				const result = await hltbService.search(term);
+				if (result && result[0] && result[0].gameplayMain) {
+					const playtime = result[0].gameplayMain;
+
+					gameRef.update({
+						playtime: playtime
+					});
+
+					this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
+				} else {
+					this.setState({ loading: false, playtime: "no data found" });
+				}
+			} catch (err) {
+				this.setState({ loading: false, playtime: "playtime fetch failed" });
+				console.log("fetch failed", err);
+			}
 		}
 	}
 
@@ -57,9 +69,7 @@ class PlayingTime extends Component<Props, State> {
 
 	render() {
 		const { hover, loading, playtime } = this.state;
-		const { title, gameId } = this.props;
-
-		console.log(gameId);
+		const { title } = this.props;
 
 		if (hover && playtime === "") {
 			this.getPlaytime(title);
