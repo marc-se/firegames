@@ -1,6 +1,7 @@
 {
 	"name": "firegames",
-	"version": "0.1.2",
+	"version": "1.3.1",
+	"sideEffects": false,
 	"private": true,
 	"dependencies": {
 		"@types/jest": "^24.0.17",
