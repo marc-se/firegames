@@ -61,6 +61,7 @@ export default class GenreTagList extends Component<Props, State> {
 					return (
 						<SC.GenreTag
 							checked={isSelected}
+							key={tag.title}
 							onChange={(checked: boolean) => this.handleChange(tagName, checked)}
 						>
 							{tagName}
