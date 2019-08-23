@@ -91,13 +91,13 @@ class AddGame extends Component<Props, State> {
 			loading: true
 		});
 
-		const { selectedGenres, title, region, playing, finished } = this.state;
+		const { selectedGenres, title, region, playing, finished, system: selectedSystem } = this.state;
 		const { editMode, gameID, system } = this.props;
 		const genres = selectedGenres.join();
 
 		if (!editMode) {
-			if (selectedGenres.length > 0 && title.length > 0 && this.state.system !== "null") {
-				const addNodeAt = firebase.database().ref("games/" + this.state.system);
+			if (selectedGenres.length > 0 && title.length > 0 && selectedSystem !== "null") {
+				const addNodeAt = firebase.database().ref("games/" + selectedSystem);
 
 				let duplicates: boolean = false;
 
@@ -237,8 +237,9 @@ class AddGame extends Component<Props, State> {
 	};
 
 	handleSystemSelect = (e: ChangeEvent<HTMLInputElement>) => {
+		const system = String(e);
 		this.setState({
-			system: e.target.value
+			system
 		});
 	};
 
