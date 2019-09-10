@@ -31,7 +31,7 @@ export const LogoutBox = styled.div`
 	}
 `;
 
-export const Loading = styled.div`
+export const FeedbackWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	position: absolute;

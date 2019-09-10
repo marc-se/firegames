@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, Component } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Row, Col, Spin, Icon, Button, message } from "antd";
+import { Row, Col, Spin, Icon, Button, Alert, message } from "antd";
 import { loggedIn, selectSystem } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
@@ -23,13 +23,15 @@ interface State {
 	username: string;
 	password: string;
 	loading: boolean;
+	error: boolean;
 }
 
 class Login extends Component<Props, State> {
 	state = {
 		username: "",
 		password: "",
-		loading: false
+		loading: false,
+		error: false
 	};
 
 	componentDidMount() {
@@ -63,16 +65,31 @@ class Login extends Component<Props, State> {
 
 	handleLogin() {
 		const { username: email, password: pass } = this.state;
+		const { dispatch } = this.props;
 		this.setState({
 			loading: true
 		});
 		if (email !== "" && pass !== "") {
 			const auth = firebase.auth();
-			auth.signInWithEmailAndPassword(email, pass).then(() => {
-				this.props.dispatch(loggedIn(true));
-				this.setState({
-					loading: false
+			auth
+				.signInWithEmailAndPassword(email, pass)
+				.then(() => {
+					dispatch(loggedIn(true));
+					this.setState({
+						loading: false
+					});
+				})
+				.catch(error => {
+					console.error(error);
+					this.setState({
+						loading: false,
+						error: true
+					});
 				});
+		} else {
+			this.setState({
+				loading: false,
+				error: true
 			});
 		}
 		// TODO: handle wrong login credentials, maybe show message and shake login form
@@ -81,13 +98,14 @@ class Login extends Component<Props, State> {
 	}
 
 	handleLogout = () => {
+		const { dispatch } = this.props;
 		firebase
 			.auth()
 			.signOut()
 			.then(() => {
 				// TODO: keep session
-				this.props.dispatch(selectSystem("none"));
-				this.props.dispatch(loggedIn(false));
+				dispatch(selectSystem("none"));
+				dispatch(loggedIn(false));
 			});
 	};
 
@@ -97,7 +115,7 @@ class Login extends Component<Props, State> {
 
 	render() {
 		const { renderLogout } = this.props;
-		const { loading } = this.state;
+		const { loading, error } = this.state;
 		return renderLogout ? (
 			<SC.LogoutBox>
 				Logout
@@ -109,9 +127,18 @@ class Login extends Component<Props, State> {
 					<Content>
 						<SC.LoginBox>
 							{loading && (
-								<SC.Loading>
+								<SC.FeedbackWrapper>
 									<Spin indicator={loadingIcon} />
-								</SC.Loading>
+								</SC.FeedbackWrapper>
+							)}
+							{error && (
+								<SC.FeedbackWrapper>
+									<Alert
+										message="LOGIN FAILED"
+										description="Wrong username or password"
+										type="error"
+									/>
+								</SC.FeedbackWrapper>
 							)}
 							<Row type="flex" justify="center">
 								<Col span={24}>
