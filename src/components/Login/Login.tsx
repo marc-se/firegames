@@ -1,8 +1,9 @@
 import React, { ChangeEvent, KeyboardEvent, Component } from "react";
+import { Redirect } from "react-router-dom";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Row, Col, Spin, Icon, Button, Alert, message } from "antd";
+import { Row, Col, Spin, Icon, Button, Alert } from "antd";
 import { loggedIn, selectSystem } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
@@ -17,6 +18,7 @@ const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 interface Props {
 	dispatch?: any;
 	renderLogout?: boolean;
+	loggedIn?: boolean;
 }
 
 interface State {
@@ -109,13 +111,14 @@ class Login extends Component<Props, State> {
 			});
 	};
 
-	errorMessage = () => {
-		message.error("Something went wrong 😰", 3);
-	};
-
 	render() {
 		const { renderLogout } = this.props;
 		const { loading, error } = this.state;
+
+		if (firebase.auth().currentUser && !renderLogout) {
+			return <Redirect to="/cms" />;
+		}
+
 		return renderLogout ? (
 			<SC.LogoutBox>
 				Logout
