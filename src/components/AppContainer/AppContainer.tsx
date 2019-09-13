@@ -28,8 +28,9 @@ interface State {}
 
 const AppContainer = (props: Props) => {
 	const { selectedSystem } = props;
+	const isAuthorized = firebase.auth().currentUser;
 
-	if (firebase.auth().currentUser) {
+	if (isAuthorized) {
 		return (
 			<SC.Container>
 				<SC.Head>

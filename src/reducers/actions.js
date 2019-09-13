@@ -2,7 +2,6 @@
  * action types
  */
 export const SELECT_SYSTEM = "SELECT_SYSTEM";
-export const LOGGED_IN = "LOGGED_IN";
 
 export const PLAYING_FILTER = "PLAYING_FILTER";
 export const FINISHED_FILTER = "FINISHED_FILTER";
@@ -15,10 +14,6 @@ export const UPDATE_SYSTEMS = "UPDATE_SYSTEMS";
  */
 export function selectSystem(system) {
 	return { type: SELECT_SYSTEM, system };
-}
-
-export function loggedIn(isLoggedIn) {
-	return { type: LOGGED_IN, isLoggedIn };
 }
 
 export function setPlayingFilter(isSelected) {

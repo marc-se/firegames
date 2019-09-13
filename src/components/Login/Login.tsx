@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import { Row, Col, Spin, Icon, Button, Alert } from "antd";
-import { loggedIn, selectSystem } from "../../reducers/actions.js";
+import { selectSystem } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -18,7 +18,6 @@ const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 interface Props {
 	dispatch?: any;
 	renderLogout?: boolean;
-	loggedIn?: boolean;
 }
 
 interface State {
@@ -35,17 +34,6 @@ class Login extends Component<Props, State> {
 		loading: false,
 		error: false
 	};
-
-	componentDidMount() {
-		firebase.auth().onAuthStateChanged(firebaseUser => {
-			if (firebaseUser) {
-				// TODO: fix
-				//this.successMessageSignin();
-			} else {
-				// not logged in
-			}
-		});
-	}
 
 	handlePressEnter = (e: KeyboardEvent) => {
 		if (e.key === "Enter") {
@@ -67,16 +55,14 @@ class Login extends Component<Props, State> {
 
 	handleLogin() {
 		const { username: email, password: pass } = this.state;
-		const { dispatch } = this.props;
 		this.setState({
 			loading: true
 		});
 		if (email !== "" && pass !== "") {
-			const auth = firebase.auth();
-			auth
+			firebase
+				.auth()
 				.signInWithEmailAndPassword(email, pass)
 				.then(() => {
-					dispatch(loggedIn(true));
 					this.setState({
 						loading: false
 					});
@@ -107,7 +93,6 @@ class Login extends Component<Props, State> {
 			.then(() => {
 				// TODO: keep session
 				dispatch(selectSystem("none"));
-				dispatch(loggedIn(false));
 			});
 	};
 

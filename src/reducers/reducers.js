@@ -1,7 +1,6 @@
 /* eslint-disable */
 import {
 	SELECT_SYSTEM,
-	LOGGED_IN,
 	PLAYING_FILTER,
 	FINISHED_FILTER,
 	UNTOUCHED_FILTER,
@@ -10,7 +9,6 @@ import {
 
 const initialState = {
 	selectedSystem: "none",
-	loggedIn: false,
 	filterType: "",
 	showPlaying: false,
 	showFinished: false,
@@ -24,10 +22,6 @@ export default function reducer(state = initialState, action = {}) {
 	switch (action.type) {
 		case SELECT_SYSTEM:
 			patched.selectedSystem = action.system;
-			return patched;
-
-		case LOGGED_IN:
-			patched.loggedIn = action.isLoggedIn;
 			return patched;
 
 		case PLAYING_FILTER:
