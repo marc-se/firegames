@@ -15,7 +15,7 @@ import GamesTable from "../GamesTable/GamesTable";
 import AddGame from "../AddGame/AddGame";
 import AddSystem from "../AddSystem/AddSystem";
 import AddGenre from "../AddGenre/AddGenre";
-import Login from "../Login/Login";
+import Logout from "../Logout/Logout";
 
 import * as SC from "./StyledComponents";
 
@@ -39,7 +39,7 @@ const AppContainer = (props: Props) => {
 							<SC.Brand src={logo} />
 						</Col>
 						<Col span={16} className="rightHeaderColumn">
-							<Login renderLogout />
+							<Logout />
 						</Col>
 					</Row>
 				</SC.Head>

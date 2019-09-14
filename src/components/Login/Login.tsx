@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import { Row, Col, Spin, Icon, Button, Alert } from "antd";
-import { selectSystem, loggedIn } from "../../reducers/actions.js";
+import { loggedIn } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -17,7 +17,6 @@ const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 interface Props {
 	dispatch?: any;
-	renderLogout?: boolean;
 }
 
 interface State {
@@ -84,32 +83,14 @@ class Login extends Component<Props, State> {
 		}
 	}
 
-	handleLogout = () => {
-		const { dispatch } = this.props;
-		firebase
-			.auth()
-			.signOut()
-			.then(() => {
-				// TODO: keep session
-				dispatch(selectSystem("none"));
-				dispatch(loggedIn(false));
-			});
-	};
-
 	render() {
-		const { renderLogout } = this.props;
 		const { loading, error } = this.state;
 
-		if (firebase.auth().currentUser && !renderLogout) {
+		if (firebase.auth().currentUser) {
 			return <Redirect to="/cms" />;
 		}
 
-		return renderLogout ? (
-			<SC.LogoutBox>
-				Logout
-				<Button shape="circle" icon="poweroff" type="dashed" onClick={this.handleLogout} />
-			</SC.LogoutBox>
-		) : (
+		return (
 			<Layout>
 				<SC.Container>
 					<Content>

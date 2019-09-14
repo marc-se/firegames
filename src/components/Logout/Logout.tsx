@@ -1,5 +1,6 @@
 import React from "react";
 // @ts-ignore
+import { connect } from "react-redux";
 import { Button } from "antd";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -11,6 +12,8 @@ import * as SC from "./StyledComponents";
 interface Props {
 	dispatch?: any;
 }
+
+interface State {}
 
 const Logout = (props: Props) => {
 	const handleLogout = () => {
@@ -33,4 +36,14 @@ const Logout = (props: Props) => {
 	);
 };
 
-export default Logout;
+let component = Logout;
+
+const mapStateToProps = (state: State) => {
+	return {
+		...state
+	};
+};
+
+component = connect(mapStateToProps)(component);
+
+export default component;
