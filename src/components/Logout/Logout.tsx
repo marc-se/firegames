@@ -16,16 +16,15 @@ interface Props {
 interface State {}
 
 const Logout = (props: Props) => {
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		const { dispatch } = props;
-		firebase
-			.auth()
-			.signOut()
-			.then(() => {
-				// TODO: keep session
-				dispatch(selectSystem("none"));
-				dispatch(loggedIn(false));
-			});
+		try {
+			await firebase.auth().signOut();
+			dispatch(selectSystem("none"));
+			dispatch(loggedIn(false));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (

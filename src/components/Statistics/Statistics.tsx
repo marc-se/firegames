@@ -31,16 +31,20 @@ export default class Statistics extends Component<Props, State> {
 
 	getSystems = async () => {
 		let systems: Array<StatObj> = [];
-		const systemsRef = firebase.database().ref("systems");
-		const snapshot = await systemsRef.once("value");
-		const obj = snapshot.val();
-		for (let system in obj) {
-			const value = obj[system];
-			systems.push({ system, value });
+		try {
+			const systemsRef = await firebase.database().ref("systems");
+			const snapshot = await systemsRef.once("value");
+			const obj = snapshot.val();
+			for (let system in obj) {
+				const value = obj[system];
+				systems.push({ system, value });
+			}
+			this.setState({
+				systems
+			});
+		} catch (error) {
+			console.error(error);
 		}
-		this.setState({
-			systems
-		});
 	};
 
 	render() {

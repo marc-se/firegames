@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Row, Col, Spin, Icon, Button, Alert } from "antd";
+import { Row, Col, Spin, Icon, Button, Alert, message } from "antd";
 import { loggedIn } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
@@ -52,36 +52,38 @@ class Login extends Component<Props, State> {
 		});
 	};
 
-	handleLogin() {
+	successMessageSignin = () => {
+		message.success("You successfully signed in! 🎉", 3);
+	};
+
+	handleLogin = async () => {
 		const { username: email, password: pass } = this.state;
 		const { dispatch } = this.props;
 		this.setState({
 			loading: true
 		});
 		if (email !== "" && pass !== "") {
-			firebase
-				.auth()
-				.signInWithEmailAndPassword(email, pass)
-				.then(() => {
-					this.setState({
-						loading: false
-					});
-					dispatch(loggedIn(true));
-				})
-				.catch(error => {
-					console.error(error);
-					this.setState({
-						loading: false,
-						error: true
-					});
+			try {
+				await firebase.auth().signInWithEmailAndPassword(email, pass);
+				this.successMessageSignin();
+				this.setState({
+					loading: false
 				});
+				dispatch(loggedIn(true));
+			} catch (error) {
+				console.error(error);
+				this.setState({
+					loading: false,
+					error: true
+				});
+			}
 		} else {
 			this.setState({
 				loading: false,
 				error: true
 			});
 		}
-	}
+	};
 
 	render() {
 		const { loading, error } = this.state;
@@ -128,7 +130,7 @@ class Login extends Component<Props, State> {
 									/>
 								</Col>
 								<Col span={24}>
-									<Button onClick={() => this.handleLogin()}>Login</Button>
+									<Button onClick={this.handleLogin}>Login</Button>
 								</Col>
 							</Row>
 						</SC.LoginBox>
