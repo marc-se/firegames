@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import { Row, Col, Spin, Icon, Button, Alert } from "antd";
-import { selectSystem } from "../../reducers/actions.js";
+import { selectSystem, loggedIn } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -55,6 +55,7 @@ class Login extends Component<Props, State> {
 
 	handleLogin() {
 		const { username: email, password: pass } = this.state;
+		const { dispatch } = this.props;
 		this.setState({
 			loading: true
 		});
@@ -66,6 +67,7 @@ class Login extends Component<Props, State> {
 					this.setState({
 						loading: false
 					});
+					dispatch(loggedIn(true));
 				})
 				.catch(error => {
 					console.error(error);
@@ -80,9 +82,6 @@ class Login extends Component<Props, State> {
 				error: true
 			});
 		}
-		// TODO: handle wrong login credentials, maybe show message and shake login form
-		// const promise = auth.signInWithEmailAndPassword(email, pass);
-		// promise.catch( e => console.log(e.message));
 	}
 
 	handleLogout = () => {
@@ -93,6 +92,7 @@ class Login extends Component<Props, State> {
 			.then(() => {
 				// TODO: keep session
 				dispatch(selectSystem("none"));
+				dispatch(loggedIn(false));
 			});
 	};
 
