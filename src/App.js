@@ -8,6 +8,8 @@ import Statistics from "./components/Statistics/Statistics";
 import NotFound from "./components/NotFound/NotFound";
 import reducer from "./reducers/reducers.js";
 import AppContainer from "./components/AppContainer/AppContainer";
+import Login from "./components/Login/Login";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
 import "./App.css";
 
 let store = createStore(reducer);
@@ -17,8 +19,9 @@ const App = () => (
 		<Provider store={store}>
 			<Router>
 				<Switch>
-					<Route exact={true} path="/" component={AppContainer} />
-					<Route exact={true} path="/statistics" component={Statistics} />
+					<Route exact={true} path="/" component={Login} />
+					<AuthRoute exact={true} path="/cms" component={AppContainer} />
+					<AuthRoute exact={true} path="/statistics" component={Statistics} />
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Router>
