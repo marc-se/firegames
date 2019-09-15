@@ -55,9 +55,9 @@ class PlayingTime extends Component<Props, State> {
 				} else {
 					this.setState({ loading: false, playtime: "no data found" });
 				}
-			} catch (err) {
+			} catch (error) {
 				this.setState({ loading: false, playtime: "playtime fetch failed" });
-				console.log("fetch failed", err);
+				console.error("fetch failed", error);
 			}
 		}
 	}

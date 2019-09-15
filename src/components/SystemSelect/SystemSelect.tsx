@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
-import { Select, message } from "antd";
+import { Select } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import { selectSystem, updateSystems } from "../../reducers/actions.js";
@@ -32,20 +32,8 @@ class SystemSelect extends Component<Props, State> {
 		}
 	}
 
-	componentDidMount() {
-		/*
-		 * trigger message here and not in Login Component,
-		 * cause SystemSelect only mounts once and only if you're logged in
-		 */
-		this.successMessageSignin();
-	}
-
 	handleChange = (e: string) => {
 		this.props.dispatch(selectSystem(e));
-	};
-
-	successMessageSignin = () => {
-		message.success("You successfully signed in! 🌈", 3);
 	};
 
 	render() {
