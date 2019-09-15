@@ -5,14 +5,14 @@
 	"private": true,
 	"dependencies": {
 		"@types/jest": "^24.0.18",
-		"@types/node": "^12.7.4",
+		"@types/node": "^12.7.5",
 		"@types/react": "^16.9.2",
 		"@types/react-countup": "^4.0.1",
 		"@types/react-dom": "^16.9.0",
 		"@types/react-highlight-words": "^0.16.0",
 		"@types/react-router-dom": "^4.3.5",
 		"antd": "^3.23.2",
-		"firebase": "^6.6.0",
+		"firebase": "^6.6.1",
 		"howlongtobeat": "^1.1.1",
 		"react": "^16.9.0",
 		"react-countup": "^4.2.2",
@@ -24,7 +24,7 @@
 		"react-svg-inline": "^2.1.1",
 		"redux": "^4.0.4",
 		"styled-components": "^4.3.2",
-		"typescript": "^3.6.2"
+		"typescript": "^3.6.3"
 	},
 	"scripts": {
 		"start": "HTTPS=true react-scripts start",
@@ -36,8 +36,8 @@
 	},
 	"devDependencies": {
 		"prettier": "1.18.2",
-		"stylelint": "^10.1.0",
-		"stylelint-config-recommended": "^2.2.0",
+		"stylelint": "^11.0.0",
+		"stylelint-config-recommended": "^3.0.0",
 		"stylelint-config-styled-components": "^0.1.1",
 		"stylelint-processor-styled-components": "^1.8.0"
 	},
