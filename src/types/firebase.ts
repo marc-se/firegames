@@ -14,7 +14,7 @@ export interface Game {
 	playing: boolean;
 	region: string;
 	title: string;
-	playtime?: number;
+	playtime?: string;
 }
 
 export interface Genre {

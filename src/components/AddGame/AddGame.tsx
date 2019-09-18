@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
-import { Modal, Button, Checkbox, Select, Radio, message } from "antd";
+import { Modal, Button, Checkbox, Select, Radio, message, InputNumber } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import * as SC from "./StyledComponents";
@@ -9,7 +9,7 @@ import * as SC from "./StyledComponents";
 import GenreTagList from "../GenreTagList/GenreTagList";
 
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
-import { System } from "../../types/firebase";
+import { System, Game } from "../../types/firebase";
 
 const RadioButton = Radio.Button;
 const Option = Select.Option;
@@ -30,6 +30,7 @@ interface State {
 	region: string;
 	playing: boolean;
 	finished: boolean;
+	time: string;
 	error: boolean;
 	loading: boolean;
 }
@@ -39,10 +40,11 @@ class AddGame extends Component<Props, State> {
 		visible: false,
 		selectedGenres: [],
 		title: "",
-		system: "null",
+		system: "",
 		region: "PAL",
 		playing: false,
 		finished: false,
+		time: "",
 		error: false,
 		loading: false
 	};
@@ -55,12 +57,13 @@ class AddGame extends Component<Props, State> {
 			gameRef.once("value", snap => {
 				const game = snap.val();
 				this.setState({
-					selectedGenres: [],
+					selectedGenres: game.genre.split(","),
 					title: game.title,
 					system: game.system,
 					region: game.region,
 					playing: game.playing,
-					finished: game.finished
+					finished: game.finished,
+					time: game.playtime || 0
 				});
 			});
 		}
@@ -91,12 +94,39 @@ class AddGame extends Component<Props, State> {
 			loading: true
 		});
 
-		const { selectedGenres, title, region, playing, finished, system: selectedSystem } = this.state;
+		const {
+			selectedGenres,
+			title,
+			region,
+			playing,
+			finished,
+			system: selectedSystem,
+			time
+		} = this.state;
 		const { editMode, gameID, system } = this.props;
 		const genres = selectedGenres.join();
 
+		let node: Game = {
+			title: title,
+			playing: playing,
+			finished: finished,
+			genre: genres,
+			region: region
+		};
+
+		if (time !== "") {
+			node = {
+				title: title,
+				playing: playing,
+				finished: finished,
+				genre: genres,
+				region: region,
+				playtime: time
+			};
+		}
+
 		if (!editMode) {
-			if (selectedGenres.length > 0 && title.length > 0 && selectedSystem !== "null") {
+			if (selectedGenres.length > 0 && title.length > 0 && selectedSystem !== "") {
 				const addNodeAt = firebase.database().ref("games/" + selectedSystem);
 
 				let duplicates: boolean = false;
@@ -125,13 +155,7 @@ class AddGame extends Component<Props, State> {
 						// if duplicates array has no items, add new node
 						if (duplicates === false) {
 							addNodeAt
-								.push({
-									title: title,
-									playing: playing,
-									finished: finished,
-									genre: genres,
-									region: region
-								})
+								.push(node)
 								.then(() => {
 									const { system } = this.state;
 
@@ -186,14 +210,9 @@ class AddGame extends Component<Props, State> {
 		} else {
 			// update data in edit mode
 			const updateNodeAt = firebase.database().ref(`games/${system}/${gameID}`);
+
 			updateNodeAt
-				.set({
-					title: title,
-					playing: playing,
-					finished: finished,
-					genre: genres,
-					region: region
-				})
+				.set(node)
 				.then(() => {
 					this.successMessage("Edit successfull! 👍🏼");
 					this.setState({
@@ -243,21 +262,39 @@ class AddGame extends Component<Props, State> {
 		});
 	};
 
+	handleTimeChange = (value: number | undefined) => {
+		if (value) {
+			this.setState({
+				time: value.toString()
+			});
+		}
+	};
+
 	handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			title: e.target.value
 		});
 	};
 
-	handleCloseStatusMessage() {
+	handleCloseStatusMessage = () => {
 		this.setState({
 			error: false
 		});
-	}
+	};
 
 	render() {
-		const { editMode, buttonTitle, systems } = this.props;
-		const { loading, title, playing, finished, visible, region, error } = this.state;
+		const { editMode, buttonTitle, systems, system } = this.props;
+		const {
+			loading,
+			title,
+			playing,
+			finished,
+			visible,
+			region,
+			error,
+			time,
+			selectedGenres
+		} = this.state;
 		return (
 			<React.Fragment>
 				{editMode ? (
@@ -287,7 +324,7 @@ class AddGame extends Component<Props, State> {
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
-						defaultValue={editMode && this.props.system}
+						defaultValue={editMode && system}
 						onChange={this.handleSystemSelect}
 						filterOption={(input: string, option: any) =>
 							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -304,8 +341,18 @@ class AddGame extends Component<Props, State> {
 							})}
 					</SC.Dropdown>
 					<SC.Genres>
-						<GenreTagList onChange={this.updateGenresList} />
+						<GenreTagList onChange={this.updateGenresList} defaultValue={selectedGenres || []} />
 					</SC.Genres>
+					<SC.InputWrapper>
+						<SC.Label>Playtime:</SC.Label>
+						<InputNumber
+							defaultValue={parseFloat(time) || 0}
+							min={0}
+							max={999}
+							step={0.5}
+							onChange={this.handleTimeChange}
+						/>
+					</SC.InputWrapper>
 					<SC.RadioItemGroup onChange={this.handleRegionChange} defaultValue={region}>
 						<RadioButton value="PAL">PAL</RadioButton>
 						<RadioButton value="JAP">JAP</RadioButton>
@@ -326,7 +373,7 @@ class AddGame extends Component<Props, State> {
 							Does your Game have a Title, at least one Genre and a System selected?"
 							type="error"
 							closable
-							onClose={() => this.handleCloseStatusMessage()}
+							onClose={this.handleCloseStatusMessage}
 							showIcon
 						/>
 					)}

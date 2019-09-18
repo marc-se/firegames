@@ -12,6 +12,7 @@ interface State {
 }
 
 interface Props {
+	defaultValue?: Array<string>;
 	onChange: (genres: Array<string>) => void;
 }
 
@@ -23,6 +24,7 @@ export default class GenreTagList extends Component<Props, State> {
 
 	componentDidMount() {
 		const genreRef = firebase.database().ref(`genres`);
+		const { defaultValue } = this.props;
 		genreRef.on("value", snap => {
 			let data = snap.val();
 			let genreTags: Array<string> = [];
@@ -35,7 +37,8 @@ export default class GenreTagList extends Component<Props, State> {
 			});
 
 			this.setState({
-				genreTags
+				genreTags,
+				selectedTags: defaultValue || []
 			});
 		});
 	}
