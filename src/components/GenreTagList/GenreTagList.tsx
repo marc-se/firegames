@@ -12,6 +12,7 @@ interface State {
 }
 
 interface Props {
+	defaultValue?: Array<string>;
 	onChange: (genres: Array<string>) => void;
 }
 
@@ -22,23 +23,33 @@ export default class GenreTagList extends Component<Props, State> {
 	};
 
 	componentDidMount() {
-		const genreRef = firebase.database().ref(`genres`);
-		genreRef.on("value", snap => {
-			let data = snap.val();
-			let genreTags: Array<string> = [];
-
-			Object.keys(data).forEach(genre => {
-				// add key to object
-				data[genre].key = genre;
-				// push object to genre list
-				genreTags.push(data[genre]);
-			});
-
-			this.setState({
-				genreTags
-			});
-		});
+		this.fetchTags();
 	}
+
+	fetchTags = async () => {
+		try {
+			const genreRef = await firebase.database().ref(`genres`);
+			const { defaultValue } = this.props;
+			await genreRef.on("value", snap => {
+				let data = snap.val();
+				let genreTags: Array<string> = [];
+
+				Object.keys(data).forEach(genre => {
+					// add key to object
+					data[genre].key = genre;
+					// push object to genre list
+					genreTags.push(data[genre]);
+				});
+
+				this.setState({
+					genreTags,
+					selectedTags: defaultValue || []
+				});
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	handleChange(tag: string, checked: boolean) {
 		const { selectedTags } = this.state;

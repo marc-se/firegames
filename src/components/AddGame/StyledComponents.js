@@ -29,6 +29,14 @@ export const CheckboxGroup = styled.div`
 	display: flex;
 `;
 
+export const InputWrapper = styled.div`
+	padding: 0 0 10px 0;
+`;
+
+export const Label = styled.label`
+	margin-right: 5px;
+`;
+
 export const Error = styled(Alert)`
 	margin-top: 20px !important;
 `;
