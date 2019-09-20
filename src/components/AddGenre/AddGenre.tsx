@@ -1,127 +1,87 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
-interface Props {}
+const AddGenre = () => {
+	const [visible, setVisible] = useState(false);
+	const [error, setError] = useState(false);
+	const [genre, setGenre] = useState("");
+	const [loading, setLoading] = useState(false);
 
-interface State {
-	visible: boolean;
-	error: boolean;
-	success: boolean;
-	genre: string;
-	loading: boolean;
-}
+	const showModal = () => setVisible(true);
 
-export default class AddGenre extends Component<Props, State> {
-	state = {
-		visible: false,
-		error: false,
-		success: false,
-		genre: "",
-		loading: false
-	};
+	const hideModal = () => setVisible(false);
 
-	showModal = () => {
-		this.setState({
-			visible: true
-		});
-	};
+	const handleInput = (e: ChangeEvent<HTMLInputElement>) => setGenre(e.target.value);
 
-	handleOk = () => {
-		this.setState({
-			loading: true
-		});
+	const handleCloseStatusMessage = () => setError(false);
 
-		const { genre } = this.state;
+	const successMessage = () => message.success("You successfully added a new Genre!", 3);
+
+	const handleOk = async () => {
+		setLoading(true);
 
 		if (genre !== "") {
-			let url = genre
+			const url = genre
 				.toString()
 				.toLowerCase()
 				.replace(/ /g, "");
 
-			const addGenreAt = firebase
-				.database()
-				.ref("genres")
-				.child(url);
+			try {
+				const addGenreAt = await firebase
+					.database()
+					.ref("genres")
+					.child(url);
 
-			addGenreAt
-				.set({
+				await addGenreAt.set({
 					title: genre,
 					url: url
-				})
-				.then(() => {
-					// display success message
-					this.successMessage();
-
-					this.setState({
-						visible: false,
-						error: false,
-						loading: false,
-						genre: ""
-					});
 				});
+
+				successMessage();
+
+				setVisible(false);
+				setError(false);
+				setLoading(false);
+				setGenre("");
+			} catch (error) {
+				console.error(error);
+			}
 		} else {
-			this.setState({
-				error: true,
-				loading: false
-			});
+			setError(true);
+			setLoading(false);
 		}
 	};
 
-	handleCancel = () => {
-		this.setState({
-			visible: false
-		});
-	};
+	return (
+		<React.Fragment>
+			<Button type="primary" icon="plus-circle-o" onClick={showModal}>
+				Add Genre
+			</Button>
+			<Modal
+				title="Add a new Genre"
+				visible={visible}
+				onOk={handleOk}
+				onCancel={hideModal}
+				okText="ADD"
+				cancelText="CANCEL"
+				confirmLoading={loading}
+			>
+				<Input onChange={handleInput} value={genre} placeholder="Genre" />
+				{error && (
+					<Alert
+						message="Something is missing 🤔"
+						description="Please check your input. Have you added a Genre name?"
+						type="error"
+						closable
+						onClose={handleCloseStatusMessage}
+						showIcon
+					/>
+				)}
+			</Modal>
+		</React.Fragment>
+	);
+};
 
-	handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			genre: e.target.value
-		});
-	};
-
-	handleCloseStatusMessage() {
-		this.setState({
-			error: false,
-			success: false
-		});
-	}
-
-	successMessage = () => {
-		message.success("You successfully added a new Genre!", 3);
-	};
-
-	render() {
-		const { genre, error } = this.state;
-		return (
-			<React.Fragment>
-				<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
-					Add Genre
-				</Button>
-				<Modal
-					title="Add a new Genre"
-					visible={this.state.visible}
-					onOk={this.handleOk}
-					onCancel={this.handleCancel}
-					okText="ADD"
-					cancelText="CANCEL"
-					confirmLoading={this.state.loading}
-				>
-					<Input onChange={this.handleInput} value={genre} placeholder="Genre" />
-					{error && (
-						<Alert
-							message="Something is missing 🤔"
-							description="Please check your input. Have you added a Genre name?"
-							type="error"
-							closable
-							onClose={() => this.handleCloseStatusMessage()}
-							showIcon
-						/>
-					)}
-				</Modal>
-			</React.Fragment>
-		);
-	}
-}
+export default AddGenre;
