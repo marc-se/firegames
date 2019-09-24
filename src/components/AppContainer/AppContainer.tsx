@@ -70,6 +70,11 @@ const AppContainer = (props: Props) => {
 											Statistics
 										</Button>
 									</Link>
+									<Link to="wishlist">
+										<Button type="primary" icon="heart">
+											Wishlist
+										</Button>
+									</Link>
 									<SC.Symbols>
 										<span role="img" aria-label="Games with state: playing">
 											🕹
