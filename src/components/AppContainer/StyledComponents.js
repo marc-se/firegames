@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Layout } from "antd";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout;
 
 export const Container = styled(Layout)`
 	min-height: 100vh;
@@ -10,20 +10,6 @@ export const Container = styled(Layout)`
 
 export const SidebarContainer = styled.div`
 	padding: 10px;
-`;
-
-export const Head = styled(Header)`
-	background: white !important;
-	height: 70px !important;
-	.rightHeaderColumn {
-		display: flex;
-		flex-direction: row-reverse;
-		align-items: center;
-	}
-`;
-
-export const Brand = styled.img`
-	width: 225px;
 `;
 
 export const Sidebar = styled(Sider)`

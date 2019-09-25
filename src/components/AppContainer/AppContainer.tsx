@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.svg";
 
 import Filter from "../Filter/Filter";
 import SystemSelect from "../SystemSelect/SystemSelect";
@@ -15,7 +14,7 @@ import GamesTable from "../GamesTable/GamesTable";
 import AddGame from "../AddGame/AddGame";
 import AddSystem from "../AddSystem/AddSystem";
 import AddGenre from "../AddGenre/AddGenre";
-import Logout from "../Logout/Logout";
+import Head from "../Head/Head";
 
 import * as SC from "./StyledComponents";
 
@@ -33,17 +32,7 @@ const AppContainer = (props: Props) => {
 	if (isAuthorized) {
 		return (
 			<SC.Container>
-				<SC.Head>
-					<Row type="flex" justify="start">
-						<Col span={8}>
-							<SC.Brand src={logo} />
-						</Col>
-						<Col span={16} className="rightHeaderColumn">
-							<Logout />
-						</Col>
-					</Row>
-				</SC.Head>
-				<SC.Separator />
+				<Head />
 				<Layout>
 					<SC.Sidebar>
 						<SC.SidebarContainer>
