@@ -1,14 +1,30 @@
 import React from "react";
 
 import Head from "../Head/Head";
+import Footer from "../Footer/Footer";
 
-interface Props {}
+import { DataList } from "./StyledComponents";
 
-const Wishlist = (props: Props) => {
+const data = [
+	"Tales of Hearts R",
+	"Giga Wing 2",
+	"The Witcher 2: Assassins of Kings",
+	"Karous",
+	"Assassin's Creed Origins",
+	"Kingdom Hearts II"
+];
+
+const Wishlist = () => {
 	return (
 		<React.Fragment>
 			<Head />
-			<div>Wishlist</div>
+			<DataList
+				header={<div>Wishlist</div>}
+				bordered
+				dataSource={data}
+				renderItem={(item: string) => <DataList.Item>{item}</DataList.Item>}
+			/>
+			<Footer />
 		</React.Fragment>
 	);
 };

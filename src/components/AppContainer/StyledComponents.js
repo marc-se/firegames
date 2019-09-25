@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Layout } from "antd";
 
-const { Footer, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 export const Container = styled(Layout)`
 	min-height: 100vh;
@@ -43,19 +43,4 @@ export const InsideCol = styled.div`
 export const Symbols = styled.div`
 	margin-left: 10px;
 	color: #777;
-`;
-
-export const FooterContainer = styled(Footer)`
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	z-index: 1;
-	background: #f7f7f7 !important;
-	width: 100%;
-	font-size: 12px !important;
-`;
-
-export const RightAlignText = styled.span`
-	text-align: right;
-	display: block;
 `;

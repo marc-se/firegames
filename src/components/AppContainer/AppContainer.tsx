@@ -15,6 +15,7 @@ import AddGame from "../AddGame/AddGame";
 import AddSystem from "../AddSystem/AddSystem";
 import AddGenre from "../AddGenre/AddGenre";
 import Head from "../Head/Head";
+import Footer from "../Footer/Footer";
 
 import * as SC from "./StyledComponents";
 
@@ -80,15 +81,7 @@ const AppContainer = (props: Props) => {
 						<GamesTable />
 					</SC.ContentContainer>
 				</Layout>
-				<SC.FooterContainer>
-					<Row>
-						<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
-						<Col span={12} />
-						<Col span={6}>
-							<SC.RightAlignText>v1.4.0</SC.RightAlignText>
-						</Col>
-					</Row>
-				</SC.FooterContainer>
+				<Footer />
 				<BackTop />
 			</SC.Container>
 		);
