@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, Component } from "react";
+import React, { ChangeEvent, KeyboardEvent, Component, useState } from "react";
 import { Redirect } from "react-router-dom";
 // @ts-ignore
 import { connect } from "react-redux";
@@ -26,120 +26,97 @@ interface State {
 	error: boolean;
 }
 
-class Login extends Component<Props, State> {
-	state = {
-		username: "",
-		password: "",
-		loading: false,
-		error: false
-	};
+const Login = (props: Props) => {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
-	handlePressEnter = (e: KeyboardEvent) => {
+	const handlePressEnter = (e: KeyboardEvent) => {
 		if (e.key === "Enter") {
-			this.handleLogin();
+			handleLogin();
 		}
 	};
 
-	handleUserNameInput = (e: ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			username: e.target.value
-		});
-	};
+	const handleUserNameInput = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
 
-	handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			password: e.target.value
-		});
-	};
+	const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
-	successMessageSignin = () => {
-		message.success("You successfully signed in! 🎉", 3);
-	};
+	const successMessageSignin = () => message.success("You successfully signed in! 🎉", 3);
 
-	handleLogin = async () => {
-		const { username: email, password: pass } = this.state;
-		const { dispatch } = this.props;
-		this.setState({
-			loading: true
-		});
-		if (email !== "" && pass !== "") {
+	const handleLogin = async () => {
+		const { dispatch } = props;
+
+		setLoading(true);
+
+		if (username !== "" && password !== "") {
 			try {
-				await firebase.auth().signInWithEmailAndPassword(email, pass);
-				this.successMessageSignin();
-				this.setState({
-					loading: false
-				});
+				await firebase.auth().signInWithEmailAndPassword(username, password);
+				successMessageSignin();
+				setLoading(false);
 				dispatch(loggedIn(true));
 			} catch (error) {
 				console.error(error);
-				this.setState({
-					loading: false,
-					error: true
-				});
+				setLoading(false);
+				setError(true);
 			}
 		} else {
-			this.setState({
-				loading: false,
-				error: true
-			});
+			setLoading(false);
+			setError(true);
 		}
 	};
 
-	render() {
-		const { loading, error } = this.state;
-
-		if (firebase.auth().currentUser) {
-			return <Redirect to="/cms" />;
-		}
-
-		return (
-			<Layout>
-				<SC.Container>
-					<Content>
-						<SC.LoginBox>
-							{loading && (
-								<SC.FeedbackWrapper>
-									<Spin indicator={loadingIcon} />
-								</SC.FeedbackWrapper>
-							)}
-							{error && (
-								<SC.FeedbackWrapper>
-									<Alert
-										message="LOGIN FAILED"
-										description="Wrong username or password"
-										type="error"
-									/>
-								</SC.FeedbackWrapper>
-							)}
-							<Row type="flex" justify="center">
-								<Col span={24}>
-									<SC.InputField
-										prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-										placeholder="Username"
-										onChange={this.handleUserNameInput}
-										onKeyPress={this.handlePressEnter}
-									/>
-								</Col>
-								<Col span={24}>
-									<SC.InputField
-										prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-										type="password"
-										placeholder="Password"
-										onChange={this.handlePasswordInput}
-										onKeyPress={this.handlePressEnter}
-									/>
-								</Col>
-								<Col span={24}>
-									<Button onClick={this.handleLogin}>Login</Button>
-								</Col>
-							</Row>
-						</SC.LoginBox>
-					</Content>
-				</SC.Container>
-			</Layout>
-		);
+	if (firebase.auth().currentUser) {
+		return <Redirect to="/cms" />;
 	}
-}
+
+	return (
+		<Layout>
+			<SC.Container>
+				<Content>
+					<SC.LoginBox>
+						{loading && (
+							<SC.FeedbackWrapper>
+								<Spin indicator={loadingIcon} />
+							</SC.FeedbackWrapper>
+						)}
+						{error && (
+							<SC.FeedbackWrapper>
+								<Alert
+									message="LOGIN FAILED"
+									description="Wrong username or password"
+									type="error"
+								/>
+							</SC.FeedbackWrapper>
+						)}
+						<Row type="flex" justify="center">
+							<Col span={24}>
+								<SC.InputField
+									prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+									placeholder="Username"
+									onChange={handleUserNameInput}
+									onKeyPress={handlePressEnter}
+								/>
+							</Col>
+							<Col span={24}>
+								<SC.InputField
+									prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+									type="password"
+									placeholder="Password"
+									onChange={handlePasswordInput}
+									onKeyPress={handlePressEnter}
+								/>
+							</Col>
+							<Col span={24}>
+								<Button onClick={handleLogin}>Login</Button>
+							</Col>
+						</Row>
+					</SC.LoginBox>
+				</Content>
+			</SC.Container>
+		</Layout>
+	);
+};
 
 let component = Login;
 
