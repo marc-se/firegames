@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, Component, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Redirect } from "react-router-dom";
 // @ts-ignore
 import { connect } from "react-redux";
@@ -19,12 +19,7 @@ interface Props {
 	dispatch?: any;
 }
 
-interface State {
-	username: string;
-	password: string;
-	loading: boolean;
-	error: boolean;
-}
+interface State {}
 
 const Login = (props: Props) => {
 	const [username, setUsername] = useState("");
