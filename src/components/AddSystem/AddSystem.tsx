@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { Fragment, ChangeEvent, useState } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
 // @ts-ignore
 import { connect } from "react-redux";
@@ -14,43 +14,25 @@ interface Props {
 	dispatch?: any;
 }
 
-interface State {
-	visible: boolean;
-	systemName: string;
-	systemShortName: string;
-	error: boolean;
-	loading: boolean;
-	success: boolean;
-}
+interface State {}
 
-class AddSystem extends Component<Props, State> {
-	state = {
-		visible: false,
-		systemName: "",
-		systemShortName: "",
-		error: false,
-		success: false,
-		loading: false
-	};
+const AddSystem = (props: Props) => {
+	const [visible, setVisible] = useState(false);
+	const [error, setError] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [systemName, setSystemName] = useState("");
+	const [systemShortname, setSystemShortname] = useState("");
 
-	showModal = () => {
-		this.setState({
-			visible: true
-		});
-	};
+	const showModal = () => setVisible(true);
 
-	handleOk = () => {
+	const handleOk = async () => {
 		/**
 		 * ADD ENTRY FOR NEW SYSTEM
 		 */
-		// create custom key from user system title from UI
-		this.setState({
-			loading: true
-		});
 
-		const { systemName, systemShortName } = this.state;
+		setLoading(true);
 
-		if (systemName !== "" && systemShortName !== "") {
+		if (systemName !== "" && systemShortname !== "") {
 			let url: string = systemName
 				.toString()
 				.toLowerCase()
@@ -61,106 +43,83 @@ class AddSystem extends Component<Props, State> {
 				.ref("systems")
 				.child(url);
 
-			addSystemAt
-				.set({
+			try {
+				await addSystemAt.set({
 					games: 0,
 					title: systemName,
 					url: url,
-					alias: systemShortName
-				})
-				.then(() => {
-					// display success message
-					this.successMessage();
-
-					// update redux system index and update state
-					let systems: Array<System> = [];
-					const systemsRef = firebase.database().ref("systems");
-					systemsRef.once("value").then(snap => {
-						snap.forEach(system => {
-							systems.push(system.val());
-						});
-						this.props.dispatch(updateSystems(systems));
-						this.setState({
-							visible: false,
-							error: false,
-							loading: false,
-							systemName: "",
-							systemShortName: ""
-						});
-					});
+					alias: systemShortname
 				});
+				successMessage();
+				// update redux system index and update state
+				let systems: Array<System> = [];
+				const systemsRef = firebase.database().ref("systems");
+				await systemsRef.once("value").then(snap => {
+					snap.forEach(system => {
+						systems.push(system.val());
+					});
+					props.dispatch(updateSystems(systems));
+				});
+
+				setError(false);
+				setLoading(false);
+				setSystemName("");
+				setSystemShortname("");
+				setVisible(false);
+			} catch (error) {
+				console.error(error);
+			}
 		} else {
-			this.setState({
-				error: true,
-				loading: false
-			});
+			setError(true);
+			setLoading(false);
 		}
 	};
 
-	handleCancel = () => {
-		this.setState({
-			visible: false
-		});
-	};
+	const handleCancel = () => setVisible(false);
 
-	handleSystemNameInput = (e: ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			systemName: e.target.value
-		});
-	};
+	const handleSystemNameInput = (e: ChangeEvent<HTMLInputElement>) => setSystemName(e.target.value);
 
-	handleSystemShortNameInput = (e: ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			systemShortName: e.target.value
-		});
-	};
+	const handleSystemShortNameInput = (e: ChangeEvent<HTMLInputElement>) =>
+		setSystemShortname(e.target.value);
 
-	handleCloseStatusMessage() {
-		this.setState({
-			error: false,
-			success: false
-		});
-	}
+	const handleCloseStatusMessage = () => setError(false);
 
-	successMessage = () => {
+	const successMessage = () =>
 		message.success("You successfully added a new System to your collection! 👾", 3);
-	};
 
-	render() {
-		return (
-			<React.Fragment>
-				<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
-					Add System
-				</Button>
-				<Modal
-					title="Add a new System to your Collection 👾"
-					visible={this.state.visible}
-					onOk={this.handleOk}
-					onCancel={this.handleCancel}
-					okText="ADD"
-					cancelText="CANCEL"
-					confirmLoading={this.state.loading}
-				>
-					<SC.InputField onChange={this.handleSystemNameInput} placeholder="System Name" />
-					<Input
-						onChange={this.handleSystemShortNameInput}
-						placeholder="System ShortName, like SNES/N64/PS4"
+	return (
+		<Fragment>
+			<Button type="primary" icon="plus-circle-o" onClick={showModal}>
+				Add System
+			</Button>
+			<Modal
+				title="Add a new System to your Collection 👾"
+				visible={visible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				okText="ADD"
+				cancelText="CANCEL"
+				confirmLoading={loading}
+			>
+				<SC.InputField onChange={handleSystemNameInput} placeholder="System Name" />
+				<Input
+					onChange={handleSystemShortNameInput}
+					placeholder="System ShortName, like SNES/N64/PS4"
+				/>
+				{error && (
+					<Alert
+						message="Something is missing 🤔"
+						description="Please check your input. Do you added a System Name?"
+						type="error"
+						closable
+						onClose={handleCloseStatusMessage}
+						showIcon
 					/>
-					{this.state.error && (
-						<Alert
-							message="Something is missing 🤔"
-							description="Please check your input. Do you added a System Name?"
-							type="error"
-							closable
-							onClose={() => this.handleCloseStatusMessage()}
-							showIcon
-						/>
-					)}
-				</Modal>
-			</React.Fragment>
-		);
-	}
-}
+				)}
+			</Modal>
+		</Fragment>
+	);
+};
 
 let component = AddSystem;
 
