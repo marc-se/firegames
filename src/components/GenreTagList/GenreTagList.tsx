@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -6,80 +6,64 @@ import { Genre } from "../../types/firebase";
 
 import * as SC from "./StyledComponents";
 
-interface State {
-	genreTags: Array<string>;
-	selectedTags: Array<string>;
-}
-
 interface Props {
 	defaultValue?: Array<string>;
 	onChange: (genres: Array<string>) => void;
 }
 
-export default class GenreTagList extends Component<Props, State> {
-	state = {
-		genreTags: [],
-		selectedTags: []
-	};
+const GenreTagList = (props: Props) => {
+	const [genreTags, setGenreTags] = useState([] as Array<Genre>);
+	const [selectedTags, setSelectedTags] = useState([] as Array<string>);
 
-	componentDidMount() {
-		this.fetchTags();
-	}
-
-	fetchTags = async () => {
+	async function fetchTags() {
 		try {
 			const genreRef = await firebase.database().ref(`genres`);
-			const { defaultValue } = this.props;
+			const { defaultValue } = props;
 			await genreRef.on("value", snap => {
 				let data = snap.val();
-				let genreTags: Array<string> = [];
+				let genreTags: Array<Genre> = [];
 
 				Object.keys(data).forEach(genre => {
-					// add key to object
 					data[genre].key = genre;
-					// push object to genre list
 					genreTags.push(data[genre]);
 				});
 
-				this.setState({
-					genreTags,
-					selectedTags: defaultValue || []
-				});
+				setGenreTags(genreTags);
+				setSelectedTags(defaultValue || []);
 			});
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	}
 
-	handleChange(tag: string, checked: boolean) {
-		const { selectedTags } = this.state;
-		const { onChange } = this.props;
+	useEffect(() => {
+		fetchTags();
+	}, []);
+
+	function handleChange(checked: boolean, tag: string) {
+		const { onChange } = props;
 		const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-		this.setState({
-			selectedTags: nextSelectedTags
-		});
+		setSelectedTags(nextSelectedTags);
 		onChange(nextSelectedTags);
 	}
 
-	render() {
-		const { genreTags, selectedTags } = this.state;
-		return (
-			<React.Fragment>
-				{genreTags.map((tag: Genre) => {
-					const tagName: string = tag.title;
-					// @ts-ignore
-					const isSelected = selectedTags.indexOf(tagName) > -1;
-					return (
-						<SC.GenreTag
-							checked={isSelected}
-							key={tag.title}
-							onChange={(checked: boolean) => this.handleChange(tagName, checked)}
-						>
-							{tagName}
-						</SC.GenreTag>
-					);
-				})}
-			</React.Fragment>
-		);
-	}
-}
+	return (
+		<Fragment>
+			{genreTags.map((tag: Genre) => {
+				const tagName: string = tag.title;
+				const isSelected = selectedTags.indexOf(tagName) > -1;
+				return (
+					<SC.GenreTag
+						checked={isSelected}
+						key={tag.title}
+						onChange={(checked: boolean) => handleChange(checked, tag.title)}
+					>
+						{tagName}
+					</SC.GenreTag>
+				);
+			})}
+		</Fragment>
+	);
+};
+
+export default GenreTagList;
