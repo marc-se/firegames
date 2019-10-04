@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { Layout, Row, Col } from "antd";
+import { Layout, Col } from "antd";
 
 export const GlobalStyle = createGlobalStyle`
 	.ant-card-body {
