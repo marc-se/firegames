@@ -3,6 +3,7 @@ import React from "react";
 import Head from "../Head/Head";
 import Footer from "../Footer/Footer";
 
+import WishlistInputForm from "./WishlistInputForm";
 import { DataList } from "./StyledComponents";
 
 const data = [
@@ -18,6 +19,7 @@ const Wishlist = () => {
 	return (
 		<React.Fragment>
 			<Head />
+			<WishlistInputForm />
 			<DataList
 				header={<div>Wishlist</div>}
 				bordered
