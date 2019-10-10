@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router-dom";
 
+import { selectSystem } from "../../reducers/actions.js";
+
 import Filter from "../Filter/Filter";
 import SystemSelect from "../SystemSelect/SystemSelect";
 import SyncFilterStats from "../SyncFilterStats/SyncFilterStats";
@@ -30,6 +32,8 @@ const AppContainer = (props: Props) => {
 	const { selectedSystem } = props;
 	const isAuthorized = firebase.auth().currentUser;
 
+	const handleSystemChange = (e: string) => props.dispatch(selectSystem(e));
+
 	if (isAuthorized) {
 		return (
 			<SC.Container>
@@ -37,7 +41,7 @@ const AppContainer = (props: Props) => {
 				<Layout>
 					<SC.Sidebar>
 						<SC.SidebarContainer>
-							<SystemSelect />
+							<SystemSelect handleChange={handleSystemChange} />
 							<SC.Separator />
 							<Filter />
 							{selectedSystem !== "none" && (

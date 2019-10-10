@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
-import { Input, Select, Form, Button } from "antd";
+import { Form, Button } from "antd";
 
-const { Option } = Select;
+import SystemSelect from "../SystemSelect/SystemSelect";
+
+import { ContentWrapper, TextInput } from "./StyledComponents";
 
 const WishlistInputForm = () => {
 	const [text, setText] = useState("");
@@ -14,22 +16,21 @@ const WishlistInputForm = () => {
 	const handleSubmit = () => console.log("game added");
 
 	return (
-		<Form layout="inline" onSubmit={handleSubmit}>
-			<Form.Item>
-				<Input type="text" value={text} onChange={handleTitleChange} />
-			</Form.Item>
-			<Form.Item>
-				<Select value={system} onChange={handleSystemChange}>
-					<Option value="ps4">PS4</Option>
-					<Option value="ps3">PS3</Option>
-				</Select>
-			</Form.Item>
-			<Form.Item>
-				<Button type="primary" htmlType="submit">
-					Add Game
-				</Button>
-			</Form.Item>
-		</Form>
+		<ContentWrapper>
+			<Form layout="inline" onSubmit={handleSubmit}>
+				<Form.Item>
+					<TextInput type="text" value={text} onChange={handleTitleChange} />
+				</Form.Item>
+				<Form.Item>
+					<SystemSelect minWidth={250} handleChange={handleSystemChange} />
+				</Form.Item>
+				<Form.Item>
+					<Button type="primary" htmlType="submit">
+						Add Game
+					</Button>
+				</Form.Item>
+			</Form>
+		</ContentWrapper>
 	);
 };
 
