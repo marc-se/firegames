@@ -10,15 +10,6 @@ import Footer from "../Footer/Footer";
 import WishlistInputForm from "./WishlistInputForm";
 import { DataList } from "./StyledComponents";
 
-const data = [
-	"Tales of Hearts R",
-	"Giga Wing 2",
-	"The Witcher 2: Assassins of Kings",
-	"Karous",
-	"Assassin's Creed Origins",
-	"Kingdom Hearts II"
-];
-
 const Wishlist = () => {
 	const [games, setGames] = useState([] as Array<WishlistItem>);
 
@@ -54,8 +45,8 @@ const Wishlist = () => {
 			<DataList
 				header={<div>Wishlist</div>}
 				bordered
-				dataSource={data}
-				renderItem={(item: string) => <DataList.Item>{item}</DataList.Item>}
+				dataSource={games}
+				renderItem={(game: WishlistItem) => <DataList.Item>{game.title}</DataList.Item>}
 			/>
 			<Footer />
 		</React.Fragment>

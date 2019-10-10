@@ -26,7 +26,8 @@ const WishlistInputForm = () => {
 				const addNodeAt = await firebase.database().ref("wishlist");
 				const node = {
 					title: text,
-					system: system
+					system: system,
+					purchased: false
 				};
 				await addNodeAt.push(node);
 				successMessage();

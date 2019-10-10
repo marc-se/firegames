@@ -23,6 +23,9 @@ export interface Genre {
 }
 
 export interface WishlistItem {
+	key: string;
 	title: string;
 	system: string;
+	purchased: boolean;
+	region: string;
 }
