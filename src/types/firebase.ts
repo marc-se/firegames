@@ -21,3 +21,8 @@ export interface Genre {
 	title: string;
 	url: string;
 }
+
+export interface WishlistItem {
+	title: string;
+	system: string;
+}

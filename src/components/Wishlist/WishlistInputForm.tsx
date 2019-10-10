@@ -30,6 +30,8 @@ const WishlistInputForm = () => {
 				};
 				await addNodeAt.push(node);
 				successMessage();
+				setText("");
+				setSystem("");
 				return;
 			}
 			errorMessage();
@@ -42,7 +44,12 @@ const WishlistInputForm = () => {
 		<ContentWrapper>
 			<Form layout="inline" onSubmit={handleSubmit}>
 				<Form.Item>
-					<TextInput placeholder='Add a game to your wishlist' type="text" value={text} onChange={handleTitleChange} />
+					<TextInput
+						placeholder="Add a game to your wishlist"
+						type="text"
+						value={text}
+						onChange={handleTitleChange}
+					/>
 				</Form.Item>
 				<Form.Item>
 					<SystemSelect minWidth={250} handleChange={handleSystemChange} />
