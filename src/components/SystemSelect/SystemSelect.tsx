@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
 import { Select } from "antd";

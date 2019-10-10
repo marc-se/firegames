@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { List, Input, Form } from "antd";
-
-import SystemSelect from "../SystemSelect/SystemSelect";
+import { List, Input } from "antd";
 
 export const DataList = styled(List)`
 	&& {
