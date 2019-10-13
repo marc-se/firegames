@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { List, Input } from "antd";
+import { Table, Input } from "antd";
 
-export const DataList = styled(List)`
+export const DataList = styled(Table)`
 	&& {
 		margin: 0 10px 70px 10px;
 	}

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, FormEvent } from "react";
-import { Form, Button, Radio, message } from "antd";
+import { Form, Button, Radio, Tag, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -31,9 +31,14 @@ const WishlistInputForm = () => {
 		try {
 			if (text !== "" && system !== "select a system") {
 				const addNodeAt = await firebase.database().ref("wishlist");
+				const systemRef = await firebase.database().ref(`systems/${system}/title`);
+				let systemTitle = "";
+				await systemRef.once("value", snap => {
+					systemTitle = snap.val();
+				});
 				const node = {
 					title: text,
-					system: system,
+					system: systemTitle,
 					purchased: false,
 					region: region
 				};
@@ -51,6 +56,7 @@ const WishlistInputForm = () => {
 
 	return (
 		<ContentWrapper>
+			<Tag color="volcano">BETA</Tag>
 			<Form layout="inline" onSubmit={handleSubmit}>
 				<Form.Item>
 					<TextInput

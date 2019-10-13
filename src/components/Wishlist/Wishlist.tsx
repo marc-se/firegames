@@ -8,6 +8,7 @@ import Head from "../Head/Head";
 import Footer from "../Footer/Footer";
 
 import WishlistInputForm from "./WishlistInputForm";
+import TableColumns from "./TableColumns";
 import { DataList } from "./StyledComponents";
 
 const Wishlist = () => {
@@ -42,12 +43,7 @@ const Wishlist = () => {
 		<React.Fragment>
 			<Head />
 			<WishlistInputForm />
-			<DataList
-				header={<div>Wishlist</div>}
-				bordered
-				dataSource={games}
-				renderItem={(game: WishlistItem) => <DataList.Item>{game.title}</DataList.Item>}
-			/>
+			<DataList dataSource={games} columns={TableColumns} />;
 			<Footer />
 		</React.Fragment>
 	);
