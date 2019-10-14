@@ -1,8 +1,17 @@
 import React from "react";
+import firebase from "firebase/app";
+import "firebase/database";
 import { Tag, Checkbox } from "antd";
 
-function handleChange(e: any, key: string) {
-	console.log(e, key);
+async function handleChange(e: any, key: string) {
+	try {
+		const updateFile = await firebase.database().ref(`wishlist/${key}`);
+		await updateFile.update({
+			purchased: e.target.checked
+		});
+	} catch (error) {
+		console.error("update failed", error);
+	}
 }
 
 const TableColumns = [

@@ -43,7 +43,7 @@ const Wishlist = () => {
 		<React.Fragment>
 			<Head />
 			<WishlistInputForm />
-			<DataList dataSource={games} columns={TableColumns} />;
+			<DataList dataSource={games} columns={TableColumns} pagination={false} />;
 			<Footer />
 		</React.Fragment>
 	);

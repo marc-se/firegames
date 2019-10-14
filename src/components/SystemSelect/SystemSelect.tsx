@@ -14,6 +14,7 @@ interface Props {
 	systems?: Array<System>;
 	minWidth?: number;
 	handleChange: Function;
+	defaultValue?: string;
 }
 
 interface State {}
@@ -32,21 +33,24 @@ const SystemSelect = (props: Props) => {
 				props.dispatch(updateSystems(systems));
 			});
 		}
-	});
+	}, []);
 
-	const { systems, minWidth } = props;
+	const { systems, minWidth, defaultValue } = props;
+
+	console.log("render");
 	return (
 		<SC.Container
 			showSearch
 			minWidth={minWidth}
 			placeholder="Select a System"
 			optionFilterProp="children"
+			defaultValue={defaultValue || "none"}
 			onChange={props.handleChange}
 			filterOption={(input: string, option: any) =>
 				option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			}
 		>
-			<Option key="noneSelection" value="none">
+			<Option key="noneSelection" value={"none"}>
 				Select a system
 			</Option>
 			{systems &&

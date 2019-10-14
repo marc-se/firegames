@@ -13,7 +13,7 @@ const RadioGroup = Radio.Group;
 
 const WishlistInputForm = () => {
 	const [text, setText] = useState("");
-	const [system, setSystem] = useState("select a system");
+	const [system, setSystem] = useState("none");
 	const [region, setRegion] = useState("PAL");
 
 	const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value);
@@ -45,7 +45,8 @@ const WishlistInputForm = () => {
 				await addNodeAt.push(node);
 				successMessage();
 				setText("");
-				setSystem("");
+				setSystem("none");
+				setRegion("PAL");
 				return;
 			}
 			errorMessage();
@@ -67,7 +68,7 @@ const WishlistInputForm = () => {
 					/>
 				</Form.Item>
 				<Form.Item>
-					<SystemSelect minWidth={250} handleChange={handleSystemChange} />
+					<SystemSelect minWidth={250} handleChange={handleSystemChange} defaultValue={system} />
 				</Form.Item>
 				<Form.Item>
 					<RadioGroup onChange={handleRegionChange} defaultValue={region}>
