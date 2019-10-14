@@ -108,7 +108,7 @@ class GamesTable extends Component<Props, State> {
 			},
 			e => {
 				if (e) {
-					console.log("update failed", e);
+					console.error("update failed", e);
 				} else {
 					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, game);
 				}
@@ -129,7 +129,7 @@ class GamesTable extends Component<Props, State> {
 			},
 			e => {
 				if (e) {
-					console.log("update failed", e);
+					console.error("update failed", e);
 				} else {
 					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, game);
 				}

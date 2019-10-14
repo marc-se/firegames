@@ -37,7 +37,6 @@ const SystemSelect = (props: Props) => {
 
 	const { systems, minWidth, defaultValue } = props;
 
-	console.log("render");
 	return (
 		<SC.Container
 			showSearch

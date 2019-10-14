@@ -20,6 +20,7 @@ interface Props {
 	system?: string;
 	buttonTitle?: string;
 	systems?: Array<System>;
+	size?: "small" | "default" | "large" | undefined;
 }
 
 interface State {
@@ -283,7 +284,7 @@ class AddGame extends Component<Props, State> {
 	};
 
 	render() {
-		const { editMode, buttonTitle, systems, system } = this.props;
+		const { editMode, buttonTitle, systems, system, size } = this.props;
 		const {
 			loading,
 			title,
@@ -302,7 +303,12 @@ class AddGame extends Component<Props, State> {
 						{buttonTitle}
 					</Button>
 				) : (
-					<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
+					<Button
+						size={size || "default"}
+						type="primary"
+						icon="plus-circle-o"
+						onClick={this.showModal}
+					>
 						{buttonTitle}
 					</Button>
 				)}

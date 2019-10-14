@@ -14,3 +14,9 @@ export const ContentWrapper = styled.div`
 export const TextInput = styled(Input)`
 	min-width: 300px;
 `;
+
+export const BtnWrapper = styled.div`
+	margin: 0 10px;
+	display: inline-block;
+	position: absolute;
+`;
