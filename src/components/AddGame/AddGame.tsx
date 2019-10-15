@@ -18,6 +18,8 @@ interface Props {
 	editMode?: boolean;
 	gameID?: string;
 	system?: string;
+	title?: string;
+	region?: string;
 	buttonTitle?: string;
 	systems?: Array<System>;
 	size?: "small" | "default" | "large" | undefined;
@@ -51,7 +53,15 @@ class AddGame extends Component<Props, State> {
 	};
 
 	componentDidMount() {
-		const { editMode, gameID, system } = this.props;
+		const { editMode, gameID, system, title, region } = this.props;
+
+		if (region && system && title && !editMode) {
+			this.setState({
+				title,
+				system,
+				region
+			});
+		}
 
 		if (editMode) {
 			const gameRef = firebase.database().ref(`games/${system}/${gameID}`);
@@ -294,6 +304,7 @@ class AddGame extends Component<Props, State> {
 			region,
 			error,
 			time,
+			system: selectedSystem,
 			selectedGenres
 		} = this.state;
 		return (
@@ -330,7 +341,7 @@ class AddGame extends Component<Props, State> {
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
-						defaultValue={editMode && system}
+						defaultValue={(editMode && system) || selectedSystem}
 						onChange={this.handleSystemSelect}
 						filterOption={(input: string, option: any) =>
 							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0

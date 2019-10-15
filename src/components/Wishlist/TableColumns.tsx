@@ -46,16 +46,32 @@ const TableColumns = [
 		dataIndex: "purchased",
 		key: "purchased",
 		width: "35%",
-		render: (checked: boolean, row: any) => (
-			<Fragment>
-				<Checkbox checked={checked} onChange={e => handleChange(e, row.key)} />
-				{checked && (
-					<BtnWrapper>
-						<AddGame size="small" buttonTitle="add to collection" />
-					</BtnWrapper>
-				)}
-			</Fragment>
-		)
+		render: (checked: boolean, row: any) => {
+			let systemUrl: string = "";
+			if (checked) {
+				systemUrl = row.system
+					.toString()
+					.toLowerCase()
+					.replace(/ /g, "");
+			}
+			return (
+				<Fragment>
+					<Checkbox checked={checked} onChange={e => handleChange(e, row.key)} />
+
+					{checked && (
+						<BtnWrapper>
+							<AddGame
+								region={row.region}
+								system={systemUrl}
+								title={row.title}
+								size="small"
+								buttonTitle="add to collection"
+							/>
+						</BtnWrapper>
+					)}
+				</Fragment>
+			);
+		}
 	}
 ];
 
