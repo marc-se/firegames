@@ -15,6 +15,7 @@ const RadioButton = Radio.Button;
 const Option = Select.Option;
 
 interface Props {
+	disabled?: boolean;
 	editMode?: boolean;
 	gameID?: string;
 	system?: string;
@@ -23,6 +24,7 @@ interface Props {
 	buttonTitle?: string;
 	systems?: Array<System>;
 	size?: "small" | "default" | "large" | undefined;
+	successCallback?: any;
 }
 
 interface State {
@@ -204,6 +206,10 @@ class AddGame extends Component<Props, State> {
 					.then(() => {
 						// display success message
 						this.successMessage("You successfully added a new Game to your collection! 🕹");
+						const { successCallback } = this.props;
+						if (successCallback) {
+							successCallback();
+						}
 						return duplicates;
 					})
 					.catch(() => {
@@ -294,7 +300,7 @@ class AddGame extends Component<Props, State> {
 	};
 
 	render() {
-		const { editMode, buttonTitle, systems, system, size } = this.props;
+		const { editMode, buttonTitle, systems, system, size, disabled } = this.props;
 		const {
 			loading,
 			title,
@@ -319,6 +325,7 @@ class AddGame extends Component<Props, State> {
 						type="primary"
 						icon="plus-circle-o"
 						onClick={this.showModal}
+						disabled={disabled || false}
 					>
 						{buttonTitle}
 					</Button>

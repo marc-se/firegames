@@ -4,6 +4,7 @@ import "firebase/database";
 import { Tag, Checkbox } from "antd";
 
 import AddGame from "../AddGame/AddGame";
+import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import { BtnWrapper } from "./StyledComponents";
 
 async function handleChange(e: any, key: string) {
@@ -11,6 +12,17 @@ async function handleChange(e: any, key: string) {
 		const updateFile = await firebase.database().ref(`wishlist/${key}`);
 		await updateFile.update({
 			purchased: e.target.checked
+		});
+	} catch (error) {
+		console.error("update failed", error);
+	}
+}
+
+async function updateCollectedStatus(key: string) {
+	try {
+		const updateFile = await firebase.database().ref(`wishlist/${key}`);
+		await updateFile.update({
+			collected: true
 		});
 	} catch (error) {
 		console.error("update failed", error);
@@ -61,12 +73,20 @@ const TableColumns = [
 					{checked && (
 						<BtnWrapper>
 							<AddGame
+								disabled={row.collected}
 								region={row.region}
 								system={systemUrl}
 								title={row.title}
+								successCallback={() => updateCollectedStatus(row.key)}
 								size="small"
-								buttonTitle="add to collection"
+								buttonTitle={row.collected ? "already collected" : "add to collection"}
 							/>
+							{/* {row.collected && <DeleteDialog system={systemUrl} gameID={row.key} />} */}
+						</BtnWrapper>
+					)}
+					{row.collected && (
+						<BtnWrapper>
+							<DeleteDialog system={systemUrl} gameID={row.key} />
 						</BtnWrapper>
 					)}
 				</Fragment>
@@ -74,5 +94,13 @@ const TableColumns = [
 		}
 	}
 ];
+
+/*
+ * we need some more things:
+ * - if a game was added to the collection, show delete button (add callback to <AddGame /> or something like that) ✅
+ * - make <DeleteDialog /> more generic
+ * - save information, if game was added to collection, when purchased is true (default value is false)
+ * - disable add to collection button and show something like 'already added to collection' ✅
+ */
 
 export default TableColumns;

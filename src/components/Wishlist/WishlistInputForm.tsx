@@ -36,11 +36,14 @@ const WishlistInputForm = () => {
 				await systemRef.once("value", snap => {
 					systemTitle = snap.val();
 				});
+				// collected flag indicates, if purchased game
+				// was already added to collection
 				const node = {
 					title: text,
 					system: systemTitle,
 					purchased: false,
-					region: region
+					region: region,
+					collected: false
 				};
 				await addNodeAt.push(node);
 				successMessage();

@@ -11,7 +11,7 @@ import PlayingTime from "../PlayingTime/PlayingTime";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 import { Game } from "../../types/firebase";
 
-import DeleteDialog from "./DeleteDialog";
+import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import * as SC from "./StyledComponents";
 
 const PLAYING = "playing";

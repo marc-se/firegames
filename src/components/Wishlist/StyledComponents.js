@@ -17,6 +17,5 @@ export const TextInput = styled(Input)`
 
 export const BtnWrapper = styled.div`
 	margin: 0 10px;
-	display: inline-block;
-	position: absolute;
+	display: inline-flex;
 `;
