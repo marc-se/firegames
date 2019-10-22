@@ -6,8 +6,7 @@ import "firebase/database";
 import DeleteOptions from "./DeleteOptions";
 
 interface Props {
-	system: string;
-	gameID: string;
+	url: string;
 }
 
 const DeleteDialog = (props: Props) => {
@@ -16,7 +15,8 @@ const DeleteDialog = (props: Props) => {
 	const toggleVisible = () => setIsVisible(!isVisible);
 
 	const handleDelete = () => {
-		const deleteNodeAt = firebase.database().ref(`games/${props.system}/${props.gameID}`);
+		const { url } = props;
+		const deleteNodeAt = firebase.database().ref(url);
 		deleteNodeAt.set(null).then(() => {
 			successMessage();
 		});

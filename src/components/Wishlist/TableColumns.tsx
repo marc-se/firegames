@@ -59,12 +59,14 @@ const TableColumns = [
 		key: "purchased",
 		width: "35%",
 		render: (checked: boolean, row: any) => {
+			let url: string = "";
 			let systemUrl: string = "";
 			if (checked) {
 				systemUrl = row.system
 					.toString()
 					.toLowerCase()
 					.replace(/ /g, "");
+				url = `wishlist/${row.key}`;
 			}
 			return (
 				<Fragment>
@@ -86,7 +88,7 @@ const TableColumns = [
 					)}
 					{row.collected && (
 						<BtnWrapper>
-							<DeleteDialog system={systemUrl} gameID={row.key} />
+							<DeleteDialog url={url} />
 						</BtnWrapper>
 					)}
 				</Fragment>

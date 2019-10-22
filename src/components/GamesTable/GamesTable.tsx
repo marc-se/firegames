@@ -275,10 +275,11 @@ class GamesTable extends Component<Props, State> {
 				width: "20%",
 				render: (e: any, row: any) => {
 					const { selectedSystem } = this.props;
+					const url = `games/${selectedSystem}/${row.key}`;
 					return (
 						<SC.DeleteEdit>
 							<AddGame system={selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog system={selectedSystem || ""} gameID={row.key} />
+							<DeleteDialog url={url} />
 						</SC.DeleteEdit>
 					);
 				}
