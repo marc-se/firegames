@@ -19,6 +19,7 @@ export const BtnWrapper = styled.div`
 export const ContentWrapper = styled.div`
 	min-height: 40vh;
 	margin: 0 10px 10px 10px;
+	padding-bottom: 20px;
 `;
 
 export const LoadingWrapper = styled.div`

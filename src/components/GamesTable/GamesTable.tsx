@@ -30,6 +30,8 @@ interface State {
 	count: number;
 }
 
+const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
 class GamesTable extends Component<Props, State> {
 	state = {
 		games: [],
@@ -293,7 +295,7 @@ class GamesTable extends Component<Props, State> {
 				<SC.SimpleBadge count={count} />
 				{loading ? (
 					<SC.LoadingSpinner>
-						<Spin tip="Collecting Games..." />
+						<Spin indicator={loadingIcon} />
 					</SC.LoadingSpinner>
 				) : (
 					<SC.TableContainer

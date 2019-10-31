@@ -10,7 +10,7 @@ export const TableContainer = styled(Table)`
 
 export const LoadingSpinner = styled.div`
 	width: 100%;
-	min-height: 100vh;
+	min-height: 50vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

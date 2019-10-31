@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import firebase from "firebase/app";
 import { Spin, Icon } from "antd";
 import "firebase/database";
@@ -45,20 +45,22 @@ const Wishlist = () => {
 	}, []);
 
 	return (
-		<React.Fragment>
+		<Fragment>
 			<Head />
 			<ContentWrapper>
-				<WishlistInputForm />
 				{loading ? (
 					<LoadingWrapper>
 						<Spin indicator={loadingIcon} />
 					</LoadingWrapper>
 				) : (
-					<DataList dataSource={games} columns={TableColumns} pagination={false} />
+					<Fragment>
+						<WishlistInputForm />
+						<DataList dataSource={games} columns={TableColumns} pagination={false} />
+					</Fragment>
 				)}
 			</ContentWrapper>
 			<Footer />
-		</React.Fragment>
+		</Fragment>
 	);
 };
 
