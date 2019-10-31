@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
+import { Spin, Icon } from "antd";
 import "firebase/database";
 
 import { WishlistItem } from "../../types/firebase";
@@ -9,10 +10,13 @@ import Footer from "../Footer/Footer";
 
 import WishlistInputForm from "./WishlistInputForm";
 import TableColumns from "./TableColumns";
-import { DataList } from "./StyledComponents";
+import { DataList, LoadingWrapper, ContentWrapper } from "./StyledComponents";
+
+const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const Wishlist = () => {
 	const [games, setGames] = useState([] as Array<WishlistItem>);
+	const [loading, setLoading] = useState(true);
 
 	async function fetchItems() {
 		try {
@@ -28,6 +32,7 @@ const Wishlist = () => {
 					});
 
 					setGames(items);
+					setLoading(false);
 				}
 			});
 		} catch (error) {
@@ -42,8 +47,16 @@ const Wishlist = () => {
 	return (
 		<React.Fragment>
 			<Head />
-			<WishlistInputForm />
-			<DataList dataSource={games} columns={TableColumns} pagination={false} />;
+			<ContentWrapper>
+				<WishlistInputForm />
+				{loading ? (
+					<LoadingWrapper>
+						<Spin indicator={loadingIcon} />
+					</LoadingWrapper>
+				) : (
+					<DataList dataSource={games} columns={TableColumns} pagination={false} />
+				)}
+			</ContentWrapper>
 			<Footer />
 		</React.Fragment>
 	);

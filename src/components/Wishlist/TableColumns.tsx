@@ -83,7 +83,6 @@ const TableColumns = [
 								size="small"
 								buttonTitle={row.collected ? "already collected" : "add to collection"}
 							/>
-							{/* {row.collected && <DeleteDialog system={systemUrl} gameID={row.key} />} */}
 						</BtnWrapper>
 					)}
 					{row.collected && (
@@ -96,13 +95,5 @@ const TableColumns = [
 		}
 	}
 ];
-
-/*
- * we need some more things:
- * - if a game was added to the collection, show delete button (add callback to <AddGame /> or something like that) ✅
- * - make <DeleteDialog /> more generic
- * - save information, if game was added to collection, when purchased is true (default value is false)
- * - disable add to collection button and show something like 'already added to collection' ✅
- */
 
 export default TableColumns;

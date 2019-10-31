@@ -5,7 +5,7 @@ import "firebase/database";
 
 import SystemSelect from "../SystemSelect/SystemSelect";
 
-import { ContentWrapper, TextInput } from "./StyledComponents";
+import { WishlistFormWrapper, TextInput } from "./StyledComponents";
 import { RadioChangeEvent } from "antd/lib/radio";
 
 const RadioButton = Radio.Button;
@@ -29,7 +29,7 @@ const WishlistInputForm = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
 		e.preventDefault();
 		try {
-			if (text !== "" && system !== "select a system") {
+			if (text !== "" && system !== "select a system" && system !== "") {
 				const addNodeAt = await firebase.database().ref("wishlist");
 				const systemRef = await firebase.database().ref(`systems/${system}/title`);
 				let systemTitle = "";
@@ -59,7 +59,7 @@ const WishlistInputForm = () => {
 	};
 
 	return (
-		<ContentWrapper>
+		<WishlistFormWrapper>
 			<Tag color="volcano">BETA</Tag>
 			<Form layout="inline" onSubmit={handleSubmit}>
 				<Form.Item>
@@ -86,7 +86,7 @@ const WishlistInputForm = () => {
 					</Button>
 				</Form.Item>
 			</Form>
-		</ContentWrapper>
+		</WishlistFormWrapper>
 	);
 };
 
