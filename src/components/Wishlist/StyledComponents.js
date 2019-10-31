@@ -33,4 +33,7 @@ export const LoadingWrapper = styled.div`
 
 export const WishlistFormWrapper = styled.div`
 	margin-bottom: 10px;
+	background-color: white;
+	padding: 5px;
+	${({ fixed }) => fixed && `box-shadow: 0px 12px 33px -25px rgba(0,0,0,0.9);`}
 `;

@@ -40,7 +40,7 @@ const TableColumns = [
 		title: "System",
 		dataIndex: "system",
 		key: "system",
-		width: "15%"
+		width: "20%"
 	},
 	{
 		title: "Region",
@@ -57,7 +57,7 @@ const TableColumns = [
 		title: "Purchased",
 		dataIndex: "purchased",
 		key: "purchased",
-		width: "35%",
+		width: "30%",
 		render: (checked: boolean, row: any) => {
 			let url: string = "";
 			let systemUrl: string = "";

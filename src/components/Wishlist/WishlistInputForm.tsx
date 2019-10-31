@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, FormEvent } from "react";
-import { Form, Button, Radio, Tag, message } from "antd";
+import { Form, Button, Radio, Tag, message, Affix } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -15,6 +15,15 @@ const WishlistInputForm = () => {
 	const [text, setText] = useState("");
 	const [system, setSystem] = useState("none");
 	const [region, setRegion] = useState("PAL");
+	const [fixed, setFixed] = useState(false);
+
+	const handleFormChange = (affixed?: boolean) => {
+		if (affixed) {
+			setFixed(affixed);
+		} else {
+			setFixed(false);
+		}
+	};
 
 	const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value);
 
@@ -59,34 +68,36 @@ const WishlistInputForm = () => {
 	};
 
 	return (
-		<WishlistFormWrapper>
-			<Tag color="volcano">BETA</Tag>
-			<Form layout="inline" onSubmit={handleSubmit}>
-				<Form.Item>
-					<TextInput
-						placeholder="Add a game to your wishlist"
-						type="text"
-						value={text}
-						onChange={handleTitleChange}
-					/>
-				</Form.Item>
-				<Form.Item>
-					<SystemSelect minWidth={250} handleChange={handleSystemChange} defaultValue={system} />
-				</Form.Item>
-				<Form.Item>
-					<RadioGroup onChange={handleRegionChange} defaultValue={region}>
-						<RadioButton value="PAL">PAL</RadioButton>
-						<RadioButton value="JAP">JAP</RadioButton>
-						<RadioButton value="US">US</RadioButton>
-					</RadioGroup>
-				</Form.Item>
-				<Form.Item>
-					<Button type="primary" htmlType="submit">
-						Add Game
-					</Button>
-				</Form.Item>
-			</Form>
-		</WishlistFormWrapper>
+		<Affix onChange={handleFormChange}>
+			<WishlistFormWrapper fixed={fixed}>
+				<Tag color="volcano">BETA</Tag>
+				<Form layout="inline" onSubmit={handleSubmit}>
+					<Form.Item>
+						<TextInput
+							placeholder="Add a game to your wishlist"
+							type="text"
+							value={text}
+							onChange={handleTitleChange}
+						/>
+					</Form.Item>
+					<Form.Item>
+						<SystemSelect minWidth={250} handleChange={handleSystemChange} defaultValue={system} />
+					</Form.Item>
+					<Form.Item>
+						<RadioGroup onChange={handleRegionChange} defaultValue={region}>
+							<RadioButton value="PAL">PAL</RadioButton>
+							<RadioButton value="JAP">JAP</RadioButton>
+							<RadioButton value="US">US</RadioButton>
+						</RadioGroup>
+					</Form.Item>
+					<Form.Item>
+						<Button type="primary" htmlType="submit">
+							Add Game
+						</Button>
+					</Form.Item>
+				</Form>
+			</WishlistFormWrapper>
+		</Affix>
 	);
 };
 
