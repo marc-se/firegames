@@ -1,13 +1,6 @@
 import styled from "styled-components";
 import { Table, Badge } from "antd";
 
-// DeleteOptions.js Components
-export const DeleteOptionsContainer = styled.div`
-	> button {
-		margin-right: 10px;
-	}
-`;
-
 // GamesTable.js Components
 export const TableContainer = styled(Table)`
 	th {
@@ -17,7 +10,7 @@ export const TableContainer = styled(Table)`
 
 export const LoadingSpinner = styled.div`
 	width: 100%;
-	min-height: 100vh;
+	min-height: 50vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

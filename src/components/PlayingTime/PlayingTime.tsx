@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Tooltip, Spin, Icon } from "antd";
 // @ts-ignore
 import { connect } from "react-redux";
@@ -7,11 +7,7 @@ import { HowLongToBeatService } from "howlongtobeat";
 import firebase from "firebase/app";
 import "firebase/database";
 
-interface State {
-	hover: boolean;
-	loading: boolean;
-	playtime: string;
-}
+interface State {}
 
 interface Props {
 	title: string;
@@ -21,23 +17,22 @@ interface Props {
 
 const Load = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-class PlayingTime extends Component<Props, State> {
-	state = {
-		hover: false,
-		loading: true,
-		playtime: ""
-	};
+const PlayingTime = (props: Props) => {
+	const [hover, setHover] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [playtime, setPlaytime] = useState("");
 
-	async getPlaytime(term: string) {
+	async function getPlaytime(term: string) {
 		let hltbService = new HowLongToBeatService();
 		let apiCallNeeded = true;
-		const { selectedSystem, gameId } = this.props;
+		const { selectedSystem, gameId } = props;
 		const gameRef = firebase.database().ref(`games/${selectedSystem}/${gameId}`);
 		gameRef.once("value", snap => {
 			const game = snap.val();
 			if (game.playtime) {
 				apiCallNeeded = false;
-				this.setState({ loading: false, playtime: `playtime: ~${game.playtime} h` });
+				setLoading(false);
+				setPlaytime(`playtime: ~${game.playtime} h`);
 			}
 		});
 
@@ -51,39 +46,38 @@ class PlayingTime extends Component<Props, State> {
 						playtime: playtime
 					});
 
-					this.setState({ loading: false, playtime: `playtime: ~${result[0].gameplayMain} h` });
+					setLoading(false);
+					setPlaytime(`playtime: ~${result[0].gameplayMain} h`);
 				} else {
-					this.setState({ loading: false, playtime: "no data found" });
+					setLoading(false);
+					setPlaytime("no data found");
 				}
 			} catch (error) {
-				this.setState({ loading: false, playtime: "playtime fetch failed" });
+				setLoading(false);
+				setPlaytime("playtime fetch failed");
 				console.error("fetch failed", error);
 			}
 		}
 	}
 
-	changeHover = () => {
-		const { hover } = this.state;
-		this.setState({ hover: !hover });
+	const changeHover = () => {
+		setHover(!hover);
 	};
 
-	render() {
-		const { hover, loading, playtime } = this.state;
-		const { title } = this.props;
+	const { title } = props;
 
-		if (hover && playtime === "") {
-			this.getPlaytime(title);
-		}
-
-		return (
-			<div onMouseEnter={this.changeHover}>
-				<Tooltip placement="topLeft" title={loading ? <Spin indicator={Load} /> : `${playtime}`}>
-					{title}
-				</Tooltip>
-			</div>
-		);
+	if (hover && playtime === "") {
+		getPlaytime(title);
 	}
-}
+
+	return (
+		<div onMouseEnter={changeHover}>
+			<Tooltip placement="topLeft" title={loading ? <Spin indicator={Load} /> : `${playtime}`}>
+				{title}
+			</Tooltip>
+		</div>
+	);
+};
 
 let component = PlayingTime;
 

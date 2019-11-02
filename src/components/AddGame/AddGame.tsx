@@ -15,11 +15,16 @@ const RadioButton = Radio.Button;
 const Option = Select.Option;
 
 interface Props {
+	disabled?: boolean;
 	editMode?: boolean;
 	gameID?: string;
 	system?: string;
+	title?: string;
+	region?: string;
 	buttonTitle?: string;
 	systems?: Array<System>;
+	size?: "small" | "default" | "large" | undefined;
+	successCallback?: any;
 }
 
 interface State {
@@ -50,7 +55,15 @@ class AddGame extends Component<Props, State> {
 	};
 
 	componentDidMount() {
-		const { editMode, gameID, system } = this.props;
+		const { editMode, gameID, system, title, region } = this.props;
+
+		if (region && system && title && !editMode) {
+			this.setState({
+				title,
+				system,
+				region
+			});
+		}
 
 		if (editMode) {
 			const gameRef = firebase.database().ref(`games/${system}/${gameID}`);
@@ -193,6 +206,10 @@ class AddGame extends Component<Props, State> {
 					.then(() => {
 						// display success message
 						this.successMessage("You successfully added a new Game to your collection! 🕹");
+						const { successCallback } = this.props;
+						if (successCallback) {
+							successCallback();
+						}
 						return duplicates;
 					})
 					.catch(() => {
@@ -283,7 +300,7 @@ class AddGame extends Component<Props, State> {
 	};
 
 	render() {
-		const { editMode, buttonTitle, systems, system } = this.props;
+		const { editMode, buttonTitle, systems, system, size, disabled } = this.props;
 		const {
 			loading,
 			title,
@@ -293,6 +310,7 @@ class AddGame extends Component<Props, State> {
 			region,
 			error,
 			time,
+			system: selectedSystem,
 			selectedGenres
 		} = this.state;
 		return (
@@ -302,7 +320,13 @@ class AddGame extends Component<Props, State> {
 						{buttonTitle}
 					</Button>
 				) : (
-					<Button type="primary" icon="plus-circle-o" onClick={this.showModal}>
+					<Button
+						size={size || "default"}
+						type="primary"
+						icon="plus-circle-o"
+						onClick={this.showModal}
+						disabled={disabled || false}
+					>
 						{buttonTitle}
 					</Button>
 				)}
@@ -324,7 +348,7 @@ class AddGame extends Component<Props, State> {
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
-						defaultValue={editMode && system}
+						defaultValue={(editMode && system) || selectedSystem}
 						onChange={this.handleSystemSelect}
 						filterOption={(input: string, option: any) =>
 							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0

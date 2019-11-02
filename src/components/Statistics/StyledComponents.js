@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { Layout, Row, Col } from "antd";
+import { Layout, Col } from "antd";
 
 export const GlobalStyle = createGlobalStyle`
 	.ant-card-body {
@@ -12,22 +12,11 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Container = styled(Layout)`
 	min-height: 100vh;
-	background: #fcfcfc;
-`;
-
-export const Head = styled(Row)`
-	margin: 40px 0;
-	text-align: center;
-`;
-
-export const LargeHeading = styled.h1`
-	font-size: 32px;
-	letter-spacing: 3px;
-	text-transform: uppercase;
+	background: white !important;
 `;
 
 export const CardContainer = styled.div`
-	padding-bottom: 60px;
+	padding-bottom: 80px;
 `;
 
 export const CardHolder = styled(Col)`
@@ -46,14 +35,4 @@ export const CardHolder = styled(Col)`
 	span {
 		font-size: 45px;
 	}
-`;
-
-export const Bar = styled.div`
-	position: fixed;
-	bottom: -5px;
-	left: 0;
-	background: #fff;
-	padding: 10px 0 15px 0;
-	width: 100vw;
-	box-shadow: 0px -9px 14px -10px rgba(204, 204, 204, 0.31);
 `;

@@ -21,3 +21,11 @@ export interface Genre {
 	title: string;
 	url: string;
 }
+
+export interface WishlistItem {
+	key: string;
+	title: string;
+	system: string;
+	purchased: boolean;
+	region: string;
+}
