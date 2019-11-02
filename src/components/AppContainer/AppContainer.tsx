@@ -6,7 +6,8 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.svg";
+
+import { selectSystem } from "../../reducers/actions.js";
 
 import Filter from "../Filter/Filter";
 import SystemSelect from "../SystemSelect/SystemSelect";
@@ -15,7 +16,8 @@ import GamesTable from "../GamesTable/GamesTable";
 import AddGame from "../AddGame/AddGame";
 import AddSystem from "../AddSystem/AddSystem";
 import AddGenre from "../AddGenre/AddGenre";
-import Logout from "../Logout/Logout";
+import Head from "../Head/Head";
+import Footer from "../Footer/Footer";
 
 import * as SC from "./StyledComponents";
 
@@ -30,24 +32,16 @@ const AppContainer = (props: Props) => {
 	const { selectedSystem } = props;
 	const isAuthorized = firebase.auth().currentUser;
 
+	const handleSystemChange = (e: string) => props.dispatch(selectSystem(e));
+
 	if (isAuthorized) {
 		return (
 			<SC.Container>
-				<SC.Head>
-					<Row type="flex" justify="start">
-						<Col span={8}>
-							<SC.Brand src={logo} />
-						</Col>
-						<Col span={16} className="rightHeaderColumn">
-							<Logout />
-						</Col>
-					</Row>
-				</SC.Head>
-				<SC.Separator />
+				<Head />
 				<Layout>
 					<SC.Sidebar>
 						<SC.SidebarContainer>
-							<SystemSelect />
+							<SystemSelect handleChange={handleSystemChange} />
 							<SC.Separator />
 							<Filter />
 							{selectedSystem !== "none" && (
@@ -70,6 +64,11 @@ const AppContainer = (props: Props) => {
 											Statistics
 										</Button>
 									</Link>
+									<Link to="wishlist">
+										<Button type="primary" icon="heart">
+											Wishlist
+										</Button>
+									</Link>
 									<SC.Symbols>
 										<span role="img" aria-label="Games with state: playing">
 											🕹
@@ -86,15 +85,7 @@ const AppContainer = (props: Props) => {
 						<GamesTable />
 					</SC.ContentContainer>
 				</Layout>
-				<SC.FooterContainer>
-					<Row>
-						<Col span={6}>FireGames | {new Date().getFullYear()}</Col>
-						<Col span={12} />
-						<Col span={6}>
-							<SC.RightAlignText>v1.4.1</SC.RightAlignText>
-						</Col>
-					</Row>
-				</SC.FooterContainer>
+				<Footer />
 				<BackTop />
 			</SC.Container>
 		);

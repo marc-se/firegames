@@ -11,7 +11,7 @@ import PlayingTime from "../PlayingTime/PlayingTime";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 import { Game } from "../../types/firebase";
 
-import DeleteDialog from "./DeleteDialog";
+import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import * as SC from "./StyledComponents";
 
 const PLAYING = "playing";
@@ -29,6 +29,8 @@ interface State {
 	loading: boolean;
 	count: number;
 }
+
+const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class GamesTable extends Component<Props, State> {
 	state = {
@@ -108,7 +110,7 @@ class GamesTable extends Component<Props, State> {
 			},
 			e => {
 				if (e) {
-					console.log("update failed", e);
+					console.error("update failed", e);
 				} else {
 					updateGlobalGamesStatusForSystems(selectedSystem, PLAYING, game);
 				}
@@ -129,7 +131,7 @@ class GamesTable extends Component<Props, State> {
 			},
 			e => {
 				if (e) {
-					console.log("update failed", e);
+					console.error("update failed", e);
 				} else {
 					updateGlobalGamesStatusForSystems(selectedSystem, FINISHED, game);
 				}
@@ -275,10 +277,11 @@ class GamesTable extends Component<Props, State> {
 				width: "20%",
 				render: (e: any, row: any) => {
 					const { selectedSystem } = this.props;
+					const url = `games/${selectedSystem}/${row.key}`;
 					return (
 						<SC.DeleteEdit>
 							<AddGame system={selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog system={selectedSystem || ""} gameID={row.key} />
+							<DeleteDialog url={url} />
 						</SC.DeleteEdit>
 					);
 				}
@@ -292,7 +295,7 @@ class GamesTable extends Component<Props, State> {
 				<SC.SimpleBadge count={count} />
 				{loading ? (
 					<SC.LoadingSpinner>
-						<Spin tip="Collecting Games..." />
+						<Spin indicator={loadingIcon} />
 					</SC.LoadingSpinner>
 				) : (
 					<SC.TableContainer

@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound/NotFound";
 import reducer from "./reducers/reducers.js";
 import AppContainer from "./components/AppContainer/AppContainer";
 import Login from "./components/Login/Login";
+import Wishlist from "./components/Wishlist/Wishlist";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import "./App.css";
 
@@ -22,6 +23,7 @@ const App = () => (
 					<Route exact={true} path="/" component={Login} />
 					<AuthRoute exact={true} path="/cms" component={AppContainer} />
 					<AuthRoute exact={true} path="/statistics" component={Statistics} />
+					<AuthRoute exact={true} path="/wishlist" component={Wishlist} />
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Router>
