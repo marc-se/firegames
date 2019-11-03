@@ -133,6 +133,7 @@ const mapStateToProps = (state: State) => {
 	};
 };
 
+// @ts-ignore
 component = connect(mapStateToProps)(component);
 
 export default component;

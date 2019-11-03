@@ -21,7 +21,7 @@ const SyncFilterStats = (props: Props) => {
 		const { selectedSystem } = props;
 		setTimeout(() => setLoading(false), 1000);
 		updateGlobalGamesStatusForSystems(selectedSystem);
-	}, [loading]);
+	}, [props, loading]);
 
 	const handleSync = () => {
 		setLoading(true);
@@ -47,6 +47,7 @@ const mapStateToProps = (state: State) => {
 	};
 };
 
+// @ts-ignore
 component = connect(mapStateToProps)(component);
 
 export default component;

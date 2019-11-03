@@ -22,8 +22,8 @@ import Footer from "../Footer/Footer";
 import * as SC from "./StyledComponents";
 
 interface Props {
-	selectedSystem: string;
-	dispatch: any;
+	selectedSystem?: string;
+	dispatch?: any;
 }
 
 interface State {}
@@ -101,6 +101,7 @@ const mapStateToProps = (state: State) => {
 	};
 };
 
+// @ts-ignore
 component = connect(mapStateToProps)(component);
 
 export default component;
