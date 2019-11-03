@@ -33,7 +33,7 @@ const SystemSelect = (props: Props) => {
 				props.dispatch(updateSystems(systems));
 			});
 		}
-	}, []);
+	}, [props]);
 
 	const { systems, minWidth, defaultValue } = props;
 
