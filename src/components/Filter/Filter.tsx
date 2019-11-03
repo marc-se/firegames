@@ -45,7 +45,7 @@ const Filter = (props: Props) => {
 			setFinished(0);
 			setUntouched(0);
 		}
-	});
+	}, [playing, finished, untouched, props]);
 
 	const handlePlayingFilter = (e: boolean) => props.dispatch(setPlayingFilter(e));
 

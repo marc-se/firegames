@@ -4,21 +4,34 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { ConfigProvider, Spin, Icon } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
-import Statistics from "./components/Statistics/Statistics";
+
 import NotFound from "./components/NotFound/NotFound";
 import reducer from "./reducers/reducers.js";
-
 import Login from "./components/Login/Login";
-import Wishlist from "./components/Wishlist/Wishlist";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import "./App.css";
 
 const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const Cms = lazy(() => import("./components/AppContainer/AppContainer"));
+const Statistics = lazy(() => import("./components/Statistics/Statistics"));
+const Wishlist = lazy(() => import("./components/Wishlist/Wishlist"));
+
 const LazyCms = () => (
 	<Suspense fallback={<Spin indicator={loadingIcon} />}>
 		<Cms />
+	</Suspense>
+);
+
+const LazyStatistics = () => (
+	<Suspense fallback={<Spin indicator={loadingIcon} />}>
+		<Statistics />
+	</Suspense>
+);
+
+const LazyWishlist = () => (
+	<Suspense fallback={<Spin indicator={loadingIcon} />}>
+		<Wishlist />
 	</Suspense>
 );
 
@@ -31,8 +44,8 @@ const App = () => (
 				<Switch>
 					<Route exact={true} path="/" component={Login} />
 					<AuthRoute exact={true} path="/cms" component={LazyCms} />
-					<AuthRoute exact={true} path="/statistics" component={Statistics} />
-					<AuthRoute exact={true} path="/wishlist" component={Wishlist} />
+					<AuthRoute exact={true} path="/statistics" component={LazyStatistics} />
+					<AuthRoute exact={true} path="/wishlist" component={LazyWishlist} />
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Router>
