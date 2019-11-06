@@ -3,7 +3,15 @@ import { Route, Redirect } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const AuthRoute = ({ component: Component, ...props }: { component: any; props: any }) => {
+const AuthRoute = ({
+	component: Component,
+	...props
+}: {
+	component: any;
+	exact?: boolean;
+	path: string;
+	props?: any;
+}) => {
 	return (
 		<Route
 			{...props}
