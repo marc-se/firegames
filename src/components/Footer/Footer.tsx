@@ -18,7 +18,7 @@ const Footer = () => {
 					)}
 				</Col>
 				<Col span={6}>
-					<RightAlignText>v1.5.0</RightAlignText>
+					<RightAlignText>v1.5.1</RightAlignText>
 				</Col>
 			</Row>
 		</FooterContainer>

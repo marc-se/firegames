@@ -33,7 +33,7 @@ const SystemSelect = (props: Props) => {
 				props.dispatch(updateSystems(systems));
 			});
 		}
-	}, []);
+	}, [props]);
 
 	const { systems, minWidth, defaultValue } = props;
 
@@ -72,6 +72,7 @@ const mapStateToProps = (state: State) => {
 	};
 };
 
+// @ts-ignore
 component = connect(mapStateToProps)(component);
 
 export default component;
