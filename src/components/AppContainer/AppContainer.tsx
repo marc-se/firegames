@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { Redirect } from "react-router-dom";
@@ -31,6 +31,11 @@ interface State {}
 const AppContainer = (props: Props) => {
 	const { selectedSystem } = props;
 	const isAuthorized = firebase.auth().currentUser;
+
+	// cleanup on route change
+	useEffect(() => {
+		props.dispatch(selectSystem("none"));
+	}, []);
 
 	const handleSystemChange = (e: string) => props.dispatch(selectSystem(e));
 
