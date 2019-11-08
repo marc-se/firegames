@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 // @ts-ignore
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button } from "antd";
 import firebase from "firebase/app";
@@ -13,21 +14,28 @@ interface Props {
 	dispatch?: any;
 }
 
-interface State {}
+interface State {
+	redirect: boolean;
+}
 
 const Logout = (props: Props) => {
+	const [redirect, setRedirect] = useState(false);
+
 	const handleLogout = async () => {
 		const { dispatch } = props;
 		try {
 			await firebase.auth().signOut();
 			dispatch(selectSystem("none"));
 			dispatch(loggedIn(false));
+			setRedirect(true);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	return (
+	return redirect ? (
+		<Redirect to="/" />
+	) : (
 		<SC.LogoutBox>
 			Logout
 			<Button shape="circle" icon="poweroff" type="dashed" onClick={handleLogout} />
