@@ -7,6 +7,7 @@ import DeleteOptions from "./DeleteOptions";
 
 interface Props {
 	url: string;
+	system?: string;
 }
 
 const DeleteDialog = (props: Props) => {
@@ -15,9 +16,20 @@ const DeleteDialog = (props: Props) => {
 	const toggleVisible = () => setIsVisible(!isVisible);
 
 	const handleDelete = () => {
-		const { url } = props;
+		const { url, system } = props;
 		const deleteNodeAt = firebase.database().ref(url);
 		deleteNodeAt.set(null).then(() => {
+			if (system) {
+				const gamesNode = firebase.database().ref("games/" + system);
+				const updateStatisticsForSystem = firebase.database().ref(`systems/${system}/`);
+				gamesNode.once("value", snap => {
+					let obj = snap.val();
+					let gamesCount = Object.keys(obj).length;
+					updateStatisticsForSystem.update({
+						games: gamesCount
+					});
+				});
+			}
 			successMessage();
 		});
 	};

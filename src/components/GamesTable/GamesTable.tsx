@@ -283,7 +283,7 @@ class GamesTable extends Component<Props, State> {
 					return (
 						<SC.DeleteEdit>
 							<AddGame system={selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog url={url} />
+							<DeleteDialog url={url} system={selectedSystem} />
 						</SC.DeleteEdit>
 					);
 				}
