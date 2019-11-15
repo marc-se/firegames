@@ -313,6 +313,15 @@ class AddGame extends Component<Props, State> {
 			system: selectedSystem,
 			selectedGenres
 		} = this.state;
+
+		let systemDefaultVal = "";
+
+		if (editMode && system) {
+			systemDefaultVal = system;
+		} else if (selectedSystem !== "") {
+			systemDefaultVal = selectedSystem;
+		}
+
 		return (
 			<React.Fragment>
 				{editMode ? (
@@ -348,7 +357,7 @@ class AddGame extends Component<Props, State> {
 						showSearch
 						placeholder="Select a System"
 						optionFilterProp="children"
-						defaultValue={(editMode && system) || selectedSystem}
+						defaultValue={systemDefaultVal !== "" ? systemDefaultVal : undefined}
 						onChange={this.handleSystemSelect}
 						filterOption={(input: string, option: any) =>
 							option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0

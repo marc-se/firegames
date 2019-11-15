@@ -210,7 +210,9 @@ class GamesTable extends Component<Props, State> {
 				key: "title",
 				width: "35%",
 				...this.getColumnSearchProps("title"),
-				render: (title: string, row: any) => <PlayingTime gameId={row.key} title={title} />
+				render: (title: string, row: any) => (
+					<PlayingTime gameId={row.key} title={title} time={row.playtime || 0} />
+				)
 			},
 			{
 				title: "Region",
@@ -281,7 +283,7 @@ class GamesTable extends Component<Props, State> {
 					return (
 						<SC.DeleteEdit>
 							<AddGame system={selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog url={url} />
+							<DeleteDialog url={url} system={selectedSystem} />
 						</SC.DeleteEdit>
 					);
 				}
