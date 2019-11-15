@@ -10,12 +10,13 @@ import Footer from "../Footer/Footer";
 
 import WishlistInputForm from "./WishlistInputForm";
 import TableColumns from "./TableColumns";
-import { DataList, LoadingWrapper, ContentWrapper } from "./StyledComponents";
+import { DataList, LoadingWrapper, ContentWrapper, DataWrapper, Count } from "./StyledComponents";
 
 const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const Wishlist = () => {
 	const [games, setGames] = useState([] as Array<WishlistItem>);
+	const [gamesCount, setGamesCount] = useState(0);
 	const [loading, setLoading] = useState(true);
 
 	async function fetchItems() {
@@ -32,6 +33,7 @@ const Wishlist = () => {
 					});
 
 					setGames(items);
+					setGamesCount(items.length);
 					setLoading(false);
 				}
 			});
@@ -55,7 +57,10 @@ const Wishlist = () => {
 				) : (
 					<Fragment>
 						<WishlistInputForm />
-						<DataList dataSource={games} columns={TableColumns} pagination={false} />
+						<DataWrapper>
+							<Count count={gamesCount} overflowCount={999} />
+							<DataList dataSource={games} columns={TableColumns} pagination={false} />
+						</DataWrapper>
 					</Fragment>
 				)}
 			</ContentWrapper>

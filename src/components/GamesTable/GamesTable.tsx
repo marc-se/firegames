@@ -294,7 +294,7 @@ class GamesTable extends Component<Props, State> {
 
 		return (
 			<React.Fragment>
-				<SC.SimpleBadge count={count} />
+				<SC.SimpleBadge count={count} overflowCount={999} />
 				{loading ? (
 					<SC.LoadingSpinner>
 						<Spin indicator={loadingIcon} />
