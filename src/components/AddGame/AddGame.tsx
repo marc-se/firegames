@@ -1,5 +1,4 @@
 import React, { Component, ChangeEvent } from "react";
-// @ts-ignore
 import { connect } from "react-redux";
 import { Modal, Button, Checkbox, Select, Radio, message, InputNumber } from "antd";
 import firebase from "firebase/app";

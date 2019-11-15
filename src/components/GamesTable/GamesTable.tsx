@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-// @ts-ignore
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
 import firebase from "firebase/app";
@@ -22,39 +21,25 @@ interface Props {
 	filterType?: string;
 }
 
-interface State {
-	games: Array<Game>;
-	filterData: Array<Game>;
-	searchText: string;
-	loading: boolean;
-	count: number;
-}
+interface State {}
 
 const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-class GamesTable extends Component<Props, State> {
-	state = {
-		games: [],
-		filterData: [],
-		searchText: "",
-		loading: false,
-		count: 0
-	};
+const GamesTable = (props: Props) => {
+	const [games, setGames] = useState([] as Array<Game>);
+	const [searchText, setSearchText] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [count, setCount] = useState(0);
 
-	componentWillReceiveProps(nextProps: Props) {
-		if (nextProps.selectedSystem === "none") {
-			this.setState({
-				games: [],
-				filterData: [],
-				loading: false,
-				count: 0
-			});
+	useEffect(() => {
+		if (props.selectedSystem === "none") {
+			setGames([]);
+			setLoading(false);
+			setCount(0);
 		} else {
-			this.setState({
-				loading: true
-			});
+			setLoading(true);
 
-			const gamesRef = firebase.database().ref(`games/${nextProps.selectedSystem}`);
+			const gamesRef = firebase.database().ref(`games/${props.selectedSystem}`);
 			gamesRef.on("value", snap => {
 				let data = snap.val();
 				let games: Array<Game> = [];
@@ -67,7 +52,7 @@ class GamesTable extends Component<Props, State> {
 				});
 
 				/* eslint-disable */
-				switch (nextProps.filterType) {
+				switch (props.filterType) {
 					case "PLAYING_FILTER":
 						games = games.filter(game => game.playing === true);
 						break;
@@ -87,18 +72,15 @@ class GamesTable extends Component<Props, State> {
 					return gameA < gameB ? -1 : gameA > gameB ? 1 : 0;
 				});
 
-				this.setState({
-					games: games,
-					filterData: games,
-					loading: false,
-					count: games.length
-				});
+				setGames(games);
+				setLoading(false);
+				setCount(games.length);
 			});
 		}
-	}
+	}, [props]);
 
-	playingStateChange = (e: any, key: string) => {
-		const { selectedSystem } = this.props;
+	const playingStateChange = (e: any, key: string) => {
+		const { selectedSystem } = props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
 		let game = {};
 
@@ -118,8 +100,8 @@ class GamesTable extends Component<Props, State> {
 		);
 	};
 
-	finishedStateChange = (e: any, key: string) => {
-		const { selectedSystem } = this.props;
+	const finishedStateChange = (e: any, key: string) => {
+		const { selectedSystem } = props;
 		const updateFile = firebase.database().ref(`games/${selectedSystem}/${key}`);
 		let game = {};
 
@@ -139,7 +121,7 @@ class GamesTable extends Component<Props, State> {
 		);
 	};
 
-	getColumnSearchProps = (dataIndex: string) => ({
+	const getColumnSearchProps = (dataIndex: string) => ({
 		filterDropdown: ({
 			setSelectedKeys,
 			selectedKeys,
@@ -156,19 +138,19 @@ class GamesTable extends Component<Props, State> {
 					placeholder={`Search ${dataIndex}`}
 					value={selectedKeys[0]}
 					onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-					onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+					onPressEnter={() => handleSearch(selectedKeys, confirm)}
 					style={{ width: 188, marginBottom: 8, display: "block" }}
 				/>
 				<Button
 					type="primary"
-					onClick={() => this.handleSearch(selectedKeys, confirm)}
+					onClick={() => handleSearch(selectedKeys, confirm)}
 					icon="search"
 					size="small"
 					style={{ width: 90, marginRight: 8 }}
 				>
 					Search
 				</Button>
-				<Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+				<Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
 					Reset
 				</Button>
 			</div>
@@ -185,132 +167,128 @@ class GamesTable extends Component<Props, State> {
 		render: (text: string) => (
 			<Highlighter
 				highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-				searchWords={[this.state.searchText]}
+				searchWords={[searchText]}
 				autoEscape
 				textToHighlight={text.toString()}
 			/>
 		)
 	});
 
-	handleSearch = (selectedKeys: any, confirm: () => void) => {
+	const handleSearch = (selectedKeys: any, confirm: () => void) => {
 		confirm();
-		this.setState({ searchText: selectedKeys[0] });
+		setSearchText(selectedKeys[0]);
 	};
 
-	handleReset = (clearFilters: any) => {
+	const handleReset = (clearFilters: any) => {
 		clearFilters();
-		this.setState({ searchText: "" });
+		setSearchText("");
 	};
 
-	render() {
-		const columns = [
-			{
-				title: "Game",
-				dataIndex: "title",
-				key: "title",
-				width: "35%",
-				...this.getColumnSearchProps("title"),
-				render: (title: string, row: any) => (
-					<PlayingTime gameId={row.key} title={title} time={row.playtime || 0} />
-				)
-			},
-			{
-				title: "Region",
-				dataIndex: "region",
-				key: "region",
-				width: "10%",
-				// colors -> https://coolors.co/011627-fdfffc-2ec4b6-e71d36-ff9f1c
-				render: (region: string) => (
-					<Tag color={region === "PAL" ? "#FF9F1C" : region === "JAP" ? "#2EC4B6" : "#E71D36"}>
-						{region}
-					</Tag>
-				)
-			},
-			{
-				title: "Genre",
-				dataIndex: "genre",
-				key: "genre",
-				width: "25%",
-				render: (genres: string) => {
-					const tags = genres.split(",");
-					return (
-						<div>
-							{tags.map((tag: string, i) => (
-								<Tag key={i}>{tag}</Tag>
-							))}
-						</div>
-					);
-				}
-			},
-			{
-				title: (
-					<Tooltip title="playing">
-						<span role="img" aria-label="status: playing">
-							🕹
-						</span>
-					</Tooltip>
-				),
-				dataIndex: "playing",
-				key: "playing",
-				width: "5%",
-				render: (checked: boolean, row: any) => (
-					<Checkbox checked={checked} onChange={e => this.playingStateChange(e, row.key)} />
-				)
-			},
-			{
-				title: (
-					<Tooltip title="finished">
-						<span role="img" aria-label="status: finished">
-							✅
-						</span>
-					</Tooltip>
-				),
-				dataIndex: "finished",
-				key: "finished",
-				width: "5%",
-				render: (checked: boolean, row: any) => (
-					<Checkbox checked={checked} onChange={e => this.finishedStateChange(e, row.key)} />
-				)
-			},
-			{
-				title: "Edit / Delete",
-				dataIndex: "edit",
-				key: "edit",
-				width: "20%",
-				render: (e: any, row: any) => {
-					const { selectedSystem } = this.props;
-					const url = `games/${selectedSystem}/${row.key}`;
-					return (
-						<SC.DeleteEdit>
-							<AddGame system={selectedSystem} editMode gameID={row.key} />
-							<DeleteDialog url={url} system={selectedSystem} />
-						</SC.DeleteEdit>
-					);
-				}
+	const columns = [
+		{
+			title: "Game",
+			dataIndex: "title",
+			key: "title",
+			width: "35%",
+			...getColumnSearchProps("title"),
+			render: (title: string, row: any) => (
+				<PlayingTime gameId={row.key} title={title} time={row.playtime || 0} />
+			)
+		},
+		{
+			title: "Region",
+			dataIndex: "region",
+			key: "region",
+			width: "10%",
+			// colors -> https://coolors.co/011627-fdfffc-2ec4b6-e71d36-ff9f1c
+			render: (region: string) => (
+				<Tag color={region === "PAL" ? "#FF9F1C" : region === "JAP" ? "#2EC4B6" : "#E71D36"}>
+					{region}
+				</Tag>
+			)
+		},
+		{
+			title: "Genre",
+			dataIndex: "genre",
+			key: "genre",
+			width: "25%",
+			render: (genres: string) => {
+				const tags = genres.split(",");
+				return (
+					<div>
+						{tags.map((tag: string, i) => (
+							<Tag key={i}>{tag}</Tag>
+						))}
+					</div>
+				);
 			}
-		];
+		},
+		{
+			title: (
+				<Tooltip title="playing">
+					<span role="img" aria-label="status: playing">
+						🕹
+					</span>
+				</Tooltip>
+			),
+			dataIndex: "playing",
+			key: "playing",
+			width: "5%",
+			render: (checked: boolean, row: any) => (
+				<Checkbox checked={checked} onChange={e => playingStateChange(e, row.key)} />
+			)
+		},
+		{
+			title: (
+				<Tooltip title="finished">
+					<span role="img" aria-label="status: finished">
+						✅
+					</span>
+				</Tooltip>
+			),
+			dataIndex: "finished",
+			key: "finished",
+			width: "5%",
+			render: (checked: boolean, row: any) => (
+				<Checkbox checked={checked} onChange={e => finishedStateChange(e, row.key)} />
+			)
+		},
+		{
+			title: "Edit / Delete",
+			dataIndex: "edit",
+			key: "edit",
+			width: "20%",
+			render: (e: any, row: any) => {
+				const { selectedSystem } = props;
+				const url = `games/${selectedSystem}/${row.key}`;
+				return (
+					<SC.DeleteEdit>
+						<AddGame system={selectedSystem} editMode gameID={row.key} />
+						<DeleteDialog url={url} system={selectedSystem} />
+					</SC.DeleteEdit>
+				);
+			}
+		}
+	];
 
-		const { games, count, loading } = this.state;
-
-		return (
-			<React.Fragment>
-				<SC.SimpleBadge count={count} />
-				{loading ? (
-					<SC.LoadingSpinner>
-						<Spin indicator={loadingIcon} />
-					</SC.LoadingSpinner>
-				) : (
-					<SC.TableContainer
-						columns={columns}
-						dataSource={games}
-						pagination={false}
-						scroll={{ y: "65vh" }}
-					/>
-				)}
-			</React.Fragment>
-		);
-	}
-}
+	return (
+		<React.Fragment>
+			<SC.SimpleBadge count={count} overflowCount={999} />
+			{loading ? (
+				<SC.LoadingSpinner>
+					<Spin indicator={loadingIcon} />
+				</SC.LoadingSpinner>
+			) : (
+				<SC.TableContainer
+					columns={columns}
+					dataSource={games}
+					pagination={false}
+					scroll={{ y: "65vh" }}
+				/>
+			)}
+		</React.Fragment>
+	);
+};
 
 let component = GamesTable;
 
