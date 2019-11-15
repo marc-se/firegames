@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row } from "antd";
-// @ts-ignore
 import { connect } from "react-redux";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
 

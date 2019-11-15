@@ -1,5 +1,15 @@
 import styled from "styled-components";
-import { Table, Input } from "antd";
+import { Table, Input, Badge } from "antd";
+
+export const Count = styled(Badge)`
+	position: absolute !important;
+	top: -10px;
+	right: 0;
+`;
+
+export const DataWrapper = styled.div`
+	position: relative;
+`;
 
 export const DataList = styled(Table)`
 	&& {
