@@ -1,6 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Redirect } from "react-router-dom";
-// @ts-ignore
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import { Row, Col, Spin, Icon, Button, Alert, message } from "antd";

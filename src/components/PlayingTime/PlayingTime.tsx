@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip, Spin, Icon } from "antd";
-// @ts-ignore
 import { connect } from "react-redux";
 // @ts-ignore
 import { HowLongToBeatService } from "howlongtobeat";

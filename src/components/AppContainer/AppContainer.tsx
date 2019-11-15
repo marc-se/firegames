@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { Redirect } from "react-router-dom";
-// @ts-ignore
 import { connect } from "react-redux";
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router-dom";

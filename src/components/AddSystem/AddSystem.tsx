@@ -1,6 +1,5 @@
 import React, { Fragment, ChangeEvent, useState } from "react";
 import { Modal, Button, Alert, Input, message } from "antd";
-// @ts-ignore
 import { connect } from "react-redux";
 import firebase from "firebase/app";
 import "firebase/database";

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// @ts-ignore
 import { connect } from "react-redux";
 import { Select } from "antd";
 import firebase from "firebase/app";

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// @ts-ignore
 import { connect } from "react-redux";
 import { Badge, Switch, Icon, Row } from "antd";
 import firebase from "firebase/app";
