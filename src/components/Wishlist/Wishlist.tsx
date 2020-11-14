@@ -1,7 +1,8 @@
 // @ts-nocheck
 import React, { useState, useEffect, Fragment } from "react";
 import firebase from "firebase/app";
-import { Spin, Icon } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from "antd";
 import "firebase/database";
 
 import { WishlistItem } from "../../types/firebase";
@@ -13,7 +14,7 @@ import WishlistInputForm from "./WishlistInputForm";
 import TableColumns from "./TableColumns";
 import { DataList, LoadingWrapper, ContentWrapper, DataWrapper, Count } from "./StyledComponents";
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const Wishlist = () => {
 	const [games, setGames] = useState([] as Array<WishlistItem>);
