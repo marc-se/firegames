@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { Input, Button, Tag, Checkbox, Spin, Tooltip } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
@@ -23,7 +24,7 @@ interface Props {
 
 interface State { }
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const GamesTable = (props: Props) => {
 	const [games, setGames] = useState([] as Array<Game>);
@@ -144,7 +145,7 @@ const GamesTable = (props: Props) => {
 					<Button
 						type="primary"
 						onClick={() => handleSearch(selectedKeys, confirm)}
-						icon="search"
+						icon={<SearchOutlined />}
 						size="small"
 						style={{ width: 90, marginRight: 8 }}
 					>
@@ -156,7 +157,7 @@ const GamesTable = (props: Props) => {
 				</div>
 			),
 		filterIcon: (filtered: boolean) => (
-			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+			<SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
 		),
 		onFilter: (value: string, record: Array<string>) =>
 			// @ts-ignore

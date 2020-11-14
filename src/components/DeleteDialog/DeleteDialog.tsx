@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState } from "react";
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Popover, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -40,16 +41,16 @@ const DeleteDialog = (props: Props) => {
 	};
 
 	return (
-		<Popover
+        <Popover
 			content={<DeleteOptions onOk={handleDelete} onCancel={toggleVisible} />}
 			title="Really delete this Game?"
 			trigger="click"
 			visible={isVisible}
 			onVisibleChange={toggleVisible}
 		>
-			<Button type="danger" shape="circle" icon="delete" />
+			<Button type="danger" shape="circle" icon={<DeleteOutlined />} />
 		</Popover>
-	);
+    );
 };
 
 export default DeleteDialog;

@@ -1,4 +1,5 @@
 import React, { Fragment, ChangeEvent, useState } from "react";
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Modal, Button, Alert, Input, message } from "antd";
 import { connect } from "react-redux";
 import firebase from "firebase/app";
@@ -87,8 +88,8 @@ const AddSystem = (props: Props) => {
 		message.success("You successfully added a new System to your collection! 👾", 3);
 
 	return (
-		<Fragment>
-			<Button type="primary" icon="plus-circle-o" onClick={showModal}>
+        <Fragment>
+			<Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>
 				Add System
 			</Button>
 			<Modal
@@ -117,7 +118,7 @@ const AddSystem = (props: Props) => {
 				)}
 			</Modal>
 		</Fragment>
-	);
+    );
 };
 
 let component = AddSystem;

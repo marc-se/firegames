@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, Fragment } from "react";
 import firebase from "firebase/app";
-import { Spin, Icon, Icon } from "antd";
+import { Spin, Icon } from "antd";
 import "firebase/database";
 
 import { WishlistItem } from "../../types/firebase";

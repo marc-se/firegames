@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Modal, Button, Alert, Input, message } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -55,8 +56,8 @@ const AddGenre = () => {
 	};
 
 	return (
-		<React.Fragment>
-			<Button type="primary" icon="plus-circle-o" onClick={showModal}>
+        <React.Fragment>
+			<Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>
 				Add Genre
 			</Button>
 			<Modal
@@ -81,7 +82,7 @@ const AddGenre = () => {
 				)}
 			</Modal>
 		</React.Fragment>
-	);
+    );
 };
 
 export default AddGenre;

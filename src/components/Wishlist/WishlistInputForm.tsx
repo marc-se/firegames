@@ -1,6 +1,8 @@
 // @ts-nocheck
 import React, { ChangeEvent, useState, FormEvent } from "react";
-import { Form, Button, Radio, Tag, message, Affix } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Radio, Tag, message, Affix } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 

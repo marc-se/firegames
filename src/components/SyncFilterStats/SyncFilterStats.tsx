@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
+import { SyncOutlined } from '@ant-design/icons';
 import { Button, Row } from "antd";
 import { connect } from "react-redux";
 import { updateGlobalGamesStatusForSystems } from "../../utils/updateGlobalGamesStatusForSystems.js";
@@ -28,15 +29,15 @@ const SyncFilterStats = (props: Props) => {
 	};
 
 	return (
-		<Row type="flex">
+        <Row type="flex">
 			<SC.Container span={24}>
 				Sync Filter Stats
-				<Button icon="sync" size="small" loading={loading} onClick={handleSync}>
+				<Button icon={<SyncOutlined />} size="small" loading={loading} onClick={handleSync}>
 					Sync
 				</Button>
 			</SC.Container>
 		</Row>
-	);
+    );
 };
 
 let component = SyncFilterStats;

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-import { Tooltip, Spin, Icon } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Tooltip, Spin } from "antd";
 import { connect } from "react-redux";
 // @ts-ignore
 import { HowLongToBeatService } from "howlongtobeat";
@@ -18,7 +19,7 @@ interface Props {
 	time: number;
 }
 
-const Load = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const Load = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const PlayingTime = (props: Props) => {
 	const [hover, setHover] = useState(false);

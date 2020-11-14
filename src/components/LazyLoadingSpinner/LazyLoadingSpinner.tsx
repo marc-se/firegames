@@ -1,10 +1,11 @@
 // @ts-nocheck
 import React from "react";
-import { Spin, Icon } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from "antd";
 
 import { Container } from "./StyledComponents";
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export default () => (
 	<Container>

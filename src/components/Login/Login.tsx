@@ -2,8 +2,9 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout } from "antd";
-import { Row, Col, Spin, Button, Alert, Icon, message } from "antd";
+import { Row, Col, Spin, Button, Alert, message } from "antd";
 import { loggedIn } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
@@ -13,7 +14,7 @@ import * as SC from "./StyledComponents";
 
 const { Content } = Layout;
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 interface Props {
 	dispatch?: any;
@@ -66,7 +67,7 @@ const Login = (props: Props) => {
 	}
 
 	return (
-		<Layout>
+        <Layout>
 			<SC.Container>
 				<Content>
 					<SC.LoginBox>
@@ -87,7 +88,7 @@ const Login = (props: Props) => {
 						<Row type="flex" justify="center">
 							<Col span={24}>
 								<SC.InputField
-									prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+									prefix={<UserOutlined style={{ fontSize: 13 }} />}
 									placeholder="Username"
 									onChange={handleUserNameInput}
 									onKeyPress={handlePressEnter}
@@ -95,7 +96,7 @@ const Login = (props: Props) => {
 							</Col>
 							<Col span={24}>
 								<SC.InputField
-									prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+									prefix={<LockOutlined style={{ fontSize: 13 }} />}
 									type="password"
 									placeholder="Password"
 									onChange={handlePasswordInput}
@@ -110,7 +111,7 @@ const Login = (props: Props) => {
 				</Content>
 			</SC.Container>
 		</Layout>
-	);
+    );
 };
 
 let component = Login;
