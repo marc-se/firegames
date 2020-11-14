@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
@@ -27,7 +28,7 @@ interface State { }
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const GamesTable = (props: Props) => {
-	const [games, setGames] = useState([] as Array<Game>);
+	const [games, setGames] = useState([]);
 	const [searchText, setSearchText] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [count, setCount] = useState(0);

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Fragment, useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -12,8 +13,8 @@ interface Props {
 }
 
 const GenreTagList = (props: Props) => {
-	const [genreTags, setGenreTags] = useState([] as Array<Genre>);
-	const [selectedTags, setSelectedTags] = useState([] as Array<string>);
+	const [genreTags, setGenreTags] = useState([]);
+	const [selectedTags, setSelectedTags] = useState([]);
 
 	async function fetchTags() {
 		try {

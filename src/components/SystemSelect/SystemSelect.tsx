@@ -16,7 +16,7 @@ interface Props {
 	defaultValue?: string;
 }
 
-interface State {}
+interface State { }
 
 const Option = Select.Option;
 
@@ -39,7 +39,7 @@ const SystemSelect = (props: Props) => {
 	return (
 		<SC.Container
 			showSearch
-			minWidth={minWidth}
+			minwidth={minWidth}
 			placeholder="Select a System"
 			optionFilterProp="children"
 			defaultValue={defaultValue || "none"}

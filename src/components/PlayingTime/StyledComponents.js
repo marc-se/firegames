@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Icon } from "@ant-design/compatible";
+import { HistoryOutlined } from "@ant-design/icons";
 
-export const TimeIcon = styled(Icon)`
+export const TimeIcon = styled(HistoryOutlined)`
 	margin-left: 5px;
 `;

@@ -91,7 +91,7 @@ const PlayingTime = (props: Props) => {
 				}
 			>
 				{title}
-				{time > 0 && <TimeIcon type="history" />}
+				{time > 0 && <TimeIcon />}
 			</Tooltip>
 		</div>
 	);
