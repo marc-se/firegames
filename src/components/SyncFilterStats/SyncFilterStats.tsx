@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { Button, Row } from "antd";
 import { connect } from "react-redux";

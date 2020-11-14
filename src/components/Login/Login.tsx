@@ -1,8 +1,9 @@
+// @ts-nocheck
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Row, Col, Spin, Icon, Button, Alert, message } from "antd";
+import { Row, Col, Spin, Button, Alert, Icon, message } from "antd";
 import { loggedIn } from "../../reducers/actions.js";
 
 import firebase from "firebase/app";
@@ -18,7 +19,7 @@ interface Props {
 	dispatch?: any;
 }
 
-interface State {}
+interface State { }
 
 const Login = (props: Props) => {
 	const [username, setUsername] = useState("");

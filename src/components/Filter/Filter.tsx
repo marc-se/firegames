@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Badge, Switch, Icon, Row } from "antd";
+import { Badge, Switch, Row, Icon } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -17,7 +18,7 @@ interface Props {
 	showUntouched?: boolean;
 }
 
-interface State {}
+interface State { }
 
 const Filter = (props: Props) => {
 	const [playing, setPlaying] = useState(0);

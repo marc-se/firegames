@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React, { useState, useEffect, Fragment } from "react";
 import firebase from "firebase/app";
-import { Spin, Icon } from "antd";
+import { Spin, Icon, Icon } from "antd";
 import "firebase/database";
 
 import { WishlistItem } from "../../types/firebase";
@@ -55,14 +56,14 @@ const Wishlist = () => {
 						<Spin indicator={loadingIcon} />
 					</LoadingWrapper>
 				) : (
-					<Fragment>
-						<WishlistInputForm />
-						<DataWrapper>
-							<Count count={gamesCount} overflowCount={999} />
-							<DataList dataSource={games} columns={TableColumns} pagination={false} />
-						</DataWrapper>
-					</Fragment>
-				)}
+						<Fragment>
+							<WishlistInputForm />
+							<DataWrapper>
+								<Count count={gamesCount} overflowCount={999} />
+								<DataList dataSource={games} columns={TableColumns} pagination={false} />
+							</DataWrapper>
+						</Fragment>
+					)}
 			</ContentWrapper>
 			<Footer />
 		</Fragment>

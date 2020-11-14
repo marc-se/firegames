@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { Button, Popover, message } from "antd";
 import firebase from "firebase/app";

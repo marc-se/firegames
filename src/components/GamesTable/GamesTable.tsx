@@ -21,7 +21,7 @@ interface Props {
 	filterType?: string;
 }
 
-interface State {}
+interface State { }
 
 const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -133,28 +133,28 @@ const GamesTable = (props: Props) => {
 			confirm: any;
 			clearFilters: any;
 		}) => (
-			<div style={{ padding: 8 }}>
-				<Input
-					placeholder={`Search ${dataIndex}`}
-					value={selectedKeys[0]}
-					onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-					onPressEnter={() => handleSearch(selectedKeys, confirm)}
-					style={{ width: 188, marginBottom: 8, display: "block" }}
-				/>
-				<Button
-					type="primary"
-					onClick={() => handleSearch(selectedKeys, confirm)}
-					icon="search"
-					size="small"
-					style={{ width: 90, marginRight: 8 }}
-				>
-					Search
+				<div style={{ padding: 8 }}>
+					<Input
+						placeholder={`Search ${dataIndex}`}
+						value={selectedKeys[0]}
+						onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+						onPressEnter={() => handleSearch(selectedKeys, confirm)}
+						style={{ width: 188, marginBottom: 8, display: "block" }}
+					/>
+					<Button
+						type="primary"
+						onClick={() => handleSearch(selectedKeys, confirm)}
+						icon="search"
+						size="small"
+						style={{ width: 90, marginRight: 8 }}
+					>
+						Search
 				</Button>
-				<Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-					Reset
+					<Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+						Reset
 				</Button>
-			</div>
-		),
+				</div>
+			),
 		filterIcon: (filtered: boolean) => (
 			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
 		),
@@ -279,13 +279,13 @@ const GamesTable = (props: Props) => {
 					<Spin indicator={loadingIcon} />
 				</SC.LoadingSpinner>
 			) : (
-				<SC.TableContainer
-					columns={columns}
-					dataSource={games}
-					pagination={false}
-					scroll={{ y: "65vh" }}
-				/>
-			)}
+					<SC.TableContainer
+						columns={columns}
+						dataSource={games}
+						pagination={false}
+						scroll={{ y: "65vh" }}
+					/>
+				)}
 		</React.Fragment>
 	);
 };

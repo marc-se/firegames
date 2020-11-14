@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { Tooltip, Spin, Icon } from "antd";
 import { connect } from "react-redux";
@@ -8,7 +9,7 @@ import "firebase/database";
 
 import { TimeIcon } from "./StyledComponents";
 
-interface State {}
+interface State { }
 
 interface Props {
 	title: string;

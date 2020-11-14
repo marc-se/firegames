@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { ChangeEvent, useState, FormEvent } from "react";
 import { Form, Button, Radio, Tag, message, Affix } from "antd";
 import firebase from "firebase/app";

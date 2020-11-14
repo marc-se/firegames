@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Component, ChangeEvent } from "react";
 import { connect } from "react-redux";
 import { Modal, Button, Checkbox, Select, Radio, message, InputNumber } from "antd";
@@ -328,16 +329,16 @@ class AddGame extends Component<Props, State> {
 						{buttonTitle}
 					</Button>
 				) : (
-					<Button
-						size={size || "default"}
-						type="primary"
-						icon="plus-circle-o"
-						onClick={this.showModal}
-						disabled={disabled || false}
-					>
-						{buttonTitle}
-					</Button>
-				)}
+						<Button
+							size={size || "default"}
+							type="primary"
+							icon="plus-circle-o"
+							onClick={this.showModal}
+							disabled={disabled || false}
+						>
+							{buttonTitle}
+						</Button>
+					)}
 				<Modal
 					title={editMode ? "Edit your Game 📝" : "Add something to your Collection 🕹"}
 					visible={visible}
@@ -363,7 +364,7 @@ class AddGame extends Component<Props, State> {
 						}
 					>
 						{// create systems from firebase data
-						systems &&
+							systems &&
 							systems.map((system: System, index: number) => {
 								return (
 									<Option key={index} value={system.url}>
