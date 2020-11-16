@@ -17,7 +17,7 @@ import { DataList, LoadingWrapper, ContentWrapper, DataWrapper, Count } from "./
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const Wishlist = () => {
-	const [games, setGames] = useState([] as Array<WishlistItem>);
+	const [games, setGames] = useState([]);
 	const [gamesCount, setGamesCount] = useState(0);
 	const [loading, setLoading] = useState(true);
 
