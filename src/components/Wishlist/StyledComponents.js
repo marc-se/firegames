@@ -5,6 +5,7 @@ export const Count = styled(Badge)`
 	position: absolute !important;
 	top: -10px;
 	right: 0;
+	z-index: 1;
 `;
 
 export const DataWrapper = styled.div`

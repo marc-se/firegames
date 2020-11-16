@@ -1,8 +1,9 @@
+// @ts-nocheck
 import React, { Fragment, useState, useEffect } from "react";
 import CountUp from "react-countup";
 import firebase from "firebase/app";
 import "firebase/database";
-import { Card } from "antd";
+import { Row, Card } from "antd";
 
 import Footer from "../Footer/Footer";
 import Head from "../Head/Head";
@@ -17,7 +18,7 @@ interface StatObj {
 }
 
 const Statistics = () => {
-	const [systems, setSystems] = useState([] as Array<StatObj>);
+	const [systems, setSystems] = useState([]);
 
 	async function fetchSystems() {
 		let systems: Array<StatObj> = [];
@@ -51,15 +52,17 @@ const Statistics = () => {
 			<SC.Container>
 				<SC.GlobalStyle />
 				<SC.CardContainer>
-					{sortedData.map((node, i) => {
-						return (
-							<SC.CardHolder span={4} key={i}>
-								<Card title={node.value.title} style={{ width: "80%" }}>
-									<CountUp start={0} end={node.value.games} duration={3.0} />
-								</Card>
-							</SC.CardHolder>
-						);
-					})}
+					<Row>
+						{sortedData.map((node, i) => {
+							return (
+								<SC.CardHolder span={4} key={i}>
+									<Card title={node.value.title} style={{ width: "80%" }}>
+										<CountUp start={0} end={node.value.games} duration={3.0} />
+									</Card>
+								</SC.CardHolder>
+							);
+						})}
+					</Row>
 				</SC.CardContainer>
 				<Footer />
 			</SC.Container>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Row, Col } from "antd";
 
@@ -7,7 +8,7 @@ import Logout from "../Logout/Logout";
 
 import { Container, Brand, Separator } from "./StyledComponents";
 
-interface Props {}
+interface Props { }
 
 const Head = (props: Props) => {
 	return (

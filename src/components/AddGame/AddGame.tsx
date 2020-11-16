@@ -1,5 +1,7 @@
+// @ts-nocheck
 import React, { Component, ChangeEvent } from "react";
 import { connect } from "react-redux";
+import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Modal, Button, Checkbox, Select, Radio, message, InputNumber } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -322,22 +324,22 @@ class AddGame extends Component<Props, State> {
 		}
 
 		return (
-			<React.Fragment>
+            <React.Fragment>
 				{editMode ? (
-					<Button type="dashed" shape="circle" icon="edit" onClick={this.showModal}>
+					<Button type="dashed" shape="circle" icon={<EditOutlined />} onClick={this.showModal}>
 						{buttonTitle}
 					</Button>
 				) : (
-					<Button
-						size={size || "default"}
-						type="primary"
-						icon="plus-circle-o"
-						onClick={this.showModal}
-						disabled={disabled || false}
-					>
-						{buttonTitle}
-					</Button>
-				)}
+						<Button
+							size={size || "default"}
+							type="primary"
+							icon={<PlusCircleOutlined />}
+							onClick={this.showModal}
+							disabled={disabled || false}
+						>
+							{buttonTitle}
+						</Button>
+					)}
 				<Modal
 					title={editMode ? "Edit your Game 📝" : "Add something to your Collection 🕹"}
 					visible={visible}
@@ -363,7 +365,7 @@ class AddGame extends Component<Props, State> {
 						}
 					>
 						{// create systems from firebase data
-						systems &&
+							systems &&
 							systems.map((system: System, index: number) => {
 								return (
 									<Option key={index} value={system.url}>
@@ -411,7 +413,7 @@ class AddGame extends Component<Props, State> {
 					)}
 				</Modal>
 			</React.Fragment>
-		);
+        );
 	}
 }
 

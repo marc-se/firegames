@@ -1,6 +1,8 @@
+// @ts-nocheck
 import React, { useState, useEffect, Fragment } from "react";
 import firebase from "firebase/app";
-import { Spin, Icon } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from "antd";
 import "firebase/database";
 
 import { WishlistItem } from "../../types/firebase";
@@ -12,10 +14,10 @@ import WishlistInputForm from "./WishlistInputForm";
 import TableColumns from "./TableColumns";
 import { DataList, LoadingWrapper, ContentWrapper, DataWrapper, Count } from "./StyledComponents";
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const Wishlist = () => {
-	const [games, setGames] = useState([] as Array<WishlistItem>);
+	const [games, setGames] = useState([]);
 	const [gamesCount, setGamesCount] = useState(0);
 	const [loading, setLoading] = useState(true);
 
@@ -55,14 +57,14 @@ const Wishlist = () => {
 						<Spin indicator={loadingIcon} />
 					</LoadingWrapper>
 				) : (
-					<Fragment>
-						<WishlistInputForm />
-						<DataWrapper>
-							<Count count={gamesCount} overflowCount={999} />
-							<DataList dataSource={games} columns={TableColumns} pagination={false} />
-						</DataWrapper>
-					</Fragment>
-				)}
+						<Fragment>
+							<WishlistInputForm />
+							<DataWrapper>
+								<Count count={gamesCount} overflowCount={999} />
+								<DataList dataSource={games} columns={TableColumns} pagination={false} />
+							</DataWrapper>
+						</Fragment>
+					)}
 			</ContentWrapper>
 			<Footer />
 		</Fragment>

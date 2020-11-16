@@ -1,6 +1,8 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Badge, Switch, Icon, Row } from "antd";
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Badge, Switch, Row } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -17,7 +19,7 @@ interface Props {
 	showUntouched?: boolean;
 }
 
-interface State {}
+interface State { }
 
 const Filter = (props: Props) => {
 	const [playing, setPlaying] = useState(0);
@@ -56,7 +58,7 @@ const Filter = (props: Props) => {
 	const showStatistics = selectedSystem !== "none";
 
 	return (
-		<Row type="flex">
+        <Row type="flex">
 			<SC.Container span={24}>
 				Playing
 				<SC.ItemGroup>
@@ -71,8 +73,8 @@ const Filter = (props: Props) => {
 					/>
 					<Switch
 						checked={showPlaying}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="close" />}
+						checkedChildren={<CheckOutlined />}
+						unCheckedChildren={<CloseOutlined />}
 						onChange={handlePlayingFilter}
 						disabled={!showStatistics}
 					/>
@@ -92,8 +94,8 @@ const Filter = (props: Props) => {
 					/>
 					<Switch
 						checked={showFinished}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="close" />}
+						checkedChildren={<CheckOutlined />}
+						unCheckedChildren={<CloseOutlined />}
 						onChange={handleFinishedFilter}
 						disabled={!showStatistics}
 					/>
@@ -113,15 +115,15 @@ const Filter = (props: Props) => {
 					/>
 					<Switch
 						checked={showUntouched}
-						checkedChildren={<Icon type="check" />}
-						unCheckedChildren={<Icon type="close" />}
+						checkedChildren={<CheckOutlined />}
+						unCheckedChildren={<CloseOutlined />}
 						onChange={handleNeverPlayedFilter}
 						disabled={!showStatistics}
 					/>
 				</SC.ItemGroup>
 			</SC.Container>
 		</Row>
-	);
+    );
 };
 
 let component = Filter;

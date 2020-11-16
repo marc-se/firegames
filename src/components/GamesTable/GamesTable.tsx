@@ -1,6 +1,8 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Input, Button, Tag, Checkbox, Spin, Tooltip, Icon } from "antd";
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { Input, Button, Tag, Checkbox, Spin, Tooltip } from "antd";
 import firebase from "firebase/app";
 import "firebase/database";
 import Highlighter from "react-highlight-words";
@@ -21,12 +23,12 @@ interface Props {
 	filterType?: string;
 }
 
-interface State {}
+interface State { }
 
-const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const GamesTable = (props: Props) => {
-	const [games, setGames] = useState([] as Array<Game>);
+	const [games, setGames] = useState([]);
 	const [searchText, setSearchText] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [count, setCount] = useState(0);
@@ -133,30 +135,30 @@ const GamesTable = (props: Props) => {
 			confirm: any;
 			clearFilters: any;
 		}) => (
-			<div style={{ padding: 8 }}>
-				<Input
-					placeholder={`Search ${dataIndex}`}
-					value={selectedKeys[0]}
-					onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-					onPressEnter={() => handleSearch(selectedKeys, confirm)}
-					style={{ width: 188, marginBottom: 8, display: "block" }}
-				/>
-				<Button
-					type="primary"
-					onClick={() => handleSearch(selectedKeys, confirm)}
-					icon="search"
-					size="small"
-					style={{ width: 90, marginRight: 8 }}
-				>
-					Search
+				<div style={{ padding: 8 }}>
+					<Input
+						placeholder={`Search ${dataIndex}`}
+						value={selectedKeys[0]}
+						onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+						onPressEnter={() => handleSearch(selectedKeys, confirm)}
+						style={{ width: 188, marginBottom: 8, display: "block" }}
+					/>
+					<Button
+						type="primary"
+						onClick={() => handleSearch(selectedKeys, confirm)}
+						icon={<SearchOutlined />}
+						size="small"
+						style={{ width: 90, marginRight: 8 }}
+					>
+						Search
 				</Button>
-				<Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-					Reset
+					<Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+						Reset
 				</Button>
-			</div>
-		),
+				</div>
+			),
 		filterIcon: (filtered: boolean) => (
-			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+			<SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
 		),
 		onFilter: (value: string, record: Array<string>) =>
 			// @ts-ignore
@@ -279,13 +281,13 @@ const GamesTable = (props: Props) => {
 					<Spin indicator={loadingIcon} />
 				</SC.LoadingSpinner>
 			) : (
-				<SC.TableContainer
-					columns={columns}
-					dataSource={games}
-					pagination={false}
-					scroll={{ y: "65vh" }}
-				/>
-			)}
+					<SC.TableContainer
+						columns={columns}
+						dataSource={games}
+						pagination={false}
+						scroll={{ y: "65vh" }}
+					/>
+				)}
 		</React.Fragment>
 	);
 };

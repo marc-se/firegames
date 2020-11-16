@@ -20,7 +20,7 @@ export const CardContainer = styled.div`
 `;
 
 export const CardHolder = styled(Col)`
-	padding: 15px;
+	padding: 15px 5px;
 	text-align: center;
 	display: flex !important;
 	justify-content: center;

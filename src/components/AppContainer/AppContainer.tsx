@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { BarChartOutlined, HeartOutlined } from '@ant-design/icons';
 import { Layout, Row, Col, BackTop, Button } from "antd";
 import { Link } from "react-router-dom";
 
@@ -40,7 +41,7 @@ const AppContainer = (props: Props) => {
 
 	if (isAuthorized) {
 		return (
-			<SC.Container>
+            <SC.Container>
 				<Head />
 				<Layout>
 					<SC.Sidebar>
@@ -64,12 +65,12 @@ const AppContainer = (props: Props) => {
 									<AddSystem />
 									<AddGenre />
 									<Link to="statistics">
-										<Button type="primary" icon="bar-chart">
+										<Button type="primary" icon={<BarChartOutlined />}>
 											Statistics
 										</Button>
 									</Link>
 									<Link to="wishlist">
-										<Button type="primary" icon="heart">
+										<Button type="primary" icon={<HeartOutlined />}>
 											Wishlist
 										</Button>
 									</Link>
@@ -92,7 +93,7 @@ const AppContainer = (props: Props) => {
 				<Footer />
 				<BackTop />
 			</SC.Container>
-		);
+        );
 	}
 	return <Redirect to="/" />;
 };
